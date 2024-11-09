@@ -1,0 +1,59 @@
+[
+  {
+    "Id": 1,
+    "SellRent": 1,
+    "Name": "Cristal",
+    "Type": "House",
+    "Price": 11000,
+    "Image":"prop-1"
+  },
+  {
+    "Id": 2,
+    "SellRent": 2,
+    "Name": "Birla House",
+    "Type": "Dpto. 2 dormitorios",
+    "Price": 12000,
+     "Image":"prop-2"
+  },
+  {
+    "Id": 3,
+    "SellRent": 1,
+    "Name": "Mark Hill",
+    "Type": "Dpto. 1 dormitorio",
+    "Price": 25000,
+     "Image":"prop-3"
+  },
+  {
+    "Id": 4,
+    "SellRent": 2,
+    "Name": "Erose Villa",
+    "Type": "Cabaña",
+    "Price": 12000,
+     "Image":"prop-4"
+  },
+  {
+    "Id": 5,
+    "SellRent": 1,
+    "Name": "Castel Rock",
+    "Type": "Apart Hotel",
+    "Price": 23000,
+     "Image":"prop-5"
+  },
+  {
+    "Id": 6,
+    "SellRent": 1,
+    "Name": "Villa rada tilly",
+    "Type": "Motel",
+    "Price": 21000,
+     "Image":"prop-6"
+  },
+  {
+    "Id": 7,
+    "SellRent": 2,
+    "Name": "Segovia",
+    "Type": "Casa de fin de semana",
+    "Price": 9000
+
+  }
+]
+
