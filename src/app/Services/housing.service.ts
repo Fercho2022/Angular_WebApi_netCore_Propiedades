@@ -15,19 +15,8 @@ export class HousingService {
   private http = inject(HttpClient);
 
   getAllProperties():Observable<IProperty[]> {
+    return this.http.get<IProperty[]>("assets/data/properties.json");
 
-    return this.http.get<{[key: string]: IProperty}>("assets/data/properties.json").pipe(
-      map(data => {
-        console.log(data);
-        const propertyArray: Array<IProperty> = [];
-        for (const id in data) {
-          if (data.hasOwnProperty(id)) {
-            propertyArray.push(data[id]);
-
-          }
-        }
-        return propertyArray;
-      }))
 
 
     }

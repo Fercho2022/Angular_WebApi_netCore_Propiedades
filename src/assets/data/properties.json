@@ -52,7 +52,17 @@
     "SellRent": 2,
     "Name": "Segovia",
     "Type": "Casa de fin de semana",
-    "Price": 90000
+    "Price": 90000,
+     "Image":"prop-7"
+
+  },
+  {
+    "Id": 8,
+    "SellRent": 1,
+    "Name": "Calamuchita",
+    "Type": "Casa de fin de semana",
+    "Price": 100000,
+     "Image":"casa3"
 
   }
 ]
