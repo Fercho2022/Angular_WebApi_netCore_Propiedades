@@ -14,12 +14,18 @@ export class HousingService {
 
   private http = inject(HttpClient);
 
-  getAllProperties():Observable<IProperty[]> {
-    return this.http.get<IProperty[]>("assets/data/properties.json");
+  getAllProperties(sellRent?: number):Observable<IProperty[]> {
+    return this.http.get<IProperty[]>("assets/data/properties.json")
+    .pipe(
+      map(properties=>{
+        if(sellRent===undefined) {
+          return properties;
+        }
+        return properties.filter(property=>property.SellRent===sellRent);
 
+    })
+  );
 
-
-    }
-
+}
 
 }

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { CardComponent } from "../Card/card.component";
 import { IProperty } from '../../Interfaces/IProperty';
 import { HttpClientModule } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list-card',
@@ -17,16 +18,20 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class ListCardComponent implements OnInit {
 
-
+SellRent=1;
 properties!: Array<IProperty>;
 
 private housingService=inject(HousingService);
+private route=inject(ActivatedRoute);
 
 
 ngOnInit(): void {
-
-  this.housingService.getAllProperties().subscribe(data=>{
+if(this.route.snapshot.url.toString()){
+  this.SellRent=2;
+}
+  this.housingService.getAllProperties(this.SellRent).subscribe(data=>{
   this.properties=data;
+
 
   })
 
