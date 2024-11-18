@@ -6,13 +6,14 @@
       Register
     </div>
     <div class="card-body">
+
       <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
         <div class="form-group col-12">
             <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control" formControlName="userName" >
-            @if(userName.invalid && userName.touched){
+            @if(userName.invalid && (userName.touched || userSubmitted)){
               <span class="error-block">
-
+                Please provide name.
                 @if(userName.errors?.['minlength']){
                   <span class="error-block">Name should not be lesser than 5 character</span>
                 }
@@ -24,7 +25,7 @@
         <div class="form-group col-12">
           <label for="email" class="form-label">Email</label>
           <input type="text" class="form-control" formControlName="email">
-          @if(email.invalid && email.touched){
+          @if(email.invalid && (email.touched || userSubmitted)){
             <span class="error-block">
               @if (email.hasError('required')) {
                 Please provide email id
@@ -38,18 +39,19 @@
         <div class="form-group col-12">
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" formControlName="password">
-          @if(!password.valid && password.touched){
-            <span class="error-block">Please provide a valid password</span>
-        }
+          @if(!password.valid && (password.touched || userSubmitted)){
+            <span class="error-block">
+              Please provide password</span>
+            }
+                @if(password.errors?.['minlength']){
+                <span class="error-block">Password should not be lesser than 8 character</span>
+               }
 
-        @if(password.errors?.['minlength']){
-          <span>Password should not be lesser than 8 character</span>
-        }
         </div>
         <div class="form-group col-12">
           <label for="cpassword" class="form-label">Confirm Password</label>
           <input type="password" class="form-control" formControlName="confirmPassword">
-          @if (!confirmPassword.valid && confirmPassword.touched){
+          @if (!confirmPassword.valid && (confirmPassword.touched || userSubmitted)){
             <span class="error-block">Please confirm password</span>
 
           }
@@ -62,13 +64,21 @@
         <div class="form-group col-12">
           <label for="mobile" class="form-label">Mobile</label>
           <input type="text" class="form-control" formControlName="mobile">
+          @if(mobile.invalid && (mobile.touched || userSubmitted)){
+            <span class="error-block">
+              Please provide mobile.
+              @if(mobile.errors?.['minlength']){
+                <span class="error-block">Name should not be lesser than 5 character</span>
+              }
+            </span>
+
+        }
         </div>
         <div class="form-group col-12 mt-2">
           <button type="submit" class="btn btn-primary me-2">Save</button>
           <button type="reset" class="btn btn-secondary ml-2">Cancel</button>
         </div>
-        Form Values: {{registrationForm.value | json}} <br/>
-        Form Status: {{registrationForm.valid}}
+
       </form>
     </div>
   </div>
