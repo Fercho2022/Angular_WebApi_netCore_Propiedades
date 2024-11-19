@@ -7,16 +7,10 @@ import {
   FormGroup,
   ReactiveFormsModule,
   ValidationErrors,
-
   Validators,
 } from '@angular/forms';
 import { User } from '../../../Interfaces/IUser';
-
-
-
 import { ToastrService } from 'ngx-toastr';
-
-
 
 @Component({
   selector: 'app-user-register',
@@ -24,27 +18,23 @@ import { ToastrService } from 'ngx-toastr';
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './user-register.component.html',
   styleUrl: './user-register.component.css',
-
 })
 export class UserRegisterComponent implements OnInit {
   registrationForm!: FormGroup;
-  userSubmitted:boolean=false;
+  userSubmitted: boolean = false;
 
   user!: User;
 
   private formBuilder = inject(FormBuilder);
-  private _userService= inject(UserService);
+  private _userService = inject(UserService);
 
   constructor(private toastr:ToastrService){
 
   }
 
 
-
-
   ngOnInit(): void {
     this.createRegistrationForm();
-
   }
 
   createRegistrationForm() {
@@ -69,33 +59,30 @@ export class UserRegisterComponent implements OnInit {
 
   onSubmit() {
     console.log(this.registrationForm.value);
-    this.userSubmitted=true;
-    if(this.registrationForm.valid){
-
+    this.userSubmitted = true;
+    if (this.registrationForm.valid) {
       this._userService.addUser(this.userData());
       this.registrationForm.reset();
-      this.userSubmitted=false;
+      this.userSubmitted = false;
 
-
-     this.toastr.success('Congrats, you are successfully registered');
-    }else{
-     this.toastr.error('Kindly provide the required fields');
-
+      this.toastr.success('Congrats, you are successfully registered');
+    } else {
+      this.toastr.error('Kindly provide the required fields');
     }
-}
-
-
-
-userData():User{
-  return this.user={
-    userName: this.userName.value,
-    email:this.email.value,
-    password:this.password.value,
-    mobile:this.mobile.value
-
-
   }
-}
+
+  userData(): User {
+    return (this.user = {
+      userName: this.userName.value,
+      email: this.email.value,
+      password: this.password.value,
+      mobile: this.mobile.value,
+    });
+  }
+  onReset() {
+    this.userSubmitted = false;
+    this.registrationForm.reset();
+  }
 
   // Getter methods for all form controls
   get userName() {
