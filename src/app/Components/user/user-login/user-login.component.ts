@@ -12,7 +12,9 @@ import { Router } from '@angular/router';
   styleUrl: './user-login.component.css',
 })
 export class UserLoginComponent implements OnInit {
+
   private _authService = inject(AuthService);
+
   private router=inject(Router);
 
   constructor(private toastr:ToastrService){

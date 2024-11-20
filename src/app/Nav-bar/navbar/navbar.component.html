@@ -1,51 +1,84 @@
 <nav class="navbar navbar-expand-lg navbar-light navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="#" style="color: white">HSPA</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link " routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Buy</a>
+          <a
+            class="nav-link"
+            routerLink=""
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Buy</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="rent-property" routerLinkActive="active">Rent</a>
+          <a
+            class="nav-link"
+            routerLink="rent-property"
+            routerLinkActive="active"
+            >Rent</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="add-property" routerLinkActive="active" >List Property (Free)</a>
+          <a
+            class="nav-link"
+            routerLink="add-property"
+            routerLinkActive="active"
+            >List Property (Free)</a
+          >
         </li>
-
       </ul>
       <div>
         <ul class="nav navbar-nav">
           @if(!loggedin()){
-            <li class="nav-item">
-              <a class="nav-link" routerLink="user/register" routerLinkActive="active">Register</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="user/login" routerLinkActive="active">Login</a>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="user/register"
+              routerLinkActive="active"
+              >Register</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="user/login"
+              routerLinkActive="active"
+              >Login</a
+            >
+          </li>
+          }
+          @if(loggedin()){
+
+            <li class="nav-item dropdown" dropdown>
+              <a dropdownToggle class="nav-link dropdown-toggle">
+                Welcome {{loggedinUser}}
+              </a>
+              <ul *dropdownMenu class="dropdown-menu" role="menu">
+                @for (choice of items; track $index) {
+                  <li role="menuitem">
+                    <a class="dropdown-item" (click)="choice.action()">
+                      <i class="{{choice.icon}} me-2"></i>{{ choice.text }}
+                    </a>
+                  </li>
+                }
+              </ul>
             </li>
           }
-          <div *ngIf="loggedin()" class="dropdown mr-5" dropdown>
-            <a href="#" class="dropdown-toggle text-light" dropdownToggle (click)="false">
-                Welcome {{loggedinUser}}
-            </a>
-            <div class="dropdown-menu" *dropdownMenu>
-                <a href="#"class="dropdown-item">
-                  <i class="fas fa-tachometer-alt"></i> View Dashboard</a>
-                <a href="#" class="dropdown-item">
-                  <i class="far fa-user-circle"></i> My Profile</a>
-                <a href="#" class="dropdown-item">
-                  <i class="fas fa-key"></i> Change Password</a>
-                <a (click)='onLogout()' class="dropdown-item">
-                  <i class="fas fa-sign-out-alt"></i> Logout</a>
-            </div>
-          </div>
-
         </ul>
       </div>
-
     </div>
   </div>
 </nav>

@@ -1,7 +1,7 @@
 /// <reference types="@angular/localize" />
 
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
+
 import { AppComponent } from './app/app.component';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { providePrimeNG } from './app/primeng.providers'; // Archivo donde se configuran los módulos de PrimeNG
@@ -24,7 +24,8 @@ bootstrapApplication(AppComponent, {
     provideToastr({
       timeOut: 3000,
       positionClass: 'toast-bottom-right', // Cambiado a bottom-right
-      preventDuplicates: true
+      preventDuplicates: true,
+      enableHtml: true
     }), // ToastrModule added
 
 

@@ -1,10 +1,20 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import {  Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+
+import { IDropdown } from '../../Interfaces/dropdown';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterModule, RouterLinkActive],
+  imports: [
+    RouterLink,
+    RouterModule,
+    RouterLinkActive,
+    BsDropdownModule,
+    CommonModule
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 
@@ -13,7 +23,20 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterModule } fr
 export class NavbarComponent {
 
 
+  constructor( private router:Router){
 
+  }
+
+
+
+  loggedinUser: string='';
+
+  items: Array<IDropdown> = [
+    { text: 'View Dashboard', icon: 'fas fa-tachometer-alt', action:()=>this.viewDashboard() },
+    { text: 'My Profile', icon: 'far fa-user-circle', action:()=>this.viewProfile() },
+    { text: 'Change Password', icon: 'fas fa-key', action:()=>this.changePassword() },
+    { text: 'Logout', icon: 'fas fa-sign-out-alt', action:()=>this.onLogout() }
+  ];
 
 
   ngOnInit(){
@@ -21,6 +44,7 @@ export class NavbarComponent {
   }
 
   loggedin():boolean{
+    this.loggedinUser=localStorage.getItem('token') || '';
     return !!localStorage.getItem('token');
 
 
@@ -28,6 +52,20 @@ export class NavbarComponent {
 
   onLogout(){
     localStorage.removeItem('token');
+    this.router.navigate(['/login']);
 
+
+  }
+
+  changePassword(){
+    this.router.navigate(['/'])
+  }
+
+  viewDashboard() {
+    this.router.navigate(['/']);
+  }
+
+  viewProfile() {
+    this.router.navigate(['/']);
   }
 }
