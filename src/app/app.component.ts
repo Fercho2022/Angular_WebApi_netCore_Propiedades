@@ -5,12 +5,13 @@ import { CardComponent } from "./Components/Card/card.component";
 import { ListCardComponent } from "./Components/list-card/list-card.component";
 import { CommonModule } from '@angular/common';
 import { AddPropertyComponent } from './Components/add-property/add-property.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NavbarComponent, CardComponent, ListCardComponent,],
+  imports: [CommonModule, RouterOutlet, ToastrModule, NavbarComponent, CardComponent, ListCardComponent,],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 

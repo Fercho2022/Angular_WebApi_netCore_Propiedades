@@ -1,37 +1,58 @@
 <div class="card">
-  <div class="card-header">
-    Add New Property
-
-  </div>
+  <div class="card-header">List your Property</div>
   <div class="card-body">
     <!-- #Form - Es una variable de plantilla (similar a crear una variable en el template) -->
     <!-- "ngForm" - Le dice a Angular que esta variable debe ser una instancia de NgForm -->
     <!-- (ngSubmit)="onSubmit(Form)" - Usa esa referencia para pasar todo el formulario al método onSubmit-->
     <form (ngSubmit)="onSubmit()" #Form="ngForm">
-      <div class="form-group col-12">
-        <label for="">Name</label>
-        <input type="text" class="form-control" #propName="ngModel" ngModel name="Name" required minlength="5">
-      <span *ngIf="!propName.valid && propName.touched " class="error-block">
-        <span *ngIf="propName.errors?. ['required']" class="error-block">Please provide name</span>
-        <span *ngIf="propName.errors?.['minlength']" class="error-block">Name must be at least 5 char long</span>
-    </span>
-    </div>
-      <div class="form-group col-12">
-        <label for="">Type</label>
-        <input type="text" class="form-control" ngModel name="Type" >
-      </div>
-      <div class="form-group col-12">
-        <label for="">Price</label>
-        <input type="text" class="form-control" ngModel name="Price">
-      </div>
-      <div class="form-group col-12">
+      <div>
+        <tabset>
+          <tab heading="Basic Info">
+            <div class="form-group col-12">
+              <label for="">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                #propName="ngModel"
+                ngModel
+                name="Name"
+                required
+                minlength="5"
+              />
+              @if (!propName.valid && propName.touched) {
+                <span class="error-block">
+                  @if (propName.errors?.['required']) {
+                    Please provide name
+                  }
+                  @if (propName.errors?.['minlength']) {
+                    Name must be at least 5 char long
+                  }
+                </span>
+              }
+            </div>
+            <div class="form-group col-12">
+              <label for="">Type</label>
+              <input type="text" class="form-control" ngModel name="Type" />
+            </div>
+            <div class="form-group col-12">
+              <label for="">Price</label>
+              <input type="text" class="form-control" ngModel name="Price" />
+            </div>
+            <div class="form-group col-12">
+              <div class="d-grid gap-2">
+              <button type="button" class="btn btn-primary btn-block mt-3">
+                Next
+              </button>
+            </div>
+            </div>
+          </tab>
 
-        <button type="submit" class="btn btn-primary me-2 mt-3">Save</button>
-        <button type="reset" class="btn btn-primary  mt-3">Cancel</button>
+          <tab heading="Pricing and Area">Pricing Information</tab>
+          <tab heading="Address">Address</tab>
+          <tab heading="Other Details">Other Details</tab>
+          <tab heading="Photos">Upload photos</tab>
+        </tabset>
       </div>
     </form>
-
   </div>
-
 </div>
-

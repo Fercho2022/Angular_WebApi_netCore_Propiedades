@@ -5,6 +5,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { IDropdown } from '../../Interfaces/dropdown';
 
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -14,6 +16,9 @@ import { IDropdown } from '../../Interfaces/dropdown';
     RouterLinkActive,
     BsDropdownModule,
     CommonModule
+
+
+
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
@@ -23,11 +28,9 @@ import { IDropdown } from '../../Interfaces/dropdown';
 export class NavbarComponent {
 
 
-  constructor( private router:Router){
+  constructor( private router:Router, private toastr:ToastrService){
 
   }
-
-
 
   loggedinUser: string='';
 
@@ -48,11 +51,13 @@ export class NavbarComponent {
     return !!localStorage.getItem('token');
 
 
+
   }
 
   onLogout(){
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
+    this.toastr.success("You are logged out");
 
 
   }

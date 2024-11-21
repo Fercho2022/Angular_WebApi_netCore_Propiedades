@@ -8,10 +8,11 @@ import { IProperty } from '../../Interfaces/IProperty';
 import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 
+
 @Component({
   selector: 'app-list-card',
   standalone: true,
-  imports: [CommonModule, CardComponent, HttpClientModule],
+  imports: [CommonModule, CardComponent, HttpClientModule, ],
   templateUrl: './list-card.component.html',
   styleUrls: ['./list-card.component.css'],
   providers:[HousingService]
