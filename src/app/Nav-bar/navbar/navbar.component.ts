@@ -1,6 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import {  Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, inject, PLATFORM_ID } from '@angular/core';
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterModule,
+} from '@angular/router';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { IDropdown } from '../../Interfaces/dropdown';
@@ -15,55 +20,60 @@ import { ToastrService } from 'ngx-toastr';
     RouterModule,
     RouterLinkActive,
     BsDropdownModule,
-    CommonModule
-
-
-
+    CommonModule,
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
-
 })
-
 export class NavbarComponent {
 
+  constructor(
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
-  constructor( private router:Router, private toastr:ToastrService){
-
-  }
-
-  loggedinUser: string='';
+  loggedinUser: string = '';
 
   items: Array<IDropdown> = [
-    { text: 'View Dashboard', icon: 'fas fa-tachometer-alt', action:()=>this.viewDashboard() },
-    { text: 'My Profile', icon: 'far fa-user-circle', action:()=>this.viewProfile() },
-    { text: 'Change Password', icon: 'fas fa-key', action:()=>this.changePassword() },
-    { text: 'Logout', icon: 'fas fa-sign-out-alt', action:()=>this.onLogout() }
+    {
+      text: 'View Dashboard',
+      icon: 'fas fa-tachometer-alt',
+      action: () => this.viewDashboard(),
+    },
+    {
+      text: 'My Profile',
+      icon: 'far fa-user-circle',
+      action: () => this.viewProfile(),
+    },
+    {
+      text: 'Change Password',
+      icon: 'fas fa-key',
+      action: () => this.changePassword(),
+    },
+    {
+      text: 'Logout',
+      icon: 'fas fa-sign-out-alt',
+      action: () => this.onLogout(),
+    },
   ];
 
+  ngOnInit() {}
 
-  ngOnInit(){
-
-  }
-
-  loggedin():boolean{
-    this.loggedinUser=localStorage.getItem('token') || '';
+  loggedin(): boolean {
+    this.loggedinUser = localStorage.getItem('token') || '';
     return !!localStorage.getItem('token');
+  }
 
+  onLogout() {
 
+      localStorage.removeItem('token');
+      this.router.navigate(['/login']);
+      this.toastr.success("You are logged out");
 
   }
 
-  onLogout(){
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
-    this.toastr.success("You are logged out");
-
-
-  }
-
-  changePassword(){
-    this.router.navigate(['/'])
+  changePassword() {
+    this.router.navigate(['/']);
   }
 
   viewDashboard() {

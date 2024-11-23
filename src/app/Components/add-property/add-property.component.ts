@@ -1,32 +1,37 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormsModule, NgForm} from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 
 @Component({
   selector: 'app-add-property',
-  standalone:true,
+  standalone: true,
   templateUrl: './add-property.component.html',
   styleUrls: ['./add-property.component.css'],
-  imports:[FormsModule, CommonModule, TabsModule]
+  imports: [FormsModule, CommonModule, TabsModule],
 })
 export class AddPropertyComponent implements OnInit {
+  @ViewChild('Form') addPropertyForm!: NgForm;
+  @ViewChild('staticTabs', { static: false }) staticTabs?: TabsetComponent;
 
-  @ViewChild('Form') addPropertyForm!:NgForm;
+  propertyTypes: Array<string>=['Casa', 'Departamento','Duplex'];
+  furnishTypes: Array<string>=['Completo', 'Semi Completo', 'Desamueblado'];
 
-  constructor(private router:Router) { }
+  constructor(private router: Router) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-
-  onBack(){
+  onBack() {
     this.router.navigate(['/']);
   }
 
-  onSubmit(){
+  onSubmit() {
     console.log('Congrats,  form Submited');
     console.log(this.addPropertyForm);
+  }
+
+  selectTab(tabId: number) {
+    this.staticTabs!.tabs[tabId].active = true;
   }
 }

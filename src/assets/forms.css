@@ -7,3 +7,57 @@
 .error-block{
   color: red;
 }
+
+
+
+/* Estilos base para todos los botones del grupo */
+.btn-group label.btn {
+  padding: 0 15px;
+  line-height: 30px;
+  border-radius: 0;
+}
+
+/* Primer botón de cualquier grupo - redondear lado izquierdo */
+.btn-group label.btn:first-child {
+  border-top-left-radius: 44px;
+  border-bottom-left-radius: 44px;
+}
+
+/* Último botón de cualquier grupo - redondear lado derecho */
+.btn-group label.btn:last-child {
+  border-top-right-radius: 44px;
+  border-bottom-right-radius: 44px;
+}
+
+/* Asegurar que los botones del medio no tengan bordes redondeados */
+.btn-group label.btn:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+/* Mantener el espaciado entre botones */
+.btn-group label.btn.me-2:last-child {
+  margin-right: 0 !important;
+}
+
+/* Ajuste opcional para mejorar la apariencia en hover/active */
+.btn-group label.btn:hover,
+.btn-group label.btn:active,
+.btn-group label.btn.active {
+  z-index: 1;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: #0096c7;
+  --bs-btn-border-color: #0096c7;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #0096c7;
+  --bs-btn-hover-border-color: #0096c7;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #0096c7;
+  --bs-btn-active-border-color: #0096c7;
+}
+
+/* Opcional: Si quieres que el botón tenga una transición suave */
+.btn-outline-primary {
+  transition: all 0.3s ease-in-out;
+}
