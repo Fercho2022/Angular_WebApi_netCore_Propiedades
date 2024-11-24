@@ -15,8 +15,9 @@ export class AddPropertyComponent implements OnInit {
   @ViewChild('Form') addPropertyForm!: NgForm;
   @ViewChild('staticTabs', { static: false }) staticTabs?: TabsetComponent;
 
-  propertyTypes: Array<string>=['Casa', 'Departamento','Duplex'];
-  furnishTypes: Array<string>=['Completo', 'Semi Completo', 'Desamueblado'];
+  propertyTypes: Array<string> = ['Casa', 'Departamento', 'Duplex'];
+  furnishTypes: Array<string> = ['Completo', 'Semi Completo', 'Desamueblado'];
+  cardinalTypes: Array<string> = ['Este', 'oeste', 'Norte', 'Sur'];
 
   constructor(private router: Router) {}
 

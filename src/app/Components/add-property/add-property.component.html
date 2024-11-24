@@ -47,7 +47,6 @@
                 @for (pType of propertyTypes; track $index ){
                 <label
                   class="btn btn-outline-primary me-2"
-                  tabindex="0"
                   role="button"
                   name="VentaAlquiler"
                   >{{ pType }}</label
@@ -206,13 +205,51 @@
               </div>
             </div>
             <div class="form-group col-3 mt-3">
-              <label >Posesión/Disponible desde</label>
-              <input type="date" class="form-control mt-2" />
+              <label>Posesión/Disponible desde</label>
+              <div class="col-xs-12 col-12 col-md-4 form-group">
+                <input type="text"
+                       placeholder="Datepicker"
+                       class="form-control"
+                       bsDatepicker>
+              </div>
             </div>
             <div class="form-group col-12">
               <label class="mt-2">Años de la propiedad</label>
               <input type="text" class="form-control" />
             </div>
+            <div class="form-group col-12" class="mt-3">
+              <p>Barrio cerrado</p>
+              <div class="btn-group" btnRadioGroup>
+                <label
+                  class="btn btn-outline-primary me-2"
+                  role="button"
+                  name="OtrosDetalles"
+                >
+                  Si</label
+                >
+                <label
+                  class="btn btn-outline-primary me-2"
+                  role="button"
+                  name="OtrosDetalles"
+                >
+                  No</label
+                >
+              </div>
+            </div>
+            <div class="form-group col-12" class="mt-3">
+              <p>Listo para mudarse</p>
+              <div class="btn-group" btnRadioGroup>
+                @for(ctypes of cardinalTypes; track $index){
+                <label
+                  class="btn btn-outline-primary me-2"
+                  role="button"
+                  name="OtrosDetalles"
+                  >{{ ctypes }}</label
+                >
+                }
+              </div>
+            </div>
+
             <div class="form-group col-12">
               <label class="mt-2">Residencia privada</label>
               <input type="text" class="form-control" />
