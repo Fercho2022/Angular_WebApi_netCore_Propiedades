@@ -3,13 +3,15 @@ import { Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-add-property',
   standalone: true,
   templateUrl: './add-property.component.html',
   styleUrls: ['./add-property.component.css'],
-  imports: [FormsModule, CommonModule, TabsModule],
+  imports: [FormsModule, CommonModule, TabsModule, BsDatepickerModule],
 })
 export class AddPropertyComponent implements OnInit {
   @ViewChild('Form') addPropertyForm!: NgForm;
