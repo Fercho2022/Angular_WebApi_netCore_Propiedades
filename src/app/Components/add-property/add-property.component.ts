@@ -20,6 +20,7 @@ export class AddPropertyComponent implements OnInit {
   propertyTypes: Array<string> = ['Casa', 'Departamento', 'Duplex'];
   furnishTypes: Array<string> = ['Completo', 'Semi Completo', 'Desamueblado'];
   cardinalTypes: Array<string> = ['Este', 'oeste', 'Norte', 'Sur'];
+  propertyView={};
 
   constructor(private router: Router) {}
 
