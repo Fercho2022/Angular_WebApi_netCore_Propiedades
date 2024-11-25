@@ -14,7 +14,7 @@ import { RouterModule } from '@angular/router';
 })
 export class CardComponent {
 
-property=input<any>();
+@Input() property!:IProperty;
 
 
 

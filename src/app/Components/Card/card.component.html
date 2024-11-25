@@ -1,18 +1,27 @@
-
-  <div class="card">
-    <div class="image-container">
-
-        <img class= "propImg" src="assets/Images/{{property().Image}}.jpg" alt="Imagen de la tarjeta" />
-      <div class="buttons-container">
-        <button class="btn btn-primary" routerLink="/property-detail/{{property().Id}}" routerLinkActive="router-link-active" ><i class="fa-regular fa-pen-to-square"></i></button>
-        <button class="btn btn-primary"><i class="fa-regular fa-address-book"></i></button>
-      </div>
-    </div>
-
-    <div class="card-body p-1">
-      <h1>{{ property().Name }}</h1>
-      <h2>{{ property().Type }}</h2>
-      <h3>{{ property().Price }}</h3>
+<div class="card">
+  <div class="image-container">
+    <img
+      class="propImg"
+      src="assets/Images/{{ property.Image }}.jpg"
+      alt="Imagen de la tarjeta"
+    />
+    <div class="buttons-container">
+      <button
+        class="btn btn-primary"
+        routerLink="/property-detail/{{ property.Id }}"
+        routerLinkActive="router-link-active"
+      >
+        <i class="fa-regular fa-pen-to-square"></i>
+      </button>
+      <button class="btn btn-primary">
+        <i class="fa-regular fa-address-book"></i>
+      </button>
     </div>
   </div>
 
+  <div class="card-body p-1">
+    <h1>{{ property.Name }}</h1>
+    <h2>{{ property.Type }}</h2>
+    <h3>{{ property.Price }}</h3>
+  </div>
+</div>

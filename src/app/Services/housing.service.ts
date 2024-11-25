@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, of, tap } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 import { IProperty } from '../Interfaces/IProperty';
-import { IpcNetConnectOpts } from 'node:net';
+
 
 @Injectable({
   providedIn: 'root'

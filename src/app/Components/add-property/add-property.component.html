@@ -1,8 +1,8 @@
-<div class="row">
-  <div class="col 8">
+<div class="row mb-5">
+  <div class="col-8">
     <div class="card">
       <div class="card-header">
-        <h3>Lista tus propiedades</h3>
+        <h3 class="text-center">Detalla tu propiedad</h3>
       </div>
       <div class="card-body">
         <!-- #Form - Es una variable de plantilla (similar a crear una variable en el template) -->
@@ -47,12 +47,17 @@
 
                 <div class="form-group col-12 mt-3">
                   <p>Tipo de propiedad</p>
-                  <div class="btn-group" btnRadioGroup>
+                  <div
+                    class="btn-group"
+                    btnRadioGroup
+                    [(ngModel)]="propertyView.Type"
+                    name="PropTipo"
+                  >
                     @for (pType of propertyTypes; track $index ){
                     <label
                       class="btn btn-outline-primary me-2"
                       role="button"
-                      name="VentaAlquiler"
+                      [btnRadio]="pType"
                       >{{ pType }}</label
                     >
                     }
@@ -74,7 +79,9 @@
                   </div>
                 </div>
                 <div class="form-group col-12" class="mt-3">
-                  <label for="">Nombre</label>
+                  <label for=""
+                    >Nombre de la construcción/Sociedad/Proyecto</label
+                  >
                   <input
                     type="text"
                     class="form-control"
@@ -83,6 +90,7 @@
                     name="Name"
                     required
                     minlength="5"
+                    [(ngModel)]="propertyView.Name"
                   />
                   @if (!propName.valid && propName.touched) {
                   <span class="error-block">
@@ -93,18 +101,10 @@
                   }
                 </div>
                 <div class="form-group col-12">
-                  <label for="" class="mt-2">Tipo</label>
+                  <label for="" class="mt-2">Ciudad</label>
                   <input type="text" class="form-control" ngModel name="Type" />
                 </div>
-                <div class="form-group col-12">
-                  <label for="" class="mt-2">Precio</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    ngModel
-                    name="Price"
-                  />
-                </div>
+
                 <div class="form-group col-12">
                   <div class="d-grid gap-2">
                     <button
@@ -121,7 +121,12 @@
               <tab heading="Precio y Superficie">
                 <div class="form-group col-12 mt-3">
                   <label class="mt-2">Precio (en USD)</label>
-                  <input type="text" class="form-control" />
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="price"
+                    [(ngModel)]="propertyView.Price"
+                  />
                 </div>
                 <div class="form-group col-12">
                   <label class="mt-2">Seguro (en USD)</label>
@@ -330,12 +335,12 @@
       </div>
     </div>
   </div>
-  <div class="col 4">
-    <div class="card-header">
-      <h3>Tus propiedades previas</h3>
-      <app-card [property]="propertyView">
-
-      </app-card>
+  <div class="col-4">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="text-center">Detalle previo</h3>
+        <app-card [property]="propertyView"></app-card>
+      </div>
     </div>
   </div>
 </div>
