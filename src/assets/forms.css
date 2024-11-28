@@ -61,3 +61,17 @@
 .btn-outline-primary {
   transition: all 0.3s ease-in-out;
 }
+.card-header{
+  height: 42px;
+  padding: 4px 10px;
+  background-color: #007bff !important;
+
+
+
+}
+
+.card-header h3, .card-header h2, .card-header h1{
+  color: white;
+}
+
+

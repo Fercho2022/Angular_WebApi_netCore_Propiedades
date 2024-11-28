@@ -46,9 +46,9 @@
 
 .card {
   max-width: 370px;
-  height: 450px;
+  min-height: 420px;
   border: 1px solid #ccc;
-  border-radius: 10px;
+  border-radius: 4px;
   overflow: hidden;
   margin: 0 auto; /* Esto ayudará a centrar la card dentro de su columna */
   width: 100%; /* Esto hará que sea responsive */
