@@ -1,28 +1,28 @@
+
+
 <div class="row mb-5">
-  <div class="col-8">
+  <div class="col-8 p-0 shadow-lg bg-white">
     <div class="card">
       <div class="card-header">
         <h3 class="text-center">Detalla tu propiedad</h3>
       </div>
       <div class="card-body">
-        <!-- #Form - Es una variable de plantilla (similar a crear una variable en el template) -->
-        <!-- "ngForm" - Le dice a Angular que esta variable debe ser una instancia de NgForm -->
-        <!-- (ngSubmit)="onSubmit(Form)" - Usa esa referencia para pasar todo el formulario al método onSubmit-->
+
         <form (ngSubmit)="onSubmit()" #Form="ngForm">
           <div class="tab-panel">
             <tabset class="member-tabset" #staticTabs>
               <tab heading="Información Básica" class="nav-tabs">
                 <div class="form-group col-12">
                   <p>Busco</p>
-                  <div class="btn-group" btnRadioGroup>
+                  <div class="btn-group " btnRadioGroup>
                     <label
-                      class="btn btn-outline-primary me-2"
+                      class="btn btn-outline-primary me-2 "
                       role="button"
                       name="VentaAlquiler"
                       >Venta</label
                     >
                     <label
-                      class="btn btn-outline-primary"
+                      class="btn btn-outline-primary "
                       role="button"
                       name="VentaAlquiler"
                       >Alquiler</label
@@ -335,8 +335,8 @@
       </div>
     </div>
   </div>
-  <div class="col-4">
-    <div class="card-header" >
+  <div class="col-4 ">
+    <div class="card-header" style="border-top-right-radius: 5px; border-top-left-radius: 5px;" >
       <h3 class="text-center">Detalle previo</h3>
     </div>
     <div class="tab-panel p-3 shadow-lg bg-white">
@@ -344,3 +344,5 @@
     </div>
   </div>
 </div>
+
+
