@@ -74,6 +74,10 @@ this.addPropertyForm=this.fb.group({
     return this.addPropertyForm.controls['BasicInfo'] as FormGroup
   }
 
+  get PriceInfo(){
+    return this.addPropertyForm.controls['PriceInfo'] as FormGroup
+  }
+
   get VentaAlquiler(){
     return this.BasicInfo.controls['VentaAlquiler'] as FormControl;
   }
