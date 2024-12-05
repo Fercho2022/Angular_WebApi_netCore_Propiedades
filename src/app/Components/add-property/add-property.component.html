@@ -1,5 +1,3 @@
-
-
 <div class="row mb-5">
   <div class="col-8 p-0 shadow-lg bg-white">
     <div class="card">
@@ -7,38 +5,54 @@
         <h3 class="text-center">Detalla tu propiedad</h3>
       </div>
       <div class="card-body">
-
-        <form (ngSubmit)="onSubmit()" #Form="ngForm">
+        <form [formGroup]="addPropertyForm" (ngSubmit)="onSubmit()">
           <div class="tab-panel">
             <tabset class="member-tabset" #staticTabs>
-              <tab heading="Información Básica" class="nav-tabs">
+              <tab heading="Información Básica" formGroupName="BasicInfo">
                 <div class="form-group col-12">
                   <p>Busco</p>
-                  <div class="btn-group " btnRadioGroup>
+                  <div
+                    class="btn-group"
+                    btnRadioGroup
+                    formControlName="VentaAlquiler"
+
+
+                  >
                     <label
-                      class="btn btn-outline-primary me-2 "
+                      class="btn btn-outline-primary me-2"
                       role="button"
                       name="VentaAlquiler"
+                      btnRadio="1"
+
                       >Venta</label
                     >
                     <label
-                      class="btn btn-outline-primary "
+                      class="btn btn-outline-primary"
                       role="button"
                       name="VentaAlquiler"
+                      btnRadio="2"
                       >Alquiler</label
                     >
                   </div>
+                  @if(VentaAlquiler.invalid && NextClicked){
+                    <div class="error-block">
+                        Por favor seleccionar Venta o Alquiler
+                    </div>
+                  }
+
                 </div>
 
                 <div class="form-group col-12 mt-3">
-                  <p>Baño Comedor Cocina</p>
-                  <div class="btn-group" btnRadioGroup>
+                  <p>Baño Comedor Cocina Living</p>
+                  <div class="btn-group" btnRadioGroup name="BHK"  formControlName="BHK">
                     @for (bhk of [1,2,3,4]; track $index ){
                     <label
                       class="btn btn-outline-primary me-2"
                       tabindex="0"
                       role="button"
-                      name="VentaAlquiler"
+                      [btnRadio]="bhk"
+                      (click)="propertyView.BHK=bhk"
+                      name="BHK"
                       >{{ bhk }}</label
                     >
                     }
@@ -47,17 +61,13 @@
 
                 <div class="form-group col-12 mt-3">
                   <p>Tipo de propiedad</p>
-                  <div
-                    class="btn-group"
-                    btnRadioGroup
-                    [(ngModel)]="propertyView.Type"
-                    name="PropTipo"
-                  >
+                  <div class="btn-group" btnRadioGroup formControlName="PType">
                     @for (pType of propertyTypes; track $index ){
                     <label
                       class="btn btn-outline-primary me-2"
                       role="button"
                       [btnRadio]="pType"
+                      name="PropType"
                       >{{ pType }}</label
                     >
                     }
@@ -66,13 +76,13 @@
 
                 <div class="form-group col-12 mt-3">
                   <p>Amueblado</p>
-                  <div class="btn-group" btnRadioGroup>
+                  <div class="btn-group" btnRadioGroup formControlName="FType">
                     @for (fType of furnishTypes; track $index ){
                     <label
                       class="btn btn-outline-primary me-2"
                       tabindex="0"
                       role="button"
-                      name="VentaAlquiler"
+                      name="FType"
                       >{{ fType }}</label
                     >
                     }
@@ -85,24 +95,23 @@
                   <input
                     type="text"
                     class="form-control"
-                    #propName="ngModel"
-                    ngModel
                     name="Name"
+                    formControlName="Name"
                     required
                     minlength="5"
-                    [(ngModel)]="propertyView.Name"
                   />
-                  @if (!propName.valid && propName.touched) {
+                  @if (!addPropertyForm.valid && addPropertyForm.touched) {
                   <span class="error-block">
-                    @if (propName.errors?.['required']) { Por favor, proveer
-                    nombre. } @if (propName.errors?.['minlength']) { El nombre
-                    debe tener al menos 5 caracteres. }
+                    @if (addPropertyForm.errors?.['required']) { Por favor,
+                    proveer nombre. } @if
+                    (addPropertyForm.errors?.['minlength']) { El nombre debe
+                    tener al menos 5 caracteres. }
                   </span>
                   }
                 </div>
                 <div class="form-group col-12">
                   <label for="" class="mt-2">Ciudad</label>
-                  <input type="text" class="form-control" ngModel name="Type" />
+                  <input type="text" class="form-control" />
                 </div>
 
                 <div class="form-group col-12">
@@ -110,7 +119,8 @@
                     <button
                       type="button"
                       class="btn btn-primary btn-block mt-3"
-                      (click)="selectTab(1)"
+                      (click)="selectTab(1, BasicInfo.valid)"
+                      [disabled]="BasicInfo.invalid"
                     >
                       Siguiente
                     </button>
@@ -118,14 +128,13 @@
                 </div>
               </tab>
 
-              <tab heading="Precio y Superficie">
+              <tab heading="Precio y Superficie" formGroupName="PriceInfo">
                 <div class="form-group col-12 mt-3">
                   <label class="mt-2">Precio (en USD)</label>
                   <input
                     type="number"
                     class="form-control"
-                    name="price"
-                    [(ngModel)]="propertyView.Price"
+                    formControlName="Price"
                   />
                 </div>
                 <div class="form-group col-12">
@@ -138,7 +147,11 @@
                 </div>
                 <div class="form-group col-12">
                   <label class="mt-2">Metros cuadrados construidos</label>
-                  <input type="text" class="form-control" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="BuiltArea"
+                  />
                 </div>
                 <div class="form-group col-12">
                   <label class="mt-2">Metros cuadrados cubiertos</label>
@@ -148,14 +161,14 @@
                   <button
                     type="button"
                     class="btn btn-primary btn-block"
-                    (click)="selectTab(2)"
+                    (click)="selectTab(2, PriceInfo.valid)"
                   >
                     Siguiente
                   </button>
                   <button
                     type="button"
                     class="btn btn-primary btn-block"
-                    (click)="selectTab(0)"
+                    (click)="selectTab(0, PriceInfo.valid)"
                   >
                     Atrás
                   </button>
@@ -184,14 +197,14 @@
                   <button
                     type="button"
                     class="btn btn-primary btn-block"
-                    (click)="selectTab(3)"
+                    (click)="selectTab(3, PriceInfo.valid)"
                   >
                     Siguiente
                   </button>
                   <button
                     type="button"
                     class="btn btn-primary btn-block mt-2"
-                    (click)="selectTab(1)"
+                    (click)="selectTab(1, PriceInfo.valid)"
                   >
                     Atrás
                   </button>
@@ -290,14 +303,14 @@
                     <button
                       type="button"
                       class="btn btn-primary btn-block"
-                      (click)="selectTab(4)"
+                      (click)="selectTab(4, PriceInfo.valid)"
                     >
                       Siguiente
                     </button>
                     <button
                       type="button"
                       class="btn btn-primary btn-block"
-                      (click)="selectTab(2)"
+                      (click)="selectTab(2, PriceInfo.valid)"
                     >
                       Atrás
                     </button>
@@ -317,7 +330,7 @@
                   <button
                     type="button"
                     class="btn btn-primary btn-block mt-2"
-                    (click)="selectTab(3)"
+                    (click)="selectTab(3, PriceInfo.valid)"
                   >
                     Atrás
                   </button>
@@ -335,14 +348,15 @@
       </div>
     </div>
   </div>
-  <div class="col-4 ">
-    <div class="card-header" style="border-top-right-radius: 5px; border-top-left-radius: 5px;" >
+  <div class="col-4">
+    <div
+      class="card-header"
+      style="border-top-right-radius: 5px; border-top-left-radius: 5px"
+    >
       <h3 class="text-center">Detalle previo</h3>
     </div>
     <div class="tab-panel p-3 shadow-lg bg-white">
-      <app-card [property]="propertyView"></app-card>
+      <app-card [property]="propertyView" [hideIcons]="true"></app-card>
     </div>
   </div>
 </div>
-
-

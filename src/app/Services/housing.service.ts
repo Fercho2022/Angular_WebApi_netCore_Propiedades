@@ -21,7 +21,7 @@ export class HousingService {
         if(sellRent===undefined) {
           return properties;
         }
-        return properties.filter(property=>property.SellRent===sellRent);
+        return properties.filter(property=>property.VentaAlquiler===sellRent);
 
     })
   );

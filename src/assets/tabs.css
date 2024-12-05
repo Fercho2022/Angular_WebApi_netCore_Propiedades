@@ -1,8 +1,18 @@
-.tab-panel{
+.tab-panel {
   border: 1px solid #ddd;
   padding: 10px;
-  border-radius:4px;
-  min-height:600px;
+  border-radius: 4px;
+  min-height: 400px;
   background-color: white;
+}
+
+.member-tabset .nav-tabs li.active {
+  border-bottom: 4px solid #0069d9;
+
+}
+
+.member-tabset .nav-tabs li:hover {
+  border-bottom: 4px solid #e1e2eb;
+
 }
 

@@ -46,10 +46,19 @@
 
 .card {
   max-width: 370px;
-  min-height: 420px;
+  min-height: 400px;
   border: 1px solid #ccc;
   border-radius: 4px;
   overflow: hidden;
   margin: 0 auto; /* Esto ayudará a centrar la card dentro de su columna */
   width: 100%; /* Esto hará que sea responsive */
+}
+.card-body h2{
+  font-family: fantasy;
+  color:#0069d9;
+}
+
+.font-highlight{
+  font-style: italic;
+  color: red;
 }

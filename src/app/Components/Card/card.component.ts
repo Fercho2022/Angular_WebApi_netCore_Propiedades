@@ -1,8 +1,9 @@
 import { Component, input, Input } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
-import { IProperty } from '../../Interfaces/IProperty';
+
 import { RouterModule } from '@angular/router';
+import { IPropertyBase } from '../../Interfaces/IPropertyBase';
 
 
 @Component({
@@ -14,7 +15,8 @@ import { RouterModule } from '@angular/router';
 })
 export class CardComponent {
 
-@Input() property!:IProperty;
+@Input() property!:IPropertyBase;
+@Input() hideIcons!:boolean;
 
 
 
