@@ -24,14 +24,16 @@
 
   <div class="card-body p-1">
     <h2 class="mb-0">{{ property.BHK }} BHK {{property.PType}}</h2>
-    en {{property.Name}}
+    en {{property.Name}},
     @if(property.Name){
-      <span>,</span>
+      <span>{{property.City}}</span>
     }
-    {{property.City}}
+
     <h6 class="mt-2">
     @if(property.FType!=='desamueblado'){
-      <span>Amueblado {{ property.FType }}</span> | Listo para mudarse
+      <span>Amueblamiento {{ property.FType }}</span> | Listo para mudarse
+    }@else {
+      <span>Sin {{ property.FType }}</span> | Listo para mudarse
     }
   </h6>
   <hr class="mt-0 mb-2">

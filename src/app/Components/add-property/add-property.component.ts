@@ -20,7 +20,7 @@ import { IPropertyBase } from '../../Interfaces/IPropertyBase';
 export class AddPropertyComponent implements OnInit {
   //@ViewChild('Form') addPropertyForm!: NgForm;
   @ViewChild('staticTabs', { static: false }) staticTabs?: TabsetComponent;
-  NextClicked!:boolean;
+  nextClicked!:boolean;
 
   addPropertyForm!:FormGroup;
   propertyTypes: Array<string> = ['Casa', 'Departamento', 'Duplex'];
@@ -38,6 +38,7 @@ export class AddPropertyComponent implements OnInit {
     BHK: null,
     BuiltArea: null,
     City: '',
+    RTM: ''
 
   }
 
@@ -55,7 +56,7 @@ export class AddPropertyComponent implements OnInit {
 
 this.addPropertyForm=this.fb.group({
   BasicInfo:this.fb.group({
-      VentaAlquiler:[null, Validators.required],
+      VentaAlquiler:['1', Validators.required],
       BHK: [null, Validators.required],
       PType:[null, Validators.required],
       FType: [null, Validators.required],
@@ -65,10 +66,26 @@ this.addPropertyForm=this.fb.group({
   PriceInfo:this.fb.group({
       Price:[null, Validators.required],
       BuiltArea:[null, Validators.required]
+}),
+AddressInfo:this.fb.group({
+  FloorNo:[null],
+  TotalFloor:[null],
+  Address:[null, Validators.required],
+  LandMark:[null],
+}),
+OtherInfo: this.fb.group({
+  RTM:[null, Validators.required],
+  PossesionOn:[null],
+  AOP:[null],
+  Gated:[null],
+  MainEntrance:[null],
+  Description:[null]
 })
 
 });
   }
+  //region Getter Methods
+  //region FormGroups
 
   get BasicInfo(){
     return this.addPropertyForm.controls['BasicInfo'] as FormGroup
@@ -78,8 +95,46 @@ this.addPropertyForm=this.fb.group({
     return this.addPropertyForm.controls['PriceInfo'] as FormGroup
   }
 
+get AddressInfo(){
+    return this.addPropertyForm.controls['AddressInfo'] as FormGroup
+  }
+  get OtherInfo(){
+    return this.addPropertyForm.controls['OtherInfo'] as FormGroup
+  }
+
+   //region Form Controls
   get VentaAlquiler(){
     return this.BasicInfo.controls['VentaAlquiler'] as FormControl;
+  }
+
+  get Name(){
+    return this.BasicInfo.controls['Name'] as FormControl;
+  }
+  get City(){
+    return this.BasicInfo.controls['City'] as FormControl;
+  }
+  get Price(){
+    return this.PriceInfo.controls['Price'] as FormControl;
+  }
+
+  get PType(){
+    return this.BasicInfo.controls['PType'] as FormControl;
+  }
+
+  get FType(){
+    return this.BasicInfo.controls['FType'] as FormControl;
+  }
+  get BHK(){
+    return this.BasicInfo.controls['BHK'] as FormControl;
+  }
+  get BuiltArea(){
+    return this.PriceInfo.controls['BuiltArea'] as FormControl;
+  }
+  get Address(){
+    return this.AddressInfo.controls['Address'] as FormControl;
+  }
+  get RTM(){
+    return this.OtherInfo.controls['RTM'] as FormControl;
   }
 
   onBack() {
@@ -87,12 +142,43 @@ this.addPropertyForm=this.fb.group({
   }
 
   onSubmit() {
-    console.log('Congrats,  form Submited');
+    this.nextClicked=true;
+    if(this.allTabsValid()){
+      console.log('Felicitaciones, tu propiedad fue registrada con éxito en nuestro sitio web');
+
+    }else{
+      console.log('Por favor revisa el formulario y proveer de todas las entradas válidas');
+    }
     console.log(this.addPropertyForm);
+  }
+
+  allTabsValid():boolean{
+    if(this.BasicInfo.invalid){
+      this.staticTabs!.tabs[0].active=true;
+      return false;
+     }
+     if(this.PriceInfo.invalid){
+      this.staticTabs!.tabs[1].active=true;
+      return false;
+     }
+     if(this.AddressInfo.invalid){
+      this.staticTabs!.tabs[2].active=true;
+      return false;
+     }
+     if(this.OtherInfo.invalid){
+      this.staticTabs!.tabs[3].active=true;
+      return false;
+     }
+
+     return true;
   }
 
   selectTab(tabId: number, IsCurrentTabValid:boolean) {
 
-    this.staticTabs!.tabs[tabId].active = true;
+    this.nextClicked=true;
+    if(IsCurrentTabValid){
+      this.staticTabs!.tabs[tabId].active = true;
+    }
+
   }
 }

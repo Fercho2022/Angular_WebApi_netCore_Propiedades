@@ -34,7 +34,7 @@
                       >Alquiler</label
                     >
                   </div>
-                  @if(VentaAlquiler.invalid && NextClicked){
+                  @if(VentaAlquiler.invalid && nextClicked){
                     <div class="error-block">
                         Por favor seleccionar Venta o Alquiler
                     </div>
@@ -57,6 +57,12 @@
                     >
                     }
                   </div>
+
+                  @if(BHK.invalid && nextClicked){
+                    <div class="error-block">
+                        Por favor seleccionar BHKL
+                    </div>
+                  }
                 </div>
 
                 <div class="form-group col-12 mt-3">
@@ -67,11 +73,18 @@
                       class="btn btn-outline-primary me-2"
                       role="button"
                       [btnRadio]="pType"
-                      name="PropType"
+                      name="PType"
+                      (click)="propertyView.PType=pType"
+
                       >{{ pType }}</label
                     >
                     }
                   </div>
+                  @if(PType.invalid && nextClicked){
+                    <div class="error-block">
+                        Por favor seleccionar tipo de propiedad
+                    </div>
+                  }
                 </div>
 
                 <div class="form-group col-12 mt-3">
@@ -81,12 +94,19 @@
                     <label
                       class="btn btn-outline-primary me-2"
                       tabindex="0"
+                      [btnRadio]="fType"
                       role="button"
                       name="FType"
+                      (click)="propertyView.FType=fType"
                       >{{ fType }}</label
                     >
                     }
                   </div>
+                  @if(FType.invalid && nextClicked){
+                    <div class="error-block">
+                        Por favor seleccionar tipo de amueblamiento
+                    </div>
+                  }
                 </div>
                 <div class="form-group col-12" class="mt-3">
                   <label for=""
@@ -97,7 +117,8 @@
                     class="form-control"
                     name="Name"
                     formControlName="Name"
-                    required
+                    [(ngModel)]="propertyView.Name"
+
                     minlength="5"
                   />
                   @if (!addPropertyForm.valid && addPropertyForm.touched) {
@@ -108,11 +129,25 @@
                     tener al menos 5 caracteres. }
                   </span>
                   }
+                  @if(Name.invalid && nextClicked){
+                    <div class="error-block">
+                        Por favor seleccionar construcción/Sociedad/Proyecto
+                    </div>
+                  }
                 </div>
                 <div class="form-group col-12">
                   <label for="" class="mt-2">Ciudad</label>
-                  <input type="text" class="form-control" />
+                  <input type="text" class="form-control" name="City"
+                  formControlName="City"
+                  [(ngModel)]="propertyView.City"
+
+                 />
                 </div>
+                @if(City.invalid && nextClicked){
+                  <div class="error-block">
+                      Por favor seleccionar ciudad
+                  </div>
+                }
 
                 <div class="form-group col-12">
                   <div class="d-grid gap-2">
@@ -130,21 +165,34 @@
 
               <tab heading="Precio y Superficie" formGroupName="PriceInfo">
                 <div class="form-group col-12 mt-3">
-                  <label class="mt-2">Precio (en USD)</label>
+                  @if(VentaAlquiler.value==1){
+                    <label class="mt-2">Precio (en USD)</label>
+                  }
+                  @if(VentaAlquiler.value==2){
+                    <label class="mt-2">Alquiler (en USD)</label>
+                  }
+
                   <input
                     type="number"
                     class="form-control"
                     formControlName="Price"
+                    [(ngModel)]="propertyView.Price"
+
                   />
                 </div>
-                <div class="form-group col-12">
-                  <label class="mt-2">Seguro (en USD)</label>
-                  <input type="text" class="form-control" />
-                </div>
-                <div class="form-group col-12">
-                  <label class="mt-2">Mantenimiento (en USD)</label>
-                  <input type="text" class="form-control" />
-                </div>
+                @if(Price.invalid && (nextClicked || Price.touched)){
+                  <div class="error-block">
+                      Por favor seleccionar @if(VentaAlquiler.value==1){
+                        <span>precio</span>
+                      }@else{
+                        rent
+
+                      }
+                  </div>
+                }
+
+
+
                 <div class="form-group col-12">
                   <label class="mt-2">Metros cuadrados construidos</label>
                   <input
@@ -153,6 +201,11 @@
                     formControlName="BuiltArea"
                   />
                 </div>
+                @if(BuiltArea.invalid && nextClicked){
+                  <div class="error-block">
+                      Por favor seleccionar metros cuadrados
+                  </div>
+                }
                 <div class="form-group col-12">
                   <label class="mt-2">Metros cuadrados cubiertos</label>
                   <input type="text" class="form-control" />
@@ -175,7 +228,7 @@
                 </div>
               </tab>
 
-              <tab heading="Dirección">
+              <tab heading="Dirección" formGroupName="AddressInfo">
                 <div class="form-group col-12 mt-3">
                   <label class="mt-2">Piso</label>
                   <input type="text" class="form-control" />
@@ -186,8 +239,23 @@
                 </div>
                 <div class="form-group col-12">
                   <label class="mt-2">Domicilio</label>
-                  <input type="text" class="form-control" />
+
+                  <input type="text" class="form-control" formControlName="Address"/>
+
                 </div>
+                @if(Address.invalid && (nextClicked || Address.touched)){
+                  <div class="error-block">
+                      Por favor ingresar dirección
+                  </div>
+                }
+
+
+
+
+
+
+
+
                 <div class="form-group col-12">
                   <label class="mt-2">Punto de referencia</label>
                   <input type="text" class="form-control" />
@@ -211,40 +279,36 @@
                 </div>
               </tab>
 
-              <tab heading="Otros detalles">
+              <tab heading="Otros detalles" formGroupName="OtherInfo">
                 <div class="form-group col-12" class="mt-3">
                   <p>Listo para mudarse</p>
-                  <div class="btn-group" btnRadioGroup>
+                  <div class="btn-group" btnRadioGroup formControlName="RTM">
                     <label
                       class="btn btn-outline-primary me-2"
                       role="button"
-                      name="OtrosDetalles"
+                      name="RTM"
+                      btnRadio="true"
+                      (click)="propertyView.RTM='Si'"
                     >
                       Si</label
                     >
                     <label
                       class="btn btn-outline-primary me-2"
                       role="button"
-                      name="OtrosDetalles"
+                      name="RTM"
+                      btnRadio="false"
+                      (click)="propertyView.RTM='No'"
                     >
                       No</label
                     >
                   </div>
+                  @if(RTM.invalid && nextClicked){
+                    <div class="error-block">
+                        Por favor seleccionar listo para mudarse
+                    </div>
+                  }
                 </div>
-                <div class="form-group col-3 mt-3">
-                  <label>Posesión/Disponible desde</label>
 
-                  <input
-                    type="text"
-                    placeholder="Datepicker"
-                    class="form-control"
-                    bsDatepicker
-                    [bsConfig]="{
-                      dateInputFormat: 'DD-MM-YYYY',
-                      containerClass: 'theme-dark-blue'
-                    }"
-                  />
-                </div>
                 <div class="form-group col-12">
                   <label class="mt-2">Años de la propiedad</label>
                   <input type="text" class="form-control" />
@@ -359,4 +423,23 @@
       <app-card [property]="propertyView" [hideIcons]="true"></app-card>
     </div>
   </div>
+</div>
+
+
+
+
+
+<div class="form-group col-3 mt-3">
+  <label>Posesión/Disponible desde</label>
+
+  <input
+    type="text"
+    placeholder="Datepicker"
+    class="form-control"
+    bsDatepicker
+    [bsConfig]="{
+      dateInputFormat: 'DD-MM-YYYY',
+      containerClass: 'theme-dark-blue'
+    }"
+  />
 </div>
