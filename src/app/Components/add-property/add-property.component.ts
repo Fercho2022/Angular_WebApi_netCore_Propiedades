@@ -9,6 +9,7 @@ import { IProperty } from '../../Interfaces/IProperty';
 import { CardComponent } from "../Card/card.component";
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { IPropertyBase } from '../../Interfaces/IPropertyBase';
+import { Property } from '../../Interfaces/property';
 
 @Component({
   selector: 'app-add-property',
@@ -21,10 +22,12 @@ export class AddPropertyComponent implements OnInit {
   //@ViewChild('Form') addPropertyForm!: NgForm;
   @ViewChild('staticTabs', { static: false }) staticTabs?: TabsetComponent;
   nextClicked!:boolean;
+  property=new Property();
+
 
   addPropertyForm!:FormGroup;
   propertyTypes: Array<string> = ['Casa', 'Departamento', 'Duplex'];
-  furnishTypes: Array<string> = ['Completo', 'Semi Completo', 'Desamueblado'];
+  furnishTypes: Array<string> = ['Completo', 'Semi Completo', 'Desamoblado'];
   cardinalTypes: Array<string> = ['Este', 'oeste', 'Norte', 'Sur'];
 
   propertyView: IPropertyBase={
@@ -38,7 +41,8 @@ export class AddPropertyComponent implements OnInit {
     BHK: null,
     BuiltArea: null,
     City: '',
-    RTM: ''
+    RTM: null,
+    PossessionOn:''
 
   }
 
@@ -65,7 +69,10 @@ this.addPropertyForm=this.fb.group({
   }),
   PriceInfo:this.fb.group({
       Price:[null, Validators.required],
-      BuiltArea:[null, Validators.required]
+      BuiltArea:[null, Validators.required],
+      CarpetArea: [null],
+      Security: [0],
+      Maintenance: [0],
 }),
 AddressInfo:this.fb.group({
   FloorNo:[null],
@@ -102,7 +109,7 @@ get AddressInfo(){
     return this.addPropertyForm.controls['OtherInfo'] as FormGroup
   }
 
-   //region Form Controls
+   //region <Form Controls>
   get VentaAlquiler(){
     return this.BasicInfo.controls['VentaAlquiler'] as FormControl;
   }
@@ -113,8 +120,14 @@ get AddressInfo(){
   get City(){
     return this.BasicInfo.controls['City'] as FormControl;
   }
+  get PossessionOn(){
+    return this.OtherInfo.controls['PossessionOn'] as FormControl;
+  }
   get Price(){
     return this.PriceInfo.controls['Price'] as FormControl;
+  }
+  get Security(){
+    return this.PriceInfo.controls['Security'] as FormControl;
   }
 
   get PType(){
@@ -129,6 +142,12 @@ get AddressInfo(){
   }
   get BuiltArea(){
     return this.PriceInfo.controls['BuiltArea'] as FormControl;
+  }
+  get CarpetArea(){
+    return this.PriceInfo.controls['CarpetArea'] as FormControl;
+  }
+  get Maintenance(){
+    return this.PriceInfo.controls['Maintenance'] as FormControl;
   }
   get Address(){
     return this.AddressInfo.controls['Address'] as FormControl;
@@ -150,6 +169,28 @@ get AddressInfo(){
       console.log('Por favor revisa el formulario y proveer de todas las entradas válidas');
     }
     console.log(this.addPropertyForm);
+  }
+
+  mapProperty():void{
+    this.property.VentaAlquiler=+this.VentaAlquiler.value;
+    this.property.BHK = this.BHK.value;
+    this.property.PType = this.PType.value;
+    this.property.Name = this.Name.value;
+    this.property.City = this.City.value;
+    this.property.FType = this.FType.value;
+    this.property.Price = this.Price.value;
+    this.property.Security = this.Security.value;
+    this.property.Maintenance = this.Maintenance.value;
+    this.property.BuiltArea = this.BuiltArea.value;
+    this.property.CarpetArea = this.CarpetArea.value;
+    this.property.FloorNo = this.FloorNo.value;
+    this.property.TotalFloors = this.TotalFloor.value;
+    this.property.Address = this.Address.value;
+    this.property.Address2 = this.LandMark.value;
+    this.property.RTM = this.RTM.value;
+    this.property.Gated = this.Gated.value;
+    this.property.MainEntrance = this.MainEntrance.value;
+
   }
 
   allTabsValid():boolean{

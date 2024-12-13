@@ -15,13 +15,13 @@ export class Property implements IPropertyBase {
   City!: string;
   FloorNo?: string;
   TotalFloors?: string;
-  RTM!: string;
+  RTM!: boolean;
   AOP?: string;
   MainEntrance?: string;
   Security?: number;
   Gated?: number;
   Maintenance?: string;
-  Possession?: string;
+  PossessionOn!: string;
   Image?:string;
   Description?: string;
   PostedOn!:string;

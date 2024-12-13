@@ -5,35 +5,50 @@
     "Name": "Capilla del monte",
     "PType": "Casa",
     "Price": 11000,
-    "Image":"prop-1",
-    "BHK":2,
-    "FType":"completo",
-    "BuiltArea":1200,
-    "City":"Cordoba capital"
+
+    "CarpetArea": 300,
+    "Address": "Mitre 243",
+    "Address2": "",
+
+    "FloorNo": "",
+    "TotalFloors": "450",
+    "RTM": true,
+    "AOP": 10,
+    "MainEntrance": "East",
+    "Gated": 1,
+    "Security": 0,
+    "Maintenance": 300,
+    "Posession": "Ready to move",
+    "PostedOn": "01-Jan-2019",
+    "Image": "prop-1",
+    "BHK": 2,
+    "FType": "completo",
+    "BuiltArea": 1200,
+    "City": "Cordoba capital"
   },
   {
     "Id": 2,
     "VentaAlquiler": 2,
     "Name": "Lavanda",
     "PType": "Dpto. 2 dormitorios",
-    "BHK":3,
-    "FType":"desamueblado",
+    "BHK": 3,
+    "FType": "desamueblado",
     "Price": 12000,
-    "Image":"prop-2",
-    "BuiltArea":1200,
-    "City":"Santiago"
+    "Image": "prop-2",
+    "BuiltArea": 1200,
+    "City": "Santiago"
   },
   {
     "Id": 3,
     "VentaAlquiler": 1,
     "Name": "Funes",
     "PType": "Dpto. 1 dormitorio",
-    "BHK":4,
-    "FType":"semi completo",
+    "BHK": 4,
+    "FType": "semi completo",
     "Price": 25000,
-     "Image":"prop-3",
-      "BuiltArea":1100,
-    "City":"Rosario"
+    "Image": "prop-3",
+    "BuiltArea": 1100,
+    "City": "Rosario"
   },
   {
     "Id": 4,
@@ -41,11 +56,11 @@
     "Name": "Palermo",
     "PType": "Cabaña",
     "Price": 12000,
-     "Image":"prop-4",
-     "BHK":3,
-    "FType":"completo",
-    "BuiltArea":1000,
-    "City":"Buenos Aires"
+    "Image": "prop-4",
+    "BHK": 3,
+    "FType": "completo",
+    "BuiltArea": 1000,
+    "City": "Buenos Aires"
   },
   {
     "Id": 5,
@@ -53,11 +68,11 @@
     "Name": "Chacarita",
     "PType": "Apart Hotel",
     "Price": 23000,
-     "Image":"prop-5",
-     "BHK":2,
-     "FType":"semi completo",
-     "BuiltArea":1000,
-     "City":"Buenos Aires"
+    "Image": "prop-5",
+    "BHK": 2,
+    "FType": "semi completo",
+    "BuiltArea": 1000,
+    "City": "Buenos Aires"
   },
   {
     "Id": 6,
@@ -65,11 +80,11 @@
     "Name": "Puerto gaboto",
     "PType": "Motel",
     "Price": 21000,
-     "Image":"prop-6",
-     "BHK":3,
-     "FType":"semi completo",
-     "BuiltArea":1500,
-     "City":"Santa fe"
+    "Image": "prop-6",
+    "BHK": 3,
+    "FType": "semi completo",
+    "BuiltArea": 1500,
+    "City": "Santa fe"
   },
   {
     "Id": 7,
@@ -77,12 +92,11 @@
     "Name": "Pueblo Esther",
     "PType": "Fin de semana",
     "Price": 90000,
-     "Image":"prop-7",
-     "BHK":2,
-     "FType":"desamueblado",
-     "BuiltArea":2000,
-     "City":"Santa Fé"
-
+    "Image": "prop-7",
+    "BHK": 2,
+    "FType": "desamueblado",
+    "BuiltArea": 2000,
+    "City": "Santa Fé"
   },
   {
     "Id": 8,
@@ -90,8 +104,6 @@
     "Name": "Imponente",
     "PType": "Fin de semana",
     "Price": 100000,
-     "Image":"house_default"
-
+    "Image": "house_default"
   }
 ]
-
