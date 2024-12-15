@@ -1,3 +1,4 @@
+import { HousingService } from './../../Services/housing.service';
 import { Component, OnInit, Signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -10,6 +11,7 @@ import { CardComponent } from "../Card/card.component";
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { IPropertyBase } from '../../Interfaces/IPropertyBase';
 import { Property } from '../../Interfaces/property';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-property',
@@ -42,7 +44,7 @@ export class AddPropertyComponent implements OnInit {
     BuiltArea: null,
     City: '',
     RTM: null,
-    PossessionOn:''
+    PossesionOn:''
 
   }
 
@@ -50,7 +52,12 @@ export class AddPropertyComponent implements OnInit {
 
 
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private _housingService:HousingService,
+    private toastr:ToastrService
+) {}
 
   ngOnInit() {
     this.CreatedAddPropertyForm();
@@ -120,9 +127,7 @@ get AddressInfo(){
   get City(){
     return this.BasicInfo.controls['City'] as FormControl;
   }
-  get PossessionOn(){
-    return this.OtherInfo.controls['PossessionOn'] as FormControl;
-  }
+
   get Price(){
     return this.PriceInfo.controls['Price'] as FormControl;
   }
@@ -152,10 +157,34 @@ get AddressInfo(){
   get Address(){
     return this.AddressInfo.controls['Address'] as FormControl;
   }
+  get FloorNo(){
+    return this.AddressInfo.controls['FloorNo'] as FormControl;
+  }
+  get TotalFloor(){
+    return this.AddressInfo.controls['TotalFloor'] as FormControl;
+  }
+  get LandMark(){
+    return this.AddressInfo.controls['LandMark'] as FormControl;
+  }
   get RTM(){
     return this.OtherInfo.controls['RTM'] as FormControl;
   }
+  get Gated(){
+    return this.OtherInfo.controls['Gated'] as FormControl;
+  }
+  get MainEntrance(){
+    return this.OtherInfo.controls['MainEntrance'] as FormControl;
+  }
+  get PossesionOn(){
+    return this.OtherInfo.controls['PossesionOn'] as FormControl;
+  }
 
+  get Description(){
+    return this.OtherInfo.controls['Description'] as FormControl;
+  }
+  get AOP(){
+    return this.OtherInfo.controls['AOP'] as FormControl;
+  }
   onBack() {
     this.router.navigate(['/']);
   }
@@ -163,10 +192,12 @@ get AddressInfo(){
   onSubmit() {
     this.nextClicked=true;
     if(this.allTabsValid()){
-      console.log('Felicitaciones, tu propiedad fue registrada con éxito en nuestro sitio web');
+      this.mapProperty();
+      this._housingService.addProperty(this.property);
+      this.toastr.success('Felicitaciones, tu propiedad fue registrada con éxito en nuestro sitio web');
 
     }else{
-      console.log('Por favor revisa el formulario y proveer de todas las entradas válidas');
+      this.toastr.error('Por favor revisa el formulario y proveer de todas las entradas válidas');
     }
     console.log(this.addPropertyForm);
   }
@@ -190,6 +221,9 @@ get AddressInfo(){
     this.property.RTM = this.RTM.value;
     this.property.Gated = this.Gated.value;
     this.property.MainEntrance = this.MainEntrance.value;
+    this.property.Description = this.Description.value;
+    this.property.PossesionOn = this.PossesionOn.value;
+    this.property.PostedOn = new Date().toString();
 
   }
 

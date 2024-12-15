@@ -21,7 +21,7 @@ export class Property implements IPropertyBase {
   Security?: number;
   Gated?: number;
   Maintenance?: string;
-  PossessionOn!: string;
+  PossesionOn!: string;
   Image?:string;
   Description?: string;
   PostedOn!:string;

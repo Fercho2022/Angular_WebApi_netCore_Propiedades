@@ -32,6 +32,8 @@ if(this.route.snapshot.url.toString()){
 }
   this.housingService.getAllProperties(this.SellRent).subscribe(data=>{
   this.properties=data;
+  const newProperty=JSON.parse(localStorage.getItem('newProp') || '[]');
+
 
 
   })
