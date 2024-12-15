@@ -208,7 +208,7 @@
                 }
                 <div class="form-group col-12">
                   <label class="mt-2">Metros cuadrados cubiertos</label>
-                  <input type="text" class="form-control" />
+                  <input type="text" class="form-control" formControlName="CarpetArea"/>
                 </div>
                 <div class="d-grid gap-2 mt-3">
                   <button
@@ -231,11 +231,11 @@
               <tab heading="Dirección" formGroupName="AddressInfo">
                 <div class="form-group col-12 mt-3">
                   <label class="mt-2">Piso</label>
-                  <input type="text" class="form-control" />
+                  <input type="text" class="form-control" formControlName="FloorNo"/>
                 </div>
                 <div class="form-group col-12">
                   <label class="mt-2">Pisos totales</label>
-                  <input type="text" class="form-control" />
+                  <input type="text" class="form-control" formControlName="TotalFloor"/>
                 </div>
                 <div class="form-group col-12">
                   <label class="mt-2">Domicilio</label>
@@ -249,30 +249,23 @@
                   </div>
                 }
 
-
-
-
-
-
-
-
                 <div class="form-group col-12">
                   <label class="mt-2">Punto de referencia</label>
-                  <input type="text" class="form-control" />
+                  <input type="text" class="form-control" formControlName="LandMark"/>
                 </div>
 
                 <div class="d-grid gap-2 mt-3">
                   <button
                     type="button"
                     class="btn btn-primary btn-block"
-                    (click)="selectTab(3, PriceInfo.valid)"
+                    (click)="selectTab(3, AddressInfo.valid)"
                   >
                     Siguiente
                   </button>
                   <button
                     type="button"
                     class="btn btn-primary btn-block mt-2"
-                    (click)="selectTab(1, PriceInfo.valid)"
+                    (click)="selectTab(1, AddressInfo.valid)"
                   >
                     Atrás
                   </button>
@@ -280,105 +273,86 @@
               </tab>
 
               <tab heading="Otros detalles" formGroupName="OtherInfo">
-                <div class="form-group col-12" class="mt-3">
+                <div class="form-group col-12">
                   <p>Listo para mudarse</p>
-                  <div class="btn-group" btnRadioGroup formControlName="RTM">
-                    <label
-                      class="btn btn-outline-primary me-2"
-                      role="button"
-                      name="RTM"
-                      btnRadio="true"
-                      (click)="propertyView.RTM='Si'"
-                    >
-                      Si</label
-                    >
-                    <label
-                      class="btn btn-outline-primary me-2"
-                      role="button"
-                      name="RTM"
-                      btnRadio="false"
-                      (click)="propertyView.RTM='No'"
-                    >
-                      No</label
-                    >
+                  <div class="btn-group" btnRadioGroup
+                  formControlName="RTM">
+                    <label class="btn btn-outline-primary mr-2"
+                      btnRadio=true tabindex="0" role="button"
+                      (click)="propertyView.RTM=true"
+                      name="RTM">Si
+                    </label>
+
+                    <label class="btn btn-outline-primary"
+                      btnRadio=false  tabindex="0" role="button"
+                      (click)="propertyView.RTM=false"
+                      name="RTM">No
+                    </label>
                   </div>
-                  @if(RTM.invalid && nextClicked){
-                    <div class="error-block">
-                        Por favor seleccionar listo para mudarse
-                    </div>
-                  }
+                  <div class="error-block" *ngIf="RTM.invalid && nextClicked">
+                    Por favor seleccionar listo para mudarse
+                  </div>
                 </div>
 
-                <div class="form-group col-12">
-                  <label class="mt-2">Años de la propiedad</label>
-                  <input type="text" class="form-control" />
-                </div>
-                <div class="form-group col-12" class="mt-3">
-                  <p>Barrio cerrado</p>
-                  <div class="btn-group" btnRadioGroup>
-                    <label
-                      class="btn btn-outline-primary me-2"
-                      role="button"
-                      name="OtrosDetalles"
-                    >
-                      Si</label
-                    >
-                    <label
-                      class="btn btn-outline-primary me-2"
-                      role="button"
-                      name="OtrosDetalles"
-                    >
-                      No</label
-                    >
-                  </div>
-                </div>
-                <div class="form-group col-12" class="mt-3">
-                  <p>Listo para mudarse</p>
-                  <div class="btn-group" btnRadioGroup>
-                    @for(ctypes of cardinalTypes; track $index){
-                    <label
-                      class="btn btn-outline-primary me-2"
-                      role="button"
-                      name="OtrosDetalles"
-                      >{{ ctypes }}</label
-                    >
-                    }
+
+                <div class="form-group col-6">
+                  <label *ngIf="propertyView.RTM">Fecha pactada</label>
+                  <label *ngIf="!propertyView.RTM">Fecha de posesión</label>
+                  <input type="text"
+                  class="form-control"
+                  formControlName="PossesionOn"
+                  #possessionOn
+                  (bsValueChange)="propertyView.PossesionOn=PossesionOn.value"
+                  bsDatepicker
+                  [bsConfig]="{containerClass: 'theme-dark-blue',
+                  dateInputFormat: 'MMM DD, YYYY'}">
+                  <div class="error-block" *ngIf="PossesionOn.invalid
+                    && (nextClicked || PossesionOn.touched)">
+                    Por favor seleccionar fecha de posesion/establecida
                   </div>
                 </div>
 
                 <div class="form-group col-12">
-                  <label class="mt-2">Residencia privada</label>
-                  <input type="text" class="form-control" />
-                </div>
-                <div class="form-group col-12">
-                  <label class="mt-2">Acceso principal</label>
-                  <input type="text" class="form-control" />
-                </div>
-                <div class="form-group col-12">
-                  <label class="mt-2">Descripción</label>
-                  <textarea
-                    type="text"
-                    class="form-control"
-                    rows="6"
-                  ></textarea>
-                </div>
-                <div class="form-group col-12">
-                  <div class="d-grid gap-2 mt-3">
-                    <button
-                      type="button"
-                      class="btn btn-primary btn-block"
-                      (click)="selectTab(4, PriceInfo.valid)"
-                    >
-                      Siguiente
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-primary btn-block"
-                      (click)="selectTab(2, PriceInfo.valid)"
-                    >
-                      Atrás
-                    </button>
+                  <p>Barrio privado</p>
+                  <div class="btn-group"
+                  btnRadioGroup
+                  formControlName="Gated">
+                    <label class="btn btn-outline-primary mr-2"
+                    btnRadio=true tabindex="0" role="button" name="Gated">Si</label>
+                    <label class="btn btn-outline-primary"
+                    btnRadio=false  tabindex="0" role="button" name="Gated">No</label>
                   </div>
+                </div>
+
+                <div class="form-group col-12">
+                  <p>Entrada principal</p>
+                  <div class="btn-group" btnRadioGroup
+                  formControlName="MainEntrance">
+                    <label class="btn btn-outline-primary mr-2"
+                    btnRadio=East tabindex="0" role="button" name="Entrance">Este</label>
+                    <label class="btn btn-outline-primary"
+                    btnRadio=West  tabindex="0" role="button" name="Entrance">Oeste</label>
+                    <label class="btn btn-outline-primary"
+                    btnRadio=South  tabindex="0" role="button" name="Entrance">Sur</label>
+                    <label class="btn btn-outline-primary"
+                    btnRadio=North  tabindex="0" role="button" name="Entrance">Norte</label>
+                  </div>
+                </div>
+
+                <div class="form-group col-12">
+                  <label>Descripción</label>
+                  <textarea type="text"
+                  class="form-control"
+                  formControlName="Description"
+                  rows="6"></textarea>
+                </div>
+
+                <div class="form-group col-12">
+                    <button type="button" class="btn btn-primary btn-block"
+                    (click)="selectTab(4, OtherInfo.valid)">Siguiente</button>
+
+                    <button type="button" class="btn btn-primary btn-block"
+                    (click)="selectTab(2, OtherInfo.valid)">Atras</button>
                 </div>
               </tab>
 
@@ -429,17 +403,3 @@
 
 
 
-<div class="form-group col-3 mt-3">
-  <label>Posesión/Disponible desde</label>
-
-  <input
-    type="text"
-    placeholder="Datepicker"
-    class="form-control"
-    bsDatepicker
-    [bsConfig]="{
-      dateInputFormat: 'DD-MM-YYYY',
-      containerClass: 'theme-dark-blue'
-    }"
-  />
-</div>

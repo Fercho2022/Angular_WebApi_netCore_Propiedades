@@ -30,15 +30,15 @@
     }
 
     <h6 class="mt-2">
-    @if(property.FType!=='Desamueblado'){
-      <span>Amoblamiento {{ property.FType }}</span> | @if(property.RTM){
-        <span>Listo para mudarse</span>
-      }@else {
-        <span>No apto para mudarse</span>
-      }
+    @if(property.FType!=='desamueblado'){
+      <span>Amueblamiento {{ property.FType }}</span> | Listo para mudarse
     }@else {
-      <span>{{ property.FType }}</span> | Listo para mudarse
+      <span>Sin {{ property.FType }}</span> | Listo para mudarse
     }
+    }
+
+
+
   </h6>
   <hr class="mt-0 mb-2">
     <h6 class="mb-0">Precio: <span class="font-highlight">{{ property.Price }} USD.</span> | Area: <span class="font-highlight">{{property.BuiltArea}}</span> m<sup>2</sup></h6>
