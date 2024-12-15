@@ -24,7 +24,7 @@ export class AddPropertyComponent implements OnInit {
 
   addPropertyForm!:FormGroup;
   propertyTypes: Array<string> = ['Casa', 'Departamento', 'Duplex'];
-  furnishTypes: Array<string> = ['Completo', 'Semi Completo', 'Desamueblado'];
+  furnishTypes: Array<string> = ['Completo', 'Semi Completo', 'Desamoblado'];
   cardinalTypes: Array<string> = ['Este', 'oeste', 'Norte', 'Sur'];
 
   propertyView: IPropertyBase={
