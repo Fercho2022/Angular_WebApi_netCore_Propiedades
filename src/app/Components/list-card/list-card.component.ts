@@ -30,10 +30,10 @@ export class ListCardComponent implements OnInit {
     this.housingService.getAllProperties(this.SellRent).subscribe((data) => {
       this.properties = data;
       const newProperty = JSON.parse(localStorage.getItem('newProp') || 'null');
-     // Check if the new property exists and matches the current SellRent
-    if (newProperty && newProperty.VentaAlquiler === this.SellRent) {
-      this.properties = [newProperty, ...this.properties];
-    }
+      // Check if the new property exists and matches the current SellRent
+      if (newProperty && newProperty.VentaAlquiler === this.SellRent) {
+        this.properties = [newProperty, ...this.properties];
+      }
     });
   }
 }

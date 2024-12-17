@@ -200,6 +200,11 @@ get AddressInfo(){
       this.toastr.error('Por favor revisa el formulario y proveer de todas las entradas válidas');
     }
     console.log(this.addPropertyForm);
+    if(this.VentaAlquiler.value==2){
+      this.router.navigate(['/rent-property']);
+    }else{
+      this.router.navigate([]);
+    }
   }
 
   mapProperty():void{
@@ -209,6 +214,7 @@ get AddressInfo(){
     this.property.Name = this.Name.value;
     this.property.City = this.City.value;
     this.property.FType = this.FType.value;
+    this.property.Image=
     this.property.Price = this.Price.value;
     this.property.Security = this.Security.value;
     this.property.Maintenance = this.Maintenance.value;
