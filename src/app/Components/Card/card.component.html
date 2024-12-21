@@ -30,22 +30,12 @@
     }
 
     <h6 class="mt-2">
-    @if(property.FType!=='Desamoblado'){
-      <span>Amoblamiento {{ property.FType }}</span> |
-      @if(property.RTM){
-        <span>Listo para mudarse</span>
-        }@else{
-      <span>No apto para mudarse</span>
+    @if(property.FType!=='desamueblado'){
+      <span>Amueblamiento {{ property.FType }}</span> | Listo para mudarse
+    }@else {
+      <span>Sin {{ property.FType }}</span> | Listo para mudarse
     }
 
-    }@else{
-      <span>Sin amoblamiento</span> |
-      @if(property.RTM){
-        <span>Listo para mudarse</span>
-        }@else{
-      <span>No apto para mudarse</span>
-    }
-    }
 
 
 

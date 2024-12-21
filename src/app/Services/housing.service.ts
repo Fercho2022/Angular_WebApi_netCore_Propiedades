@@ -18,22 +18,60 @@ export class HousingService {
   getAllProperties(sellRent?: number):Observable<IProperty[]> {
     return this.http.get<IProperty[]>("assets/data/properties.json")
     .pipe(
-      map(properties=>{
-        if(sellRent===undefined) {
-          return properties;
+      map(properties => {
+        // Obtener propiedades del localStorage
+        const localProps = this.getAllLocalProperties();
+        // Combinar propiedades del JSON y localStorage
+        const allProperties = [...properties, ...localProps];
+
+        if (sellRent === undefined) {
+          return allProperties;
         }
-        return properties.filter(property=>property.VentaAlquiler===sellRent);
-
-    })
-  );
-
+        return allProperties.filter(property => property.VentaAlquiler === sellRent);
+      })
+    );
 }
+
 
 addProperty(property:Property){
-  //El método JSON.stringify(property) convierte el objeto property a una
+  let properties:Property[]=[];
+
+// Obtener propiedades existentes
+const existingPropertiesString=localStorage.getItem('properties');
+if(existingPropertiesString){
+  properties=JSON.parse(existingPropertiesString);
+}
+//Agregar la nueva propiedad al array
+properties.push(property);
+
+  //El método JSON.stringify(property) convierte el objeto properties a una
   //  cadena de texto en formato JSON. Esto es necesario porque
   // localStorage solo puede almacenar cadenas de texto.
-  localStorage.setItem('newProp', JSON.stringify(property));
+  localStorage.setItem('properties', JSON.stringify(properties));
 }
+
+getAllLocalProperties():IProperty[]{
+  const propertiesString=localStorage.getItem('properties');
+  if(propertiesString){
+    return JSON.parse(propertiesString);
+
+  }
+  return [];
+}
+
+newPropId():number{
+  let currentId = localStorage.getItem('PID');
+
+  if (currentId) {
+    // Convertir a número, incrementar y volver a string
+    const nextId = Number(currentId) + 1;
+    localStorage.setItem('PID', nextId.toString());
+    return nextId;
+  }else{
+    localStorage.setItem('PID', '101');
+    return 101;
+  }
+}
+
 
 }

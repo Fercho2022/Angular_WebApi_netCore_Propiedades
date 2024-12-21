@@ -32,7 +32,7 @@
     "Name": "Lavanda",
     "PType": "Dpto. 2 dormitorios",
     "BHK": 3,
-    "FType": "desamueblado",
+    "FType": "desamoblado",
     "Price": 12000,
     "Image": "prop-2",
     "BuiltArea": 1200,
@@ -94,7 +94,7 @@
     "Price": 90000,
     "Image": "prop-7",
     "BHK": 2,
-    "FType": "desamueblado",
+    "FType": "desamoblado",
     "BuiltArea": 2000,
     "City": "Santa Fé"
   },
