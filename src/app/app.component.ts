@@ -11,7 +11,7 @@ import { ToastrModule } from 'ngx-toastr';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, ToastrModule, NavbarComponent, CardComponent, ListCardComponent,],
+  imports: [CommonModule, RouterOutlet, ToastrModule, NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 

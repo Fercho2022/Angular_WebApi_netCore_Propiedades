@@ -16,3 +16,13 @@
 
 }
 
+
+.member-tabset .nav-tabs li a {
+  border: none;
+  background: transparent;
+  color: #495057;
+  padding: 10px 15px;
+  transition: all 0.3s ease;
+}
+
+

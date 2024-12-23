@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable, of, tap } from 'rxjs';
 import { IProperty } from '../Interfaces/IProperty';
 import { Property } from '../Interfaces/property';
+import { IPropertyBase } from '../Interfaces/IPropertyBase';
+
 
 
 @Injectable({
@@ -14,6 +16,15 @@ export class HousingService {
 
 
   private http = inject(HttpClient);
+
+  getProperty(id:number){
+    return this.getAllProperties(undefined).pipe(map(propertiesArray=>{
+const property= propertiesArray.find(p=>p.Id===id);
+
+return property;
+    }));
+
+  }
 
   getAllProperties(sellRent?: number):Observable<IProperty[]> {
     return this.http.get<IProperty[]>("assets/data/properties.json")
@@ -49,6 +60,8 @@ properties.push(property);
   // localStorage solo puede almacenar cadenas de texto.
   localStorage.setItem('properties', JSON.stringify(properties));
 }
+
+
 
 getAllLocalProperties():IProperty[]{
   const propertiesString=localStorage.getItem('properties');

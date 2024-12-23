@@ -1,13 +1,103 @@
-<p>
-  property-detail works!
-El propertyId es: {{propertyId()}}
-<br/>
-<br/>
-<button class="btn btn-primary" (click)="onSelectNext()">Select next page</button>
-<br/>
-<br/>
-<button class="btn btn-primary" routerLink="/property-detail/1">1</button>
-<button class="btn btn-primary" routerLink="/property-detail/2">2</button>
-<button class="btn btn-primary" routerLink="/property-detail/3">3</button>
-<button class="btn btn-primary" [routerLink]="['/property-detail', '4']">4</button>
-</p>
+<div class="row">
+  <div class="col-sm-4 p-0">
+    <div class="card">
+      <img class="card-img-top" src="assets/Images/prop-7.jpg" />
+      <div class="card-body">
+        <h1 class="card-title">{{ property.Name }}</h1>
+        <div>
+          <strong
+            >{{ property.BHK }} BHKL {{ property.PType }} USD
+            {{ property.Price }}</strong
+          >
+        </div>
+        <div>
+          <strong>{{ property.City }}</strong>
+        </div>
+        <hr />
+        <div>
+          <strong>Area construida:</strong>
+          {{ property.BuiltArea }} m<sup>2</sup>
+        </div>
+        <div>
+          <strong>Area cubierta:</strong>
+          {{ property.CarpetArea }} m<sup>2</sup>
+        </div>
+        <div>
+          <strong>Tipo de amoblamiento:</strong>
+          {{ property.FType }}
+        </div>
+      </div>
+      <div class="card-footer text-body-secondary">
+        <div class="btn-group d-flex">
+          <button class="btn btn-primary">Like</button>
+          <button class="btn btn-success">Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-8 p-0">
+    <div class="tab-panel">
+      <tabset class="member-tabset">
+        <tab heading="Introducción">
+          <h1>Introducción</h1>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="heading">
+                <strong>Nombre Propiedad</strong>
+                <p>{{property.Name}}</p>
+              </div>
+              <div class="heading">
+                <strong>Número de piso</strong>
+                <p>{{property.FloorNo}}</p>
+              </div>
+              <div class="heading">
+                <strong>Años de la propiedad</strong>
+                <p>{{property.AOP}}</p>
+              </div>
+              <div class="heading">
+                <strong>Fecha posesión</strong>
+                <p>{{property.PossesionOn}}</p>
+              </div>
+              <div class="col-sm-6">
+              <div class="heading">
+                <strong>Entrada principal</strong>
+                <p>{{property.MainEntrance}}</p>
+              </div>
+              <div class="heading">
+                <strong>Barrio privado</strong>
+                <p>{{property.Gated}}</p>
+              </div>
+              <div class="heading">
+                <strong>Seguridad</strong>
+                <p>{{property.Security}}</p>
+              </div>
+              <div class="heading">
+                <strong>Matenimiento</strong>
+                <p>{{property.Maintenance}}</p>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="heading">
+                  <strong>About Property</strong>
+                  <p>{{property.Description}}</p>
+              </div>
+          </div>
+            </div>
+          </div>
+        </tab>
+        <tab heading="Dirección">
+          <div class="col-sm-12">
+            <h1>Domicilio</h1>
+            <div class="heading">
+              <strong>{{ property.Address }}</strong>
+              <strong>{{ property.Address2 }}</strong>
+              <strong>{{ property.City }}</strong>
+            </div>
+          </div>
+        </tab>
+        <tab heading="Fotos"> </tab>
+        <tab heading="Contacto"> </tab>
+      </tabset>
+    </div>
+  </div>
+</div>
