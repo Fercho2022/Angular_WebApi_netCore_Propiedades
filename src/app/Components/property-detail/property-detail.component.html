@@ -1,7 +1,13 @@
+<div class="container-fluid">
 <div class="row">
-  <div class="col-sm-4 p-0">
+  <div class="col-sm-12 col-md-4 p-0">
     <div class="card">
-      <img class="card-img-top" src="assets/Images/prop-7.jpg" />
+      @if(property.Image){
+        <img class="card-img-top" src="assets/Images/{{property.Image}}.jpg" />
+      }@else {
+        <img class="card-img-top" src="assets/Images/prop-7.jpg" />
+      }
+
       <div class="card-body">
         <h1 class="card-title">{{ property.Name }}</h1>
         <div>
@@ -35,7 +41,7 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-8 p-0">
+  <div class="col-sm-12 col-md-8 p-0">
     <div class="tab-panel">
       <tabset class="member-tabset">
         <tab heading="Introducción">
@@ -58,6 +64,7 @@
                 <strong>Fecha posesión</strong>
                 <p>{{property.PossesionOn}}</p>
               </div>
+            </div>
               <div class="col-sm-6">
               <div class="heading">
                 <strong>Entrada principal</strong>
@@ -68,11 +75,11 @@
                 <p>{{property.Gated}}</p>
               </div>
               <div class="heading">
-                <strong>Seguridad</strong>
+                <strong>Depósito de seguro</strong>
                 <p>{{property.Security}}</p>
               </div>
               <div class="heading">
-                <strong>Matenimiento</strong>
+                <strong>Mantenimiento</strong>
                 <p>{{property.Maintenance}}</p>
               </div>
             </div>
@@ -83,7 +90,7 @@
               </div>
           </div>
             </div>
-          </div>
+
         </tab>
         <tab heading="Dirección">
           <div class="col-sm-12">
@@ -100,4 +107,5 @@
       </tabset>
     </div>
   </div>
+</div>
 </div>

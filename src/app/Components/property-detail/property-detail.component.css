@@ -1,51 +1,89 @@
-/* Estilos para la card */
+/* Estilos base */
 .card {
-  max-width: 370px;
-  height: auto;  /* Removemos min-height fijo */
+  max-width: 100%; /* Cambiado de 370px para ser responsive */
+  height: auto;
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px; /* Añadido espacio entre cards en móvil */
 }
 
-/* Ajustamos la imagen para que sea responsiva */
 .card img {
   padding: 10px;
-  max-height: 200px;
-  object-fit: cover;
+  width: 100%;
+  height: auto;
+  max-height: 230px;
+  object-fit: cover; /* Asegura que las imágenes mantengan proporción */
+  margin-bottom: -10px;
 }
 
-/* Hacemos que el contenido sea más compacto */
 .card-body {
   padding: 1rem;
   flex: 1;
 }
 
-/* Ajustamos espaciado del título */
 .card-title {
   color: #0069d9;
-  font-size: 2 rem;
+  font-size: calc(1.2rem + 0.5vw); /* Título responsive */
   margin-bottom: 0.5rem;
 }
 
-/* Reducimos el espaciado entre elementos */
 .card-body div {
   margin-bottom: 0.5rem;
+  word-wrap: break-word; /* Evita que el texto se salga */
 }
 
-/* Ajustamos el hr */
 hr {
   margin: 0.5rem 0;
 }
 
-/* Ajustamos el footer */
 .card-footer {
   padding: 0.75rem;
   background-color: #f8f9fa;
 }
 
-/* Ajustes para el panel de tabs */
+/* Tab panel */
 .tab-panel {
-  min-height: 400px;
-  height: 100%;
+  min-height: 100px;
+  height: 96.3%;
+  padding: 15px;
 }
 
+/* Media queries para diferentes tamaños de pantalla */
+@media (max-width: 576px) {
+  .row {
+    margin: 0; /* Elimina márgenes negativos en móvil */
+  }
 
+  .col-sm-4, .col-sm-8 {
+    padding: 15px; /* Añade padding en móvil */
+  }
+
+  .heading {
+    margin-bottom: 1rem;
+  }
+
+  .btn-group {
+    flex-direction: column;
+  }
+
+  .btn-group .btn {
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+  .card {
+    margin: 0 auto; /* Centra la card en tablets */
+  }
+
+  .tab-panel {
+    margin-top: 20px;
+  }
+}
+
+@media (min-width: 769px) {
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

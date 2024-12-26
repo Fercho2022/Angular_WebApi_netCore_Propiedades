@@ -1,4 +1,68 @@
 
+/* Estilos base para el container */
+.container-fluid {
+  min-height: 100vh;
+}
+
+/* Ajustes para la row principal */
+.row.mb-5 {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: calc(100vh - 2rem);
+  margin: 0;
+}
+
+/* Estilos comunes para ambas columnas */
+.col-12.col-md-8,
+.col-12.col-md-4 {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilos para la primera columna (formulario) */
+.col-12.col-md-8 .card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.tab-panel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilos para la segunda columna (preview) */
+.col-12.col-md-4 {
+  display: flex;
+  flex-direction: column;
+}
+
+.col-12.col-md-4 .card-header {
+  background-color: white;
+}
+
+.col-12.col-md-4 .tab-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilos para los elementos del formulario */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.btn-group {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .photo-control {
   min-height: 300px;
   vertical-align: middle;
@@ -7,7 +71,32 @@
   margin: 5px;
 }
 
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .row.mb-5 {
+    flex-direction: column;
+  }
 
+  .col-12.col-md-8,
+  .col-12.col-md-4 {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
 
+  .btn-group {
+    flex-direction: row;
+  }
+}
 
+@media (min-width: 769px) {
+  .col-12.col-md-8 {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+  }
+
+  .col-12.col-md-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+}
 
