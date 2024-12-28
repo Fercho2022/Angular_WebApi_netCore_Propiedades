@@ -7,11 +7,14 @@ import { CardComponent } from '../Card/card.component';
 import { IProperty } from '../../Interfaces/IProperty';
 import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { FilterPipe } from "../../Pipes/filter.pipe";
+import { SortPipe } from "../../Pipes/sort.pipe";
+import { FormsModule } from '@angular/forms'; // Importa FormsModule
 
 @Component({
   selector: 'app-list-card',
   standalone: true,
-  imports: [CommonModule, CardComponent, HttpClientModule],
+  imports: [CommonModule, CardComponent, HttpClientModule, FilterPipe, SortPipe, FormsModule ],
   templateUrl: './list-card.component.html',
   styleUrls: ['./list-card.component.css'],
   providers: [HousingService],
@@ -19,6 +22,10 @@ import { ActivatedRoute } from '@angular/router';
 export class ListCardComponent implements OnInit {
   SellRent = 1;
   properties!: Array<IProperty>;
+  City:string='';
+  SearchCity:string='';
+  SortByParam:keyof IProperty = 'City'; // Asigna un valor inicial
+  SortDirection:string='asc';
 
   private housingService = inject(HousingService);
   private route = inject(ActivatedRoute);
@@ -37,4 +44,21 @@ export class ListCardComponent implements OnInit {
       console.log(this.properties)
     });
   };
+
+  onCityFilter(){
+    this.SearchCity=this.City;
+  }
+
+  onCityclearFilter(){
+    this.SearchCity='';
+    this.City='';
+  }
+
+  onSortDirection(){
+    if(this.SortDirection==='desc'){
+      this.SortDirection='asc';
+    }else{
+      this.SortDirection='desc';
+    }
+  }
 }

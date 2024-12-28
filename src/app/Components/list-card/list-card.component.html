@@ -1,6 +1,26 @@
+<label>Filtrar por Ciudad: &nbsp; </label>
+<input [(ngModel)]="City" class="m-2">
+<button  type="button" (click)="onCityFilter()">Search</button>
+<button  type="button" (click)="onCityclearFilter()">Clear</button>
+
+<label>Busqueda por &nbsp;</label>
+<Select [(ngModel)]="SortByParam">
+  <option value="City">City</option>
+  <option value="Price">Price</option>
+
+</Select>
+<button type="button" (click)="onSortDirection()">
+  @if(SortDirection==='asc'){
+    <i class="fas fa-sort-alpha-down"></i>
+  }@else {
+    <i class="fas fa-sort-alpha-up"></i>
+
+  }
+
+</button>
 <div class="container">
 <div class="row justify-content-center g-4">
-  @for(property of properties; track property.Id){
+  @for(property of properties | filter:SearchCity:'City'| sort:[SortByParam, SortDirection]; track property.Id){
     <div class="col-12 col-md-6 col-lg-4 p-3">
       <app-card [property]="property"></app-card>
     </div>
