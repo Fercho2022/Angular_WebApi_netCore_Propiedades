@@ -1,15 +1,8 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, Inject, inject, PLATFORM_ID } from '@angular/core';
-import {
-  Router,
-  RouterLink,
-  RouterLinkActive,
-  RouterModule,
-} from '@angular/router';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-
 import { IDropdown } from '../../Interfaces/dropdown';
-
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -26,14 +19,13 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-
   constructor(
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   loggedinUser: string = '';
-
   items: Array<IDropdown> = [
     {
       text: 'View Dashboard',
@@ -60,16 +52,20 @@ export class NavbarComponent {
   ngOnInit() {}
 
   loggedin(): boolean {
-    this.loggedinUser = localStorage.getItem('token') || '';
-    return !!localStorage.getItem('token');
+    if (isPlatformBrowser(this.platformId)) {
+      this.loggedinUser = localStorage.getItem('userName') || '';
+      return !!localStorage.getItem('userName');
+    }
+    return false;
   }
 
   onLogout() {
-
+    if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('token');
-      this.router.navigate(['/login']);
+      localStorage.removeItem('userName');
+      this.router.navigate(['/']);
       this.toastr.success("You are logged out");
-
+    }
   }
 
   changePassword() {

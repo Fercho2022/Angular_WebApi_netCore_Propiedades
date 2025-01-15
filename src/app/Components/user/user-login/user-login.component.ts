@@ -1,37 +1,62 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, Inject, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../../../Services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { LoginModel, LoginResponse} from '../../../Interfaces/IUser';
 
 @Component({
   selector: 'app-user-login',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule, ],
   templateUrl: './user-login.component.html',
   styleUrl: './user-login.component.css',
 })
 export class UserLoginComponent implements OnInit {
 
-  private _authService = inject(AuthService);
 
-  private router=inject(Router);
+  loginModel : LoginModel= {
+    userName: '',
+    password: ''
 
-  constructor(private toastr:ToastrService){
+  };
 
-  }
+  constructor(
+    private toastr: ToastrService,
+    private _authService: AuthService,
+    private router: Router,
+
+  ) {}
 
   ngOnInit(): void {}
 
   onLogin(loginForm: NgForm) {
-    console.log(loginForm.value);
-    const token = this._authService.authUser(loginForm.value);
-    if (token) {
-      localStorage.setItem('token', token.userName);
-      this.toastr.success('Login Succesfully');
-      this.router.navigate(['/']);
-    } else {
-      this.toastr.error('Login not Succesfully');
+    if (loginForm.valid) {
+      console.log('Enviando datos:', this.loginModel);
+
+      this._authService.authUser(this.loginModel).subscribe({
+        next: (response: LoginResponse) => {
+          console.log('Login exitoso:', response);
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('userName', response.userName);
+
+          this.toastr.success('Login exitoso', 'Bienvenido!');
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          console.error('Error en login:', error);
+          let errorMessage = 'Error en el login';
+
+          if (error.status === 401) {
+            errorMessage = 'Usuario o contraseña incorrectos';
+          } else if (error.status === 400) {
+            errorMessage = 'Datos inválidos';
+          }
+
+          this.toastr.error(errorMessage);
+        }
+      });
     }
   }
 }

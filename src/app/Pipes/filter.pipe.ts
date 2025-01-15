@@ -5,23 +5,24 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true
 })
 export class FilterPipe implements PipeTransform {
+  transform(value: any[] | null, filterString: string, propName: string): any[] {
+    // Verificar si value es null o undefined
+    if (!value) return [];
 
-  transform(value: any[], filterString: string, propName:string): any[] {
-
-    const resultArray=[];
-
-    if (value.length===0 || filterString==='' || propName===''){
+    // Si no hay filtro o nombre de propiedad, devolver el array original
+    if (!filterString || !propName) {
       return value;
     }
-    for (const item of value){
-      if(item[propName]===filterString){
-        resultArray.push(item);
+
+    filterString = filterString.toLowerCase();
+
+    return value.filter(item => {
+      // Verificar si el item y la propiedad existen
+      if (item && item[propName]) {
+        // Convertir a minúsculas y buscar coincidencia parcial
+        return item[propName].toString().toLowerCase().includes(filterString);
       }
-    }
-
-    return resultArray;
-
-
+      return false;
+    });
   }
-
 }

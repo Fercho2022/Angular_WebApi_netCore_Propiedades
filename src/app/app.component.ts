@@ -6,12 +6,18 @@ import { ListCardComponent } from "./Components/list-card/list-card.component";
 import { CommonModule } from '@angular/common';
 import { AddPropertyComponent } from './Components/add-property/add-property.component';
 import { ToastrModule } from 'ngx-toastr';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, ToastrModule, NavbarComponent],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    ToastrModule,
+    NavbarComponent,
+    FormsModule,],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 
