@@ -1,64 +1,93 @@
-import { CommonModule } from '@angular/common';
-
-import { Component, OnInit, inject } from '@angular/core';
-import { HousingService } from '../../Services/housing.service';
-import { Observable } from 'rxjs';
-import { CardComponent } from '../Card/card.component';
-import { IProperty } from '../../Interfaces/IProperty';
-import { HttpClientModule } from '@angular/common/http';
+import { Component, OnInit, inject, PLATFORM_ID, Inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { HousingService } from '../../Services/housing.service';
+import { CardComponent } from '../Card/card.component';
 import { FilterPipe } from "../../Pipes/filter.pipe";
 import { SortPipe } from "../../Pipes/sort.pipe";
-import { FormsModule } from '@angular/forms'; // Importa FormsModule
+import { IProperty } from '../../Interfaces/IProperty';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-list-card',
   standalone: true,
-  imports: [CommonModule, CardComponent, HttpClientModule, FilterPipe, SortPipe, FormsModule ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    CardComponent,
+    FilterPipe,
+    SortPipe
+  ],
   templateUrl: './list-card.component.html',
-  styleUrls: ['./list-card.component.css'],
-  providers: [HousingService],
+  styleUrls: ['./list-card.component.css']
 })
 export class ListCardComponent implements OnInit {
+  private readonly housingService = inject(HousingService);
+  private readonly route = inject(ActivatedRoute);
+
+  properties: IProperty[] = [];
   SellRent = 1;
-  properties!: Array<IProperty>;
-  City:string='';
-  SearchCity:string='';
-  SortByParam:keyof IProperty = 'City'; // Asigna un valor inicial
-  SortDirection:string='asc';
+  City = '';
+  SearchCity = '';
+  SortByParam: keyof IProperty = 'City';
+  SortDirection: 'asc' | 'desc' = 'asc';
 
-  private housingService = inject(HousingService);
-  private route = inject(ActivatedRoute);
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-  ngOnInit(): void {
-    this.SellRent =
-      this.route.snapshot.url.toString() === 'rent-property' ? 2 : 1;
+  async ngOnInit(): Promise<void> {
+    await this.initializeComponent();
+  }
 
-    this.housingService.getAllProperties(this.SellRent).subscribe((data) => {
+  private async initializeComponent(): Promise<void> {
+    this.setSellRentValue();
+    await this.loadProperties();
+  }
+
+  private setSellRentValue(): void {
+    this.SellRent = this.route.snapshot.url.toString() === 'rent-property' ? 2 : 1;
+  }
+
+  private async loadProperties(): Promise<void> {
+    try {
+      const data = await firstValueFrom(this.housingService.getAllProperties(this.SellRent));
       this.properties = data;
-      const newProperty = JSON.parse(localStorage.getItem('properties') || 'null');
-      // Check if the new property exists and matches the current SellRent
-      if (newProperty && newProperty.VentaAlquiler === this.SellRent) {
-        this.properties = [newProperty, ...this.properties];
-      };
-      console.log(this.properties)
-    });
-  };
 
-  onCityFilter(){
-    this.SearchCity=this.City;
-  }
-
-  onCityclearFilter(){
-    this.SearchCity='';
-    this.City='';
-  }
-
-  onSortDirection(){
-    if(this.SortDirection==='desc'){
-      this.SortDirection='asc';
-    }else{
-      this.SortDirection='desc';
+      if (isPlatformBrowser(this.platformId)) {
+        this.addNewPropertyIfExists();
+      }
+    } catch (error) {
+      console.error('Error loading properties:', error);
+      this.properties = []; // Fallback a un array vacío en caso de error
     }
+  }
+
+  private addNewPropertyIfExists(): void {
+    try {
+      const storedProperties = localStorage.getItem('properties');
+      if (storedProperties) {
+        const parsedProperties = JSON.parse(storedProperties);
+        const matchingProperties = Array.isArray(parsedProperties)
+          ? parsedProperties.filter(prop => prop.VentaAlquiler === this.SellRent)
+          : parsedProperties.VentaAlquiler === this.SellRent ? [parsedProperties] : [];
+
+        this.properties = [...matchingProperties, ...this.properties];
+      }
+    } catch (error) {
+      console.error('Error parsing stored properties:', error);
+    }
+  }
+
+  onCityFilter(): void {
+    this.SearchCity = this.City;
+  }
+
+  onCityclearFilter(): void {
+    this.SearchCity = '';
+    this.City = '';
+  }
+
+  onSortDirection(): void {
+    this.SortDirection = this.SortDirection === 'desc' ? 'asc' : 'desc';
   }
 }

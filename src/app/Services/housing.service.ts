@@ -5,17 +5,20 @@ import { IProperty } from '../Interfaces/IProperty';
 import { Property } from '../Interfaces/property';
 import { IPropertyBase } from '../Interfaces/IPropertyBase';
 import { isPlatformBrowser } from '@angular/common';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HousingService {
 
+  baseUrl=environment.baseUrl;
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
   private http = inject(HttpClient);
 
   getAllCities():Observable<string[]>{
-    return  this.http.get<string[]>('http://localhost:81/api/City');
+
+    return  this.http.get<string[]>(`${this.baseUrl}/City`);
 
 
   }

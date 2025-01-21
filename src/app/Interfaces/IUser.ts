@@ -1,8 +1,8 @@
-export interface User {
+export interface UserFormRegister {
   userName: string;
-  email: string;
+  email?: string;
   password: string;
-  mobile: number;
+  mobile?: number;
 }
 
 export interface LoginResponse {

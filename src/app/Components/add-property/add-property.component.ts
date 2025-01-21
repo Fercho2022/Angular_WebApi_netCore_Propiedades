@@ -62,9 +62,33 @@ cityList!:string[];
 
   ngOnInit() {
     this.CreatedAddPropertyForm();
+
+    // Suscribirse a los cambios del formulario
+  this.Name.valueChanges.subscribe(value => {
+    this.propertyView.Name = value;
+  });
+  this.addPropertyForm.valueChanges.subscribe(values => {
+    this.updatePropertyView(values);
+  });
     this._housingService.getAllCities().subscribe(data=>{
+      console.log(data);
+
       this.cityList=data}
-    );
+       );
+  }
+
+  updatePropertyView(values: any) {
+    const basicInfo = values.BasicInfo;
+    const priceInfo = values.PriceInfo;
+
+    this.propertyView = {
+      ...this.propertyView,
+      Name: basicInfo.Name,
+      PType: basicInfo.PType,
+      City: basicInfo.City,
+      Price: priceInfo.Price,
+      // ... actualizar otras propiedades
+    };
   }
 
   CreatedAddPropertyForm(){

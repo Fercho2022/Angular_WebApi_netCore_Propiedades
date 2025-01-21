@@ -21,14 +21,12 @@
                       <label
                         class="btn btn-outline-primary me-2"
                         role="button"
-                        name="VentaAlquiler"
                         btnRadio="1"
                         >Venta</label
                       >
                       <label
                         class="btn btn-outline-primary"
                         role="button"
-                        name="VentaAlquiler"
                         btnRadio="2"
                         >Alquiler</label
                       >
@@ -125,7 +123,6 @@
                       class="form-control"
                       name="Name"
                       formControlName="Name"
-                      [(ngModel)]="propertyView.Name"
                       minlength="5"
                     />
                     @if (!addPropertyForm.valid && addPropertyForm.touched) {
@@ -146,9 +143,10 @@
                     <select
                       class="form-control"
                       formControlName="City"
-                      [(ngModel)]="propertyView.City"
+
+                      name="City"
                     >
-                    <option value="" >--Seleccionar Ciudad--</option>
+                      <option value="">--Seleccionar Ciudad--</option>
                       @for(city of cityList; track city){
                       <option [value]="city">{{ city }}</option>
                       }
@@ -184,6 +182,7 @@
                       class="form-control"
                       formControlName="Price"
                       [(ngModel)]="propertyView.Price"
+                      name="Price"
                     />
                   </div>
                   @if(Price.invalid && (nextClicked || Price.touched)){

@@ -1,30 +1,29 @@
 <label>Filtrar por Ciudad: &nbsp; </label>
-<input [(ngModel)]="City" class="m-2">
-<button  type="button" (click)="onCityFilter()">Search</button>
-<button  type="button" (click)="onCityclearFilter()">Clear</button>
+<input [(ngModel)]="City" class="m-2" name="City">
+<button type="button" (click)="onCityFilter()">Search</button>
+<button type="button" (click)="onCityclearFilter()">Clear</button>
 
 <label>Busqueda por &nbsp;</label>
-<Select [(ngModel)]="SortByParam">
-  <option value="City">City</option>
-  <option value="Price">Price</option>
+<!-- Aquí está el cambio principal -->
+<select [(ngModel)]="SortByParam" name="SortByParam">
+  <option [ngValue]="'City'">City</option>
+  <option [ngValue]="'Price'">Price</option>
+</select>
 
-</Select>
 <button type="button" (click)="onSortDirection()">
   @if(SortDirection==='asc'){
     <i class="fas fa-sort-alpha-down"></i>
   }@else {
     <i class="fas fa-sort-alpha-up"></i>
-
   }
-
 </button>
-<div class="container">
-<div class="row justify-content-center g-4">
-  @for(property of properties | filter:SearchCity:'City'| sort:[SortByParam, SortDirection]; track property.Id){
-    <div class="col-12 col-md-6 col-lg-4 p-3">
-      <app-card [property]="property"></app-card>
-    </div>
 
-  }
-</div>
+<div class="container">
+  <div class="row justify-content-center g-4">
+    @for(property of properties | filter:SearchCity:'City'| sort:[SortByParam, SortDirection]; track property.Id){
+      <div class="col-12 col-md-6 col-lg-4 p-3">
+        <app-card [property]="property"></app-card>
+      </div>
+    }
+  </div>
 </div>

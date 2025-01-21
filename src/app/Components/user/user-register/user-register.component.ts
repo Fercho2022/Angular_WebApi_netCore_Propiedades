@@ -1,4 +1,4 @@
-import { UserService } from '../../../Services/user.service';
+
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
@@ -9,8 +9,9 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { User } from '../../../Interfaces/IUser';
+import { UserFormRegister } from '../../../Interfaces/IUser';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../../Services/auth.service';
 
 @Component({
   selector: 'app-user-register',
@@ -20,13 +21,13 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './user-register.component.css',
 })
 export class UserRegisterComponent implements OnInit {
+
   registrationForm!: FormGroup;
   userSubmitted: boolean = false;
-
-  user!: User;
+  user!: UserFormRegister;
 
   private formBuilder = inject(FormBuilder);
-  private _userService = inject(UserService);
+  private _authService = inject(AuthService);
 
   constructor(private toastr:ToastrService){
 
@@ -61,17 +62,21 @@ export class UserRegisterComponent implements OnInit {
     console.log(this.registrationForm.value);
     this.userSubmitted = true;
     if (this.registrationForm.valid) {
-      this._userService.addUser(this.userData());
-      this.registrationForm.reset();
-      this.userSubmitted = false;
+      this._authService.registerUser(this.userData()).subscribe(()=>{
+        this.registrationForm.reset();
+        this.userSubmitted = false;
+        this.toastr.success('Felicitaciones, te has registrado');
+      }, error=>{
+        this.toastr.error('requiere tus credenciales');
+      }
+    );
 
-      this.toastr.success('Congrats, you are successfully registered');
-    } else {
-      this.toastr.error('Kindly provide the required fields');
+
+
     }
   }
 
-  userData(): User {
+  userData(): UserFormRegister {
     return (this.user = {
       userName: this.userName.value,
       email: this.email.value,
