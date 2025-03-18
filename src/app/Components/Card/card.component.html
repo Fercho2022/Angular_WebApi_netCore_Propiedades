@@ -2,7 +2,7 @@
   <div class="image-container">
     <img
       class="propImg"
-      src="assets/Images/{{ property.Image }}.jpg"
+      src="assets/Images/{{ property.image }}.jpg"
       alt="Imagen de la tarjeta"
     />
     @if(!hideIcons){
@@ -10,7 +10,7 @@
     <div class="buttons-container">
       <button
         class="btn btn-primary"
-        routerLink="/property-detail/{{ property.Id }}"
+        routerLink="/property-detail/{{ property.id }}"
         routerLinkActive="router-link-active"
       >
         <i class="fa-regular fa-pen-to-square"></i>
@@ -23,17 +23,24 @@
   </div>
 
   <div class="card-body p-1">
-    <h3 class="mb-0">{{ property.BHK }} BHK {{property.PType}}</h3>
-    en {{property.Name}},
-    @if(property.Name){
-      <span>{{property.City}}</span>
+    <h3 class="mb-0">{{ property.bhk }} BHK {{property.propertyType}}</h3>
+    en {{property.name}},
+    @if(property.name){
+      <span>{{property.city}}</span>
     }
 
     <h6 class="mt-2">
-    @if(property.FType!=='desamueblado'){
-      <span>Amoblamiento: {{ property.FType }}</span> | Listo para mudarse
+    @if(property.furnishingType!=='desamueblado'){
+      <span>Amoblamiento: {{ property.furnishingType }}</span>
+    @if(property.readyToMove){
+      <span> | Listo para mudarse</span>
+
+    }@else(){
+      <span> | Posesión: {{property.estPossessionOn | date:'dd/MM/yyyy' }} </span>
+    }
+
     }@else {
-      <span>Sin {{ property.FType }}</span> | Listo para mudarse
+      <span>Sin {{ property.furnishingType }}</span> | Listo para mudarse
     }
 
 
@@ -41,6 +48,6 @@
 
   </h6>
   <hr class="mt-0 mb-2">
-    <h6 class="mb-0">Precio: <span class="font-highlight">{{ property.Price }} USD.</span> | Area: <span class="font-highlight">{{property.BuiltArea}}</span> m<sup>2</sup></h6>
+    <h6 class="mb-0">Precio: <span class="font-highlight">{{ property.price }} USD.</span> | Area: <span class="font-highlight">{{property.builtArea}}</span> m<sup>2</sup></h6>
   </div>
 </div>

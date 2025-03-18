@@ -18,8 +18,8 @@ export const appConfig: ApplicationConfig = {
   providers: [
 
 
-    provideRouter(routes, withHashLocation()),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideRouter(routes),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideAnimations(),
     provideToastr({
       timeOut: 3000,

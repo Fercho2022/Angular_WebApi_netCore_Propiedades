@@ -5,11 +5,9 @@
     "Name": "Capilla del monte",
     "PType": "Casa",
     "Price": 11000,
-
     "CarpetArea": 300,
     "Address": "Mitre 243",
     "Address2": "",
-
     "FloorNo": "",
     "TotalFloors": "450",
     "RTM": true,

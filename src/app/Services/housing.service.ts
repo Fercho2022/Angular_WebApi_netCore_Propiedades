@@ -12,45 +12,22 @@ import { environment } from '../../environments/environment';
 })
 export class HousingService {
 
-  baseUrl=environment.baseUrl;
+
+  baseUrl = environment.baseUrl;
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
   private http = inject(HttpClient);
 
-  getAllCities():Observable<string[]>{
-
-    return  this.http.get<string[]>(`${this.baseUrl}/City`);
-
-
+  getAllCities(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseUrl}/City/cities`);
   }
 
-  getProperty(id: number): Observable<Property | undefined>{
-    return this.getAllProperties(undefined).pipe(
-      map(propertiesArray => {
-
-          const property = propertiesArray.find(p => p.Id === id);
-          if (!property) {
-              throw new Error('Property not found');
-          }
-          return property as Property;
-      })
-  );
-}
+  getProperty(id: number): Observable<Property | undefined> {
+   return this.http.get<Property>(this.baseUrl+'/property/detail/'+ id.toString())
+  }
 
   getAllProperties(sellRent?: number): Observable<IProperty[]> {
-    return this.http.get<IProperty[]>('assets/data/properties.json').pipe(
-      map((properties) => {
-        // Obtener propiedades del localStorage
-        const localProps = this.getAllLocalProperties();
-        // Combinar propiedades del JSON y localStorage
-        const allProperties = [...properties, ...localProps];
-
-        if (sellRent === undefined) {
-          return allProperties;
-        }
-        return allProperties.filter(
-          (property) => property.VentaAlquiler === sellRent
-        );
-      })
+    return this.http.get<IProperty[]>(
+      this.baseUrl + '/property/list/' + sellRent?.toString()
     );
   }
 
@@ -98,5 +75,32 @@ export class HousingService {
       }
     }
     return 101; // Valor por defecto cuando no estamos en el navegador
+  }
+
+  getPropertyAge(dateofEstablishment: string): string {
+
+    const today = new Date();
+    //Convierte el string de fecha de establecimiento a un objeto Date
+    const estDate = new Date(dateofEstablishment);
+    let age = today.getFullYear() - estDate.getFullYear();
+    const m = today.getMonth() - estDate.getMonth();
+
+    // Current month smaller than establishment month or
+    // Same month but current date smaller than establishment date
+    if (m < 0 || (m === 0 && today.getDate() < estDate.getDate())) {
+      age--;
+    }
+
+    // Establshment date is future date
+    if (today < estDate) {
+      return '0';
+    }
+
+    // Age is less than a year
+    if (age === 0) {
+      return 'menor a 1 año';
+    }
+
+    return age.toString();
   }
 }

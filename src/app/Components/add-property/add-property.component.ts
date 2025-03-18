@@ -31,21 +31,21 @@ export class AddPropertyComponent implements OnInit {
   propertyTypes: Array<string> = ['Casa', 'Departamento', 'Duplex'];
   furnishTypes: Array<string> = ['Completo', 'Semi Completo', 'Desamoblado'];
   cardinalTypes: Array<string> = ['Este', 'oeste', 'Norte', 'Sur'];
-cityList!:string[];
+  cityList!:any[];
 
   propertyView: IPropertyBase={
-    Id: null,
-    VentaAlquiler: null,
-    Name: '',
-    PType: '',
-    Price: null,
-    Image: 'house_default',
-    FType: '',
-    BHK: null,
-    BuiltArea: null,
-    City: '',
-    RTM: null,
-    PossesionOn:''
+    id: null,
+    sellRent: null,
+    name: '',
+    propertyType: '',
+    price: null,
+    image: 'house_default',
+    furnishingType: '',
+    bhk: null,
+    builtArea: null,
+    city: '',
+    readyToMove: null,
+    estPossessionOn:''
 
   }
 
@@ -65,7 +65,7 @@ cityList!:string[];
 
     // Suscribirse a los cambios del formulario
   this.Name.valueChanges.subscribe(value => {
-    this.propertyView.Name = value;
+    this.propertyView.name = value;
   });
   this.addPropertyForm.valueChanges.subscribe(values => {
     this.updatePropertyView(values);
@@ -83,10 +83,10 @@ cityList!:string[];
 
     this.propertyView = {
       ...this.propertyView,
-      Name: basicInfo.Name,
-      PType: basicInfo.PType,
-      City: basicInfo.City,
-      Price: priceInfo.Price,
+      name: basicInfo.Name,
+      propertyType: basicInfo.PType,
+      city: basicInfo.City,
+      price: priceInfo.Price,
       // ... actualizar otras propiedades
     };
   }
@@ -236,29 +236,29 @@ get AddressInfo(){
   }
 
   mapProperty():void{
-    this.property.Id=this._housingService.newPropId();
-    this.property.VentaAlquiler=+this.VentaAlquiler.value;
-    this.property.BHK = this.BHK.value;
-    this.property.PType = this.PType.value;
-    this.property.Name = this.Name.value;
-    this.property.City = this.City.value;
-    this.property.FType = this.FType.value;
-    this.property.Image= "house_default";
-    this.property.Price = this.Price.value;
-    this.property.Security = this.Security.value;
-    this.property.Maintenance = this.Maintenance.value;
-    this.property.BuiltArea = this.BuiltArea.value;
-    this.property.CarpetArea = this.CarpetArea.value;
-    this.property.FloorNo = this.FloorNo.value;
-    this.property.TotalFloors = this.TotalFloor.value;
-    this.property.Address = this.Address.value;
-    this.property.Address2 = this.LandMark.value;
-    this.property.RTM = this.RTM.value;
-    this.property.Gated = this.Gated.value;
-    this.property.MainEntrance = this.MainEntrance.value;
-    this.property.Description = this.Description.value;
-    this.property.PossesionOn = this.PossesionOn.value;
-    this.property.PostedOn = new Date().toString();
+    this.property.id=this._housingService.newPropId();
+    this.property.sellRent=+this.VentaAlquiler.value;
+    this.property.bhk = this.BHK.value;
+    this.property.propertyType = this.PType.value;
+    this.property.name = this.Name.value;
+    this.property.city = this.City.value;
+    this.property.furnishingType = this.FType.value;
+    this.property.image= "house_default";
+    this.property.price = this.Price.value;
+    this.property.security = this.Security.value;
+    this.property.maintenance = this.Maintenance.value;
+    this.property.builtArea = this.BuiltArea.value;
+    this.property.carpetArea = this.CarpetArea.value;
+    this.property.floorNo = this.FloorNo.value;
+    this.property.totalFloors = this.TotalFloor.value;
+    this.property.address = this.Address.value;
+    this.property.address2 = this.LandMark.value;
+    this.property.readyToMove = this.RTM.value;
+    this.property.gated = this.Gated.value;
+    this.property.mainEntrance = this.MainEntrance.value;
+    this.property.description = this.Description.value;
+    this.property.estPossessionOn = this.PossesionOn.value;
+    this.property.postedOn = new Date().toString();
 
   }
 

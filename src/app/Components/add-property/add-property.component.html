@@ -52,7 +52,7 @@
                         tabindex="0"
                         role="button"
                         [btnRadio]="bhk"
-                        (click)="propertyView.BHK = bhk"
+                        (click)="propertyView.bhk = bhk"
                         name="BHK"
                         >{{ bhk }}</label
                       >
@@ -77,7 +77,7 @@
                         role="button"
                         [btnRadio]="pType"
                         name="PType"
-                        (click)="propertyView.PType = pType"
+                        (click)="propertyView.propertyType = pType"
                         >{{ pType }}</label
                       >
                       }
@@ -103,7 +103,7 @@
                         [btnRadio]="fType"
                         role="button"
                         name="FType"
-                        (click)="propertyView.FType = fType"
+                        (click)="propertyView.furnishingType = fType"
                         >{{ fType }}</label
                       >
                       }
@@ -143,16 +143,15 @@
                     <select
                       class="form-control"
                       formControlName="City"
-
                       name="City"
                     >
                       <option value="">--Seleccionar Ciudad--</option>
-                      @for(city of cityList; track city){
-                      <option [value]="city">{{ city }}</option>
+                      @for(city of cityList; track city) {
+                        <option [ngValue]="city">{{ city.name }} ({{ city.country }})</option>
                       }
                     </select>
                     @if(City.invalid && (nextClicked || City.touched)){
-                    <div class="error-block">Por favor seleccionar ciudad</div>
+                      <div class="error-block">Por favor seleccionar ciudad</div>
                     }
                   </div>
                   <div class="form-group col-12">
@@ -181,7 +180,7 @@
                       type="number"
                       class="form-control"
                       formControlName="Price"
-                      [(ngModel)]="propertyView.Price"
+                      [(ngModel)]="propertyView.price"
                       name="Price"
                     />
                   </div>
@@ -298,7 +297,7 @@
                         btnRadio="true"
                         tabindex="0"
                         role="button"
-                        (click)="propertyView.RTM = true"
+                        (click)="propertyView.readyToMove = true"
                         name="RTM"
                         >Si
                       </label>
@@ -308,7 +307,7 @@
                         btnRadio="false"
                         tabindex="0"
                         role="button"
-                        (click)="propertyView.RTM = false"
+                        (click)="propertyView.readyToMove = false"
                         name="RTM"
                         >No
                       </label>
@@ -319,15 +318,15 @@
                   </div>
 
                   <div class="form-group col-6">
-                    <label *ngIf="propertyView.RTM">Fecha pactada</label>
-                    <label *ngIf="!propertyView.RTM">Fecha de posesión</label>
+                    <label *ngIf="propertyView.readyToMove">Fecha pactada</label>
+                    <label *ngIf="!propertyView.readyToMove">Fecha de posesión</label>
                     <input
                       type="text"
                       class="form-control"
                       formControlName="PossesionOn"
                       #possessionOn
                       (bsValueChange)="
-                        propertyView.PossesionOn = PossesionOn.value
+                        propertyView.estPossessionOn = PossesionOn.value
                       "
                       bsDatepicker
                       [bsConfig]="{

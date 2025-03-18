@@ -9,19 +9,23 @@
 
       <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
         <div class="form-group col-12">
-            <label for="name" class="form-label">Nombre</label>
-            <input type="text" class="form-control" formControlName="userName" >
-            @if(userName.invalid && (userName.touched || userSubmitted)){
-              <span class="error-block">
+          <label for="name" class="form-label">Nombre</label>
+          <input type="text" class="form-control" formControlName="userName"
+            [ngClass]="{'is-invalid': userName.invalid && (userName.touched || userSubmitted)}">
+          @if(userName.invalid && (userName.touched || userSubmitted)){
+            <span class="error-block">
+              @if(userName.errors?.['required']){
                 Por favor, proveer nombre.
-                @if(userName.errors?.['minlength']){
-                  <span class="error-block">El nombre debe tener al menos 5 caracteres</span>
-                }
-              </span>
-
+              }
+              @if(userName.errors?.['minlength']){
+                <span class="error-block">El nombre debe tener al menos 5 caracteres</span>
+              }
+              @if(userName.errors?.['whitespace']){
+                <span class="error-block">El nombre de usuario no puede contener espacios en blanco</span>
+              }
+            </span>
           }
-
-          </div>
+        </div>
         <div class="form-group col-12">
           <label for="email" class="form-label">Email</label>
           <input type="text" class="form-control" formControlName="email">

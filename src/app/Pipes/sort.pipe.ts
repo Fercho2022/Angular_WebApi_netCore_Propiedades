@@ -6,6 +6,7 @@ import { IProperty } from '../Interfaces/IProperty';
   standalone: true
 })
 export class SortPipe implements PipeTransform {
+
   transform(value: Array<IProperty>, args: [keyof IProperty, string]): Array<IProperty> {
     const sortField = args[0];
     const sortDirection = args[1];
@@ -13,7 +14,7 @@ export class SortPipe implements PipeTransform {
     if (value) {
       return [...value].sort((a: IProperty, b: IProperty) => {
         // Para ordenamiento numérico (Price)
-        if (sortField === 'Price') {
+        if (sortField === 'price') {
           // Convertimos a números y comparamos directamente
           const numA = Number(a[sortField]);
           const numB = Number(b[sortField]);

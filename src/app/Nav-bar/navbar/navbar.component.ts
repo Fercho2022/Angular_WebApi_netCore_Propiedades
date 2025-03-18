@@ -4,6 +4,7 @@ import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/rou
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { IDropdown } from '../../Interfaces/dropdown';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../Services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -22,7 +23,8 @@ export class NavbarComponent {
   constructor(
     private router: Router,
     private toastr: ToastrService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private authService:AuthService
   ) {}
 
   loggedinUser: string = '';
@@ -45,7 +47,7 @@ export class NavbarComponent {
     {
       text: 'Logout',
       icon: 'fas fa-sign-out-alt',
-      action: () => this.onLogout(),
+      action: () => this.authService.logout(),
     },
   ];
 
@@ -59,14 +61,8 @@ export class NavbarComponent {
     return false;
   }
 
-  onLogout() {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('userName');
-      this.router.navigate(['/']);
-      this.toastr.success("You are logged out");
-    }
-  }
+
+
 
   changePassword() {
     this.router.navigate(['/']);

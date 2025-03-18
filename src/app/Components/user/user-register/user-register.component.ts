@@ -41,7 +41,8 @@ export class UserRegisterComponent implements OnInit {
   createRegistrationForm() {
     this.registrationForm = this.formBuilder.group(
       {
-        userName: ['', [Validators.required, Validators.minLength(5)]],
+        userName: ['', [Validators.required, Validators.minLength(5), // Agregamos un validador personalizado para espacios
+        this.noWhitespaceValidator]],
         password: ['', [Validators.required, Validators.minLength(8)]],
         confirmPassword: ['', [Validators.required]],
         mobile: ['', [Validators.required]],
@@ -50,6 +51,12 @@ export class UserRegisterComponent implements OnInit {
       { validators: this.passwordMatchingValidator }
     );
   }
+
+  // Agregamos el validador personalizado
+noWhitespaceValidator(control: FormControl): ValidationErrors | null {
+  const hasWhitespace = (control.value || '').includes(' ');
+  return hasWhitespace ? { 'whitespace': true } : null;
+}
 
   passwordMatchingValidator(fg: FormGroup): ValidationErrors | null {
     const password = fg.get('password')?.value;

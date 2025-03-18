@@ -20,7 +20,7 @@
 
 <div class="container">
   <div class="row justify-content-center g-4">
-    @for(property of properties | filter:SearchCity:'City'| sort:[SortByParam, SortDirection]; track property.Id){
+    @for(property of properties | filter:SearchCity:'City'| sort:[SortByParam, SortDirection]; track property.id){
       <div class="col-12 col-md-6 col-lg-4 p-3">
         <app-card [property]="property"></app-card>
       </div>

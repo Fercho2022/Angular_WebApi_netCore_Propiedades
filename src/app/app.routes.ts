@@ -5,6 +5,8 @@ import { PropertyDetailComponent } from './Components/property-detail/property-d
 import { UserLoginComponent } from './Components/user/user-login/user-login.component';
 import { UserRegisterComponent } from './Components/user/user-register/user-register.component';
 import { PropertyDetailResolverService } from './Services/property-detail-resolver.service';
+import { ForgotPasswordComponent } from './Components/user/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './Components/user/reset-password/reset-password.component';
 
 export const routes: Routes = [
   {path: '', component: ListCardComponent },
@@ -16,5 +18,7 @@ export const routes: Routes = [
   },
   {path: 'user/login', component:UserLoginComponent},
   {path: 'user/register', component:UserRegisterComponent},
+  {path: 'user/forgot-password', component: ForgotPasswordComponent},
+  {path: 'user/reset-password', component: ResetPasswordComponent},
   {path: '**', component: ListCardComponent },
 ];

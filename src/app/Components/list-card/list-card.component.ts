@@ -30,7 +30,7 @@ export class ListCardComponent implements OnInit {
   SellRent = 1;
   City = '';
   SearchCity = '';
-  SortByParam: keyof IProperty = 'City';
+  SortByParam: keyof IProperty = 'city';
   SortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
@@ -49,17 +49,26 @@ export class ListCardComponent implements OnInit {
   }
 
   private async loadProperties(): Promise<void> {
+
     try {
-      const data = await firstValueFrom(this.housingService.getAllProperties(this.SellRent));
-      this.properties = data;
+
+      this.housingService.getAllProperties(this.SellRent).subscribe(data=>{
+
+        this.properties=data;
+
+        console.log(data);
+
+      })
 
       if (isPlatformBrowser(this.platformId)) {
         this.addNewPropertyIfExists();
       }
+
     } catch (error) {
       console.error('Error loading properties:', error);
       this.properties = []; // Fallback a un array vacío en caso de error
     }
+
   }
 
   private addNewPropertyIfExists(): void {

@@ -1,116 +1,133 @@
 <div class="container-fluid">
-<div class="row">
-  <div class="col-sm-12 col-md-4 p-0">
-    <div class="card">
-      @if(property.Image){
-        <img class="card-img-top" src="assets/Images/{{property.Image}}.jpg" />
-      }@else {
+  <div class="row">
+    <div class="col-sm-12 col-md-4 p-0">
+      <div class="card">
+        @if(property.image){
+        <img
+          class="card-img-top"
+          src="assets/Images/{{ property.image }}.jpg"
+        />
+        }@else {
         <img class="card-img-top" src="assets/Images/prop-7.jpg" />
-      }
+        }
 
-      <div class="card-body">
-        <h1 class="card-title">{{ property.Name }}</h1>
-        <div>
-          <strong
-            >{{ property.BHK }} BHKL {{ property.PType }} USD
-            {{ property.Price }}</strong
-          >
+        <div class="card-body">
+          <h1 class="card-title">{{ property.name }}</h1>
+          <div>
+            <strong
+              >{{ property.bhk }} BHKL {{ property.propertyType }} USD
+              {{ property.price }}</strong
+            >
+          </div>
+          <div>
+            <strong>{{ property.city }}</strong>
+          </div>
+          <hr />
+          <div>
+            <strong>Area construida:</strong>
+            {{ property.builtArea }} m<sup>2</sup>
+          </div>
+          <div>
+            <strong>Area cubierta:</strong>
+            {{ property.carpetArea }} m<sup>2</sup>
+          </div>
+          <div>
+            <strong>Tipo de amoblamiento:</strong>
+            {{ property.furnishingType }}
+          </div>
+          <div>
+            <strong>Disponible para:  </strong>
+            @if(property.sellRent==1){
+             <span>Compra</span>
+            }@else if(property.sellRent==2){
+            <span>Alquiler</span>
+            }
+          </div>
         </div>
-        <div>
-          <strong>{{ property.City }}</strong>
-        </div>
-        <hr />
-        <div>
-          <strong>Area construida:</strong>
-          {{ property.BuiltArea }} m<sup>2</sup>
-        </div>
-        <div>
-          <strong>Area cubierta:</strong>
-          {{ property.CarpetArea }} m<sup>2</sup>
-        </div>
-        <div>
-          <strong>Tipo de amoblamiento:</strong>
-          {{ property.FType }}
-        </div>
-      </div>
-      <div class="card-footer text-body-secondary">
-        <div class="btn-group d-flex">
-          <button class="btn btn-primary">Like</button>
-          <button class="btn btn-success">Message</button>
+        <div class="card-footer text-body-secondary">
+          <div class="btn-group d-flex">
+            <button class="btn btn-primary">Me gusta</button>
+            <button class="btn btn-success">Mensaje</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="col-sm-12 col-md-8 p-0">
-    <div class="tab-panel p-3">
-      <tabset class="member-tabset">
-        <tab heading="Introducción">
-          <h1>Introducción</h1>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="heading">
-                <strong>Nombre Propiedad</strong>
-                <p>{{property.Name}}</p>
-              </div>
-              <div class="heading">
-                <strong>Número de piso</strong>
-                <p>{{property.FloorNo}}</p>
-              </div>
-              <div class="heading">
-                <strong>Años de la propiedad</strong>
-                <p>{{property.AOP}}</p>
-              </div>
-              <div class="heading">
-                <strong>Fecha posesión</strong>
-                <p>{{property.PossesionOn}}</p>
-              </div>
-            </div>
+    <div class="col-sm-12 col-md-8 p-0">
+      <div class="tab-panel p-3">
+        <tabset class="member-tabset">
+          <tab heading="Introducción">
+            <h1>Introducción</h1>
+            <div class="row">
               <div class="col-sm-6">
-              <div class="heading">
-                <strong>Entrada principal</strong>
-                <p>{{property.MainEntrance}}</p>
+                <div class="heading">
+                  <strong>Nombre Propiedad</strong>
+                  <p>{{ property.name }}</p>
+                </div>
+                <div class="heading">
+                  <strong>Número de piso</strong>
+                  <p>{{ property.floorNo }} de {{ property.totalFloors }}</p>
+                </div>
+                <div class="heading">
+                  <strong>Años de la propiedad</strong>
+                  <p>{{ property.age }}</p>
+                </div>
+                <div class="heading">
+                  <strong>Fecha posesión</strong>
+                  <p>{{ property.estPossessionOn | date:'dd/MM/yyyy'}}</p>
+                </div>
               </div>
-              <div class="heading">
-                <strong>Barrio privado</strong>
-                <p>{{property.Gated}}</p>
+              <div class="col-sm-6">
+                <div class="heading">
+                  <strong>Entrada principal</strong>
+                  <p>{{ property.mainEntrance }}</p>
+                </div>
+                <div class="heading">
+                  <strong>Barrio privado</strong>
+                  @if(property.gated){
+                    <p>Si</p>
+                  }@else{
+                    <p>No</p>
+                  }
+
+                </div>
+                <div class="heading">
+                  <strong>Depósito de seguro</strong>
+                  <p>{{ property.security }}</p>
+                </div>
+                <div class="heading">
+                  <strong>Mantenimiento</strong>
+                  <p>{{ property.maintenance }}</p>
+                </div>
               </div>
-              <div class="heading">
-                <strong>Depósito de seguro</strong>
-                <p>{{property.Security}}</p>
-              </div>
-              <div class="heading">
-                <strong>Mantenimiento</strong>
-                <p>{{property.Maintenance}}</p>
+              <div class="col-sm-12">
+                <div class="heading">
+                  <strong>Acerca de la propiedad</strong>
+                  <p>{{ property.description }}</p>
+                </div>
               </div>
             </div>
+          </tab>
+          <tab heading="Dirección">
             <div class="col-sm-12">
+              <h1>Domicilio</h1>
               <div class="heading">
-                  <strong>About Property</strong>
-                  <p>{{property.Description}}</p>
+                <strong>{{ property.address }}</strong>
+                <strong>{{ property.address2 }}</strong>
+                <strong>{{ property.city }}</strong>
               </div>
-          </div>
             </div>
+          </tab>
+          <tab heading="Fotos">
+            <ngx-gallery
+              [options]="galleryOptions"
+              [images]="galleryImages"
+              class="ngx-gallery"
+            ></ngx-gallery>
+          </tab>
 
-        </tab>
-        <tab heading="Dirección">
-          <div class="col-sm-12">
-            <h1>Domicilio</h1>
-            <div class="heading">
-              <strong>{{ property.Address }}</strong>
-              <strong>{{ property.Address2 }}</strong>
-              <strong>{{ property.City }}</strong>
-            </div>
-          </div>
-        </tab>
-        <tab heading="Fotos">
-
-          <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
-
-        </tab>
-
-        <tab heading="Contacto"> </tab>
-      </tabset>
+          <tab heading="Contacto"> </tab>
+        </tabset>
+      </div>
     </div>
   </div>
-</div>
 </div>
