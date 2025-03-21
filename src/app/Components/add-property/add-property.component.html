@@ -66,26 +66,32 @@
 
                   <div class="form-group col-12 mt-3">
                     <p>Tipo de propiedad</p>
-                    <div
-                      class="btn-group"
-                      btnRadioGroup
-                      formControlName="PType"
-                    >
-                      @for (pType of propertyTypes; track $index ){
-                      <label
-                        class="btn btn-outline-primary me-2"
-                        role="button"
-                        [btnRadio]="pType"
-                        name="PType"
-                        (click)="propertyView.propertyType = pType"
-                        >{{ pType }}</label
-                      >
+                    <div class="btn-group-vertical w-100">
+                      @for (row of [0, 3, 6]; track row) {
+                        <div class="btn-group mb-2">
+                          @for (i of [0, 1, 2]; track i) {
+                            @if (propertyTypes[row + i]) {
+                              <label
+                                class="btn btn-outline-primary"
+                                [style.border-top-left-radius]="i === 0 ? '1rem' : '0'"
+                                [style.border-bottom-left-radius]="i === 0 ? '1rem' : '0'"
+                                [style.border-top-right-radius]="(i === 2 || row + i === propertyTypes.length - 1) ? '1rem' : '0'"
+                                [style.border-bottom-right-radius]="(i === 2 || row + i === propertyTypes.length - 1) ? '1rem' : '0'"
+                                role="button"
+                                [btnRadio]="propertyTypes[row + i].id"
+                                name="PType"
+                                (click)="propertyView.propertyType = propertyTypes[row + i].name">
+                                {{ propertyTypes[row + i].name }}
+                              </label>
+                            }
+                          }
+                        </div>
                       }
                     </div>
                     @if(PType.invalid && nextClicked){
-                    <div class="error-block">
-                      Por favor seleccionar tipo de propiedad
-                    </div>
+                      <div class="error-block">
+                        Por favor seleccionar tipo de propiedad
+                      </div>
                     }
                   </div>
 
@@ -96,15 +102,15 @@
                       btnRadioGroup
                       formControlName="FType"
                     >
-                      @for (fType of furnishTypes; track $index ){
+                      @for (fType of furnishingTypes; track $index ){
                       <label
                         class="btn btn-outline-primary me-2"
                         tabindex="0"
                         [btnRadio]="fType"
                         role="button"
                         name="FType"
-                        (click)="propertyView.furnishingType = fType"
-                        >{{ fType }}</label
+                        (click)="propertyView.furnishingType = fType.name"
+                        >{{ fType.name }}</label
                       >
                       }
                     </div>
@@ -147,7 +153,7 @@
                     >
                       <option value="">--Seleccionar Ciudad--</option>
                       @for(city of cityList; track city) {
-                        <option [ngValue]="city">{{ city.name }} ({{ city.country }})</option>
+                        <option [ngValue]="city.name">{{ city.name }} ({{ city.country }})</option>
                       }
                     </select>
                     @if(City.invalid && (nextClicked || City.touched)){

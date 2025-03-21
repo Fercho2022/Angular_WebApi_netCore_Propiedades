@@ -6,6 +6,7 @@ import { Property } from '../Interfaces/property';
 import { IPropertyBase } from '../Interfaces/IPropertyBase';
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from '../../environments/environment';
+import { IKeyValueTypes } from '../Interfaces/IKeyValueTypes';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,8 @@ export class HousingService {
     return this.http.get<IProperty[]>(
       this.baseUrl + '/property/list/' + sellRent?.toString()
     );
+
+
   }
 
   addProperty(property: Property) {
@@ -102,5 +105,14 @@ export class HousingService {
     }
 
     return age.toString();
+  }
+
+  // Nuevo método para obtener tipos de propiedad
+  getAllPropertyTypes(): Observable<IKeyValueTypes[]> {
+    return this.http.get<IKeyValueTypes[]>(`${this.baseUrl}/PropertyType/list`);
+  }
+
+  getAllFurnishingTypes(): Observable<IKeyValueTypes[]>{
+    return this.http.get<IKeyValueTypes[]>(`${this.baseUrl}/FurnishingType/list`)
   }
 }
