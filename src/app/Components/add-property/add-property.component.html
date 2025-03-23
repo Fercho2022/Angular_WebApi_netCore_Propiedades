@@ -66,8 +66,10 @@
 
                   <div class="form-group col-12 mt-3">
                     <p>Tipo de propiedad</p>
-                    <div class="btn-group-vertical w-100">
+                    <!-- Movemos btnRadioGroup y formControlName al contenedor principal -->
+                    <div class="btn-group-vertical w-100" btnRadioGroup formControlName="PType">
                       @for (row of [0, 3, 6]; track row) {
+                        <!-- Mantenemos la clase btn-group para mantener la apariencia visual -->
                         <div class="btn-group mb-2">
                           @for (i of [0, 1, 2]; track i) {
                             @if (propertyTypes[row + i]) {
@@ -79,7 +81,6 @@
                                 [style.border-bottom-right-radius]="(i === 2 || row + i === propertyTypes.length - 1) ? '1rem' : '0'"
                                 role="button"
                                 [btnRadio]="propertyTypes[row + i].id"
-                                name="PType"
                                 (click)="propertyView.propertyType = propertyTypes[row + i].name">
                                 {{ propertyTypes[row + i].name }}
                               </label>
@@ -102,11 +103,11 @@
                       btnRadioGroup
                       formControlName="FType"
                     >
-                      @for (fType of furnishingTypes; track $index ){
+                      @for (fType of furnishingTypes; track fType.id ){
                       <label
                         class="btn btn-outline-primary me-2"
                         tabindex="0"
-                        [btnRadio]="fType"
+                        [btnRadio]="fType.id"
                         role="button"
                         name="FType"
                         (click)="propertyView.furnishingType = fType.name"
@@ -186,7 +187,8 @@
                       type="number"
                       class="form-control"
                       formControlName="Price"
-                      [(ngModel)]="propertyView.price"
+                      #price
+                      (input)="propertyView.price = price.value ? +price.value : null"
                       name="Price"
                     />
                   </div>
@@ -197,6 +199,29 @@
                     }@else{ rent }
                   </div>
                   }
+                  <div class="form-group col-12">
+                    <label class="mt-2">Seguridad (en USD)</label>
+                    <input
+                      type="number"
+
+                      class="form-control"
+                      formControlName="Security"
+                      #security
+                      (input)="propertyView.security = security.value ? +security.value : null"
+                    />
+                  </div>
+
+                  <div class="form-group col-12">
+                    <label class="mt-2">Mantenimiento (en USD)</label>
+                    <input
+                      type="number"
+
+                      class="form-control"
+                      formControlName="Maintenance"
+                      #maintenance
+                      (input)="propertyView.maintenance = maintenance.value ? +maintenance.value : null"
+                    />
+                  </div>
 
                   <div class="form-group col-12">
                     <label class="mt-2">Metros cuadrados construidos</label>
@@ -204,12 +229,14 @@
                       type="text"
                       class="form-control"
                       formControlName="BuiltArea"
+                      #builtArea
+                      (input)="propertyView.builtArea=builtArea.value ? +builtArea.value : null"
                     />
                   </div>
-                  @if(BuiltArea.invalid && nextClicked){
-                  <div class="error-block">
-                    Por favor seleccionar metros cuadrados
-                  </div>
+                  @if(BuiltArea.invalid && (nextClicked || BuiltArea.touched)){
+                    <div class="error-block">
+                      Por favor seleccionar metros cuadrados
+                    </div>
                   }
                   <div class="form-group col-12">
                     <label class="mt-2">Metros cuadrados cubiertos</label>
@@ -256,7 +283,6 @@
                   </div>
                   <div class="form-group col-12">
                     <label class="mt-2">Domicilio</label>
-
                     <input
                       type="text"
                       class="form-control"
@@ -264,7 +290,7 @@
                     />
                   </div>
                   @if(Address.invalid && (nextClicked || Address.touched)){
-                  <div class="error-block">Por favor ingresar dirección</div>
+                    <div class="error-block">Por favor ingresar dirección</div>
                   }
 
                   <div class="form-group col-12">

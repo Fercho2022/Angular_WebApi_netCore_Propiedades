@@ -7,6 +7,9 @@ export interface IPropertyBase {
   price?: number | null;
   bhk: number | null;
   builtArea: number | null;
+  carpetArea?: number | null;
+  security?: number | null;
+  maintenance?: number | null;
   city: string;
   readyToMove: boolean | null;
   estPossessionOn: string;

@@ -43,8 +43,8 @@ export class AddPropertyComponent implements OnInit {
   property = new Property();
 
   addPropertyForm!: FormGroup;
-  propertyTypes: IKeyValueTypes[]=[];
-  furnishingTypes: IKeyValueTypes[]=[];
+  propertyTypes: IKeyValueTypes[] = [];
+  furnishingTypes: IKeyValueTypes[] = [];
   cardinalTypes: Array<string> = ['Este', 'oeste', 'Norte', 'Sur'];
   cityList!: any[];
 
@@ -58,6 +58,9 @@ export class AddPropertyComponent implements OnInit {
     furnishingType: '',
     bhk: null,
     builtArea: null,
+    carpetArea: null, // Añadir esta propiedad
+    security: null, // Añadir esta propiedad
+    maintenance: null, // Añadir esta propiedad
     city: '',
     readyToMove: null,
     estPossessionOn: '',
@@ -77,39 +80,74 @@ export class AddPropertyComponent implements OnInit {
     this.Name.valueChanges.subscribe((value) => {
       this.propertyView.name = value;
     });
+
+    // Añadir estas suscripciones para mantener la vista previa actualizada
+  this.Price.valueChanges.subscribe((value) => {
+    this.propertyView.price = value;
+  });
+
+  this.BuiltArea.valueChanges.subscribe((value) => {
+    this.propertyView.builtArea = value;
+  });
+
+  this.CarpetArea.valueChanges.subscribe((value) => {
+    // Añadir esta propiedad a IPropertyBase si no existe
+    this.propertyView['carpetArea'] = value;
+  });
+
+  this.Security.valueChanges.subscribe((value) => {
+    // Añadir esta propiedad a IPropertyBase si no existe
+    this.propertyView['security'] = value;
+  });
+
+  this.Maintenance.valueChanges.subscribe((value) => {
+    // Añadir esta propiedad a IPropertyBase si no existe
+    this.propertyView['maintenance'] = value;
+  });
     this.addPropertyForm.valueChanges.subscribe((values) => {
       this.updatePropertyView(values);
     });
     this._housingService.getAllCities().subscribe((data) => {
-      console.log(data);
       this.cityList = data;
-
     });
-    this._housingService.getAllPropertyTypes().subscribe(data=>{
+    this._housingService.getAllPropertyTypes().subscribe((data) => {
       console.log('Tipos de propiedad:', data);
-      this.propertyTypes=data;
+      this.propertyTypes = data;
     });
 
-    this._housingService.getAllFurnishingTypes().subscribe(data=>{
+    this._housingService.getAllFurnishingTypes().subscribe((data) => {
       console.log('Tipos de amoblamiento:', data);
-      this.furnishingTypes=data;
-    })
-
+      this.furnishingTypes = data;
+    });
   }
 
   updatePropertyView(values: any) {
     const basicInfo = values.BasicInfo;
     const priceInfo = values.PriceInfo;
+// En lugar de crear un nuevo objeto con spread operator,
+  // actualizamos solo las propiedades específicas
+  if (basicInfo) {
+    if (basicInfo.Name !== undefined) this.propertyView.name = basicInfo.Name;
+    if (basicInfo.PType !== undefined) {
+      // Para propiedades que son objetos, necesitamos convertir el ID a nombre
+      const selectedPType = this.propertyTypes.find(pt => pt.id === basicInfo.PType);
+      if (selectedPType) this.propertyView.propertyType = selectedPType.name;
+    }
+    if (basicInfo.City !== undefined) this.propertyView.city = basicInfo.City;
+    if (basicInfo.BHK !== undefined) this.propertyView.bhk = basicInfo.BHK;
+    if (basicInfo.FType !== undefined) {
+      const selectedFType = this.furnishingTypes.find(ft => ft.id === basicInfo.FType);
+      if (selectedFType) this.propertyView.furnishingType = selectedFType.name;
+    }
+  }
 
-    this.propertyView = {
-      ...this.propertyView,
-      name: basicInfo.Name,
-      propertyType: basicInfo.PType,
-      city: basicInfo.City,
-      price: priceInfo.Price,
-
-      // ... actualizar otras propiedades
-    };
+  if (priceInfo) {
+    if (priceInfo.Price !== undefined) this.propertyView.price = priceInfo.Price;
+    if (priceInfo.BuiltArea !== undefined) this.propertyView.builtArea = priceInfo.BuiltArea;
+    if (priceInfo.CarpetArea !== undefined) this.propertyView.carpetArea = priceInfo.CarpetArea;
+    if (priceInfo.Security !== undefined) this.propertyView.security = priceInfo.Security;
+    if (priceInfo.Maintenance !== undefined) this.propertyView.maintenance = priceInfo.Maintenance;
+  }
   }
 
   CreatedAddPropertyForm() {
@@ -126,8 +164,8 @@ export class AddPropertyComponent implements OnInit {
         Price: [null, Validators.required],
         BuiltArea: [null, Validators.required],
         CarpetArea: [null],
-        Security: [0],
-        Maintenance: [0],
+        Security: [null],
+        Maintenance: [null],
       }),
       AddressInfo: this.fb.group({
         FloorNo: [null],
@@ -259,28 +297,28 @@ export class AddPropertyComponent implements OnInit {
 
   mapProperty(): void {
     this.property.id = this._housingService.newPropId();
-    this.property.sellRent = +this.VentaAlquiler.value;
-    this.property.bhk = this.BHK.value;
-    this.property.propertyType = this.PType.value;
-    this.property.name = this.Name.value;
-    this.property.city = this.City.value;
-    this.property.furnishingType = this.FType.value;
-    this.property.image = 'house_default';
-    this.property.price = this.Price.value;
-    this.property.security = this.Security.value;
-    this.property.maintenance = this.Maintenance.value;
-    this.property.builtArea = this.BuiltArea.value;
-    this.property.carpetArea = this.CarpetArea.value;
-    this.property.floorNo = this.FloorNo.value;
-    this.property.totalFloors = this.TotalFloor.value;
-    this.property.address = this.Address.value;
-    this.property.address2 = this.LandMark.value;
-    this.property.readyToMove = this.RTM.value;
-    this.property.gated = this.Gated.value;
-    this.property.mainEntrance = this.MainEntrance.value;
-    this.property.description = this.Description.value;
-    this.property.estPossessionOn = this.PossesionOn.value;
-    this.property.postedOn = new Date().toString();
+  this.property.sellRent = +this.VentaAlquiler.value;
+  this.property.bhk = this.BHK.value;
+  this.property.propertyType = this.PType.value; // Usa el ID, no el objeto completo
+  this.property.name = this.Name.value;
+  this.property.city = this.City.value;
+  this.property.furnishingType = this.FType.value; // Usa el ID, no el objeto completo
+  this.property.image = 'house_default';
+  this.property.price = this.Price.value;
+  this.property.security = this.Security.value;
+  this.property.maintenance = this.Maintenance.value;
+  this.property.builtArea = this.BuiltArea.value;
+  this.property.carpetArea = this.CarpetArea.value;
+  this.property.floorNo = this.FloorNo.value;
+  this.property.totalFloors = this.TotalFloor.value;
+  this.property.address = this.Address.value;
+  this.property.address2 = this.LandMark.value;
+  this.property.readyToMove = this.RTM.value;
+  this.property.gated = this.Gated.value;
+  this.property.mainEntrance = this.MainEntrance.value;
+  this.property.description = this.Description.value;
+  this.property.estPossessionOn = this.PossesionOn.value;
+  this.property.postedOn = new Date().toString();
   }
 
   allTabsValid(): boolean {
@@ -305,7 +343,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   selectTab(tabId: number, IsCurrentTabValid: boolean) {
-    this.nextClicked = true;
+    this.nextClicked = tabId > 2; // Solo marca nextClicked como true al avanzar más allá del tab 2
     if (IsCurrentTabValid) {
       this.staticTabs!.tabs[tabId].active = true;
     }
