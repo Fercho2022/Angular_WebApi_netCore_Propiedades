@@ -117,7 +117,7 @@
                     </div>
                     @if(FType.invalid && nextClicked){
                     <div class="error-block">
-                      Por favor seleccionar tipo de amueblamiento
+                      Por favor seleccionar tipo de amoblamiento
                     </div>
                     }
                   </div>
@@ -154,7 +154,7 @@
                     >
                       <option value="">--Seleccionar Ciudad--</option>
                       @for(city of cityList; track city) {
-                        <option [ngValue]="city.name">{{ city.name }} ({{ city.country }})</option>
+                        <option [ngValue]="city.id">{{ city.name }} ({{ city.country }})</option>
                       }
                     </select>
                     @if(City.invalid && (nextClicked || City.touched)){
@@ -226,7 +226,7 @@
                   <div class="form-group col-12">
                     <label class="mt-2">Metros cuadrados construidos</label>
                     <input
-                      type="text"
+                      type="number"
                       class="form-control"
                       formControlName="BuiltArea"
                       #builtArea
@@ -241,7 +241,7 @@
                   <div class="form-group col-12">
                     <label class="mt-2">Metros cuadrados cubiertos</label>
                     <input
-                      type="text"
+                      type="number"
                       class="form-control"
                       formControlName="CarpetArea"
                     />
@@ -344,38 +344,43 @@
                         >No
                       </label>
                     </div>
-                    <div class="error-block" *ngIf="RTM.invalid && nextClicked">
-                      Por favor seleccionar listo para mudarse
-                    </div>
+                    @if(RTM.invalid && nextClicked){
+                      <div class="error-block">
+                        Por favor seleccionar listo para mudarse
+                      </div>
+                    }
                   </div>
 
-                  <div class="form-group col-6">
-                    <label *ngIf="propertyView.readyToMove">Fecha pactada</label>
-                    <label *ngIf="!propertyView.readyToMove">Fecha de posesión</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="PossesionOn"
-                      #possessionOn
-                      (bsValueChange)="
-                        propertyView.estPossessionOn = PossesionOn.value
-                      "
-                      bsDatepicker
-                      [bsConfig]="{
-                        containerClass: 'theme-dark-blue',
-                        dateInputFormat: 'MMM DD, YYYY'
-                      }"
-                    />
-                    <div
-                      class="error-block"
-                      *ngIf="
-                        PossesionOn.invalid &&
-                        (nextClicked || PossesionOn.touched)
-                      "
-                    >
-                      Por favor seleccionar fecha de posesion/establecida
+
+
+                  <!-- Campo de Fecha de posesión (visible cuando RTM es false/No) -->
+
+                    <div class="form-group col-6">
+                      @if(propertyView.readyToMove){
+                      <label>Fecha establecida</label>
+                      }
+                      @if(!propertyView.readyToMove){
+                      <label>Fecha de posesión</label>
+                      }
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="PossesionOn"
+                        #possessionOn
+                        (bsValueChange)="propertyView.estPossessionOn = PossesionOn.value"
+                        bsDatepicker
+                        [bsConfig]="{
+                          containerClass: 'theme-dark-blue',
+                          dateInputFormat: 'MMM DD, YYYY'
+                        }"
+                      />
+                      @if(PossesionOn.invalid && (nextClicked || PossesionOn.touched)){
+                        <div class="error-block">
+                          Por favor seleccionar fecha de posesión
+                        </div>
+                      }
                     </div>
-                  </div>
+
 
                   <div class="form-group col-12">
                     <p>Barrio privado</p>
@@ -452,6 +457,7 @@
                       class="form-control"
                       formControlName="Description"
                       rows="6"
+
                     ></textarea>
                   </div>
 

@@ -21,6 +21,7 @@ import { IPropertyBase } from '../../Interfaces/IPropertyBase';
 import { Property } from '../../Interfaces/property';
 import { ToastrService } from 'ngx-toastr';
 import { IKeyValueTypes } from '../../Interfaces/IKeyValueTypes';
+import { CLIENT_RENEG_LIMIT } from 'node:tls';
 
 @Component({
   selector: 'app-add-property',
@@ -52,16 +53,16 @@ export class AddPropertyComponent implements OnInit {
     id: null,
     sellRent: null,
     name: '',
-    propertyType: '',
+    propertyType: '',  // Inicializado como string vacío
     price: null,
     image: 'house_default',
-    furnishingType: '',
+    furnishingType: '',  // Inicializado como string vacío
     bhk: null,
     builtArea: null,
-    carpetArea: null, // Añadir esta propiedad
-    security: null, // Añadir esta propiedad
-    maintenance: null, // Añadir esta propiedad
-    city: '',
+    carpetArea: null,
+    security: null,
+    maintenance: null,
+    city: '',  // Inicializado como string vacío
     readyToMove: null,
     estPossessionOn: '',
   };
@@ -82,72 +83,155 @@ export class AddPropertyComponent implements OnInit {
     });
 
     // Añadir estas suscripciones para mantener la vista previa actualizada
-  this.Price.valueChanges.subscribe((value) => {
-    this.propertyView.price = value;
-  });
+    this.Price.valueChanges.subscribe((value) => {
+      this.propertyView.price = value;
+    });
 
-  this.BuiltArea.valueChanges.subscribe((value) => {
-    this.propertyView.builtArea = value;
-  });
+    this.BuiltArea.valueChanges.subscribe((value) => {
+      this.propertyView.builtArea = value;
+    });
 
-  this.CarpetArea.valueChanges.subscribe((value) => {
-    // Añadir esta propiedad a IPropertyBase si no existe
-    this.propertyView['carpetArea'] = value;
-  });
+    this.CarpetArea.valueChanges.subscribe((value) => {
+      // Añadir esta propiedad a IPropertyBase si no existe
+      this.propertyView.carpetArea = value;
+    });
 
-  this.Security.valueChanges.subscribe((value) => {
-    // Añadir esta propiedad a IPropertyBase si no existe
-    this.propertyView['security'] = value;
-  });
+    this.Security.valueChanges.subscribe((value) => {
+      // Añadir esta propiedad a IPropertyBase si no existe
+      this.propertyView.security = value;
+    });
 
-  this.Maintenance.valueChanges.subscribe((value) => {
-    // Añadir esta propiedad a IPropertyBase si no existe
-    this.propertyView['maintenance'] = value;
-  });
+    this.Maintenance.valueChanges.subscribe((value) => {
+      // Añadir esta propiedad a IPropertyBase si no existe
+      this.propertyView.maintenance = value;
+    });
+
+    this.PType.valueChanges.subscribe(value => {
+      const selectedPType = this.propertyTypes.find(pt => pt.id === value);
+      if (selectedPType) {
+        this.propertyView.propertyType = selectedPType.name;
+      }
+    });
+
+    this.City.valueChanges.subscribe(value => {
+      const selectedCity = this.cityList.find(city => city.name === value);
+      if (selectedCity) {
+        this.propertyView.city = selectedCity.name;
+      }
+    });
+
+    this.FType.valueChanges.subscribe(value => {
+      const selectedFType = this.furnishingTypes.find(ft => ft.id === value);
+      if (selectedFType) {
+        this.propertyView.furnishingType = selectedFType.name;
+      }
+    });
+
     this.addPropertyForm.valueChanges.subscribe((values) => {
       this.updatePropertyView(values);
     });
-    this._housingService.getAllCities().subscribe((data) => {
-      this.cityList = data;
-    });
-    this._housingService.getAllPropertyTypes().subscribe((data) => {
-      console.log('Tipos de propiedad:', data);
-      this.propertyTypes = data;
-    });
 
-    this._housingService.getAllFurnishingTypes().subscribe((data) => {
-      console.log('Tipos de amoblamiento:', data);
+    // Obtener tipos de propiedades
+  this._housingService.getAllPropertyTypes().subscribe(
+    data => {
+      this.propertyTypes = data;
+
+    }
+
+  );
+
+  // Obtener tipos de amueblamiento
+  this._housingService.getAllFurnishingTypes().subscribe(
+    data => {
       this.furnishingTypes = data;
-    });
+
+    }
+
+  );
+
+  // Obtener la lista de ciudades
+  this._housingService.getAllCities().subscribe(
+    data => {
+      this.cityList = data;
+
+    }
+
+  );
   }
 
   updatePropertyView(values: any) {
     const basicInfo = values.BasicInfo;
     const priceInfo = values.PriceInfo;
-// En lugar de crear un nuevo objeto con spread operator,
-  // actualizamos solo las propiedades específicas
-  if (basicInfo) {
-    if (basicInfo.Name !== undefined) this.propertyView.name = basicInfo.Name;
-    if (basicInfo.PType !== undefined) {
-      // Para propiedades que son objetos, necesitamos convertir el ID a nombre
-      const selectedPType = this.propertyTypes.find(pt => pt.id === basicInfo.PType);
-      if (selectedPType) this.propertyView.propertyType = selectedPType.name;
-    }
-    if (basicInfo.City !== undefined) this.propertyView.city = basicInfo.City;
-    if (basicInfo.BHK !== undefined) this.propertyView.bhk = basicInfo.BHK;
-    if (basicInfo.FType !== undefined) {
-      const selectedFType = this.furnishingTypes.find(ft => ft.id === basicInfo.FType);
-      if (selectedFType) this.propertyView.furnishingType = selectedFType.name;
-    }
-  }
+    const otherInfo = values.OtherInfo;
 
-  if (priceInfo) {
-    if (priceInfo.Price !== undefined) this.propertyView.price = priceInfo.Price;
-    if (priceInfo.BuiltArea !== undefined) this.propertyView.builtArea = priceInfo.BuiltArea;
-    if (priceInfo.CarpetArea !== undefined) this.propertyView.carpetArea = priceInfo.CarpetArea;
-    if (priceInfo.Security !== undefined) this.propertyView.security = priceInfo.Security;
-    if (priceInfo.Maintenance !== undefined) this.propertyView.maintenance = priceInfo.Maintenance;
-  }
+    if (basicInfo) {
+      // Venta o Alquiler
+      if (basicInfo.VentaAlquiler !== undefined) {
+        this.propertyView.sellRent = basicInfo.VentaAlquiler === '1' ? 'Venta' : 'Alquiler';
+      }
+
+      // Nombre de la propiedad
+      if (basicInfo.Name !== undefined) {
+        this.propertyView.name = basicInfo.Name;
+      }
+
+      // Tipo de propiedad
+      if (basicInfo.PType !== undefined) {
+        const selectedPType = this.propertyTypes.find(
+          (pt) => pt.id === basicInfo.PType
+        );
+        if (selectedPType) {
+          this.propertyView.propertyType = selectedPType.name;
+        }
+      }
+
+      // Ciudad
+      if (basicInfo.City !== undefined) {
+        const selectedCity = this.cityList.find(
+          (city) => city.id === basicInfo.City
+        );
+        if (selectedCity) {
+          this.propertyView.city = `${selectedCity.name} (${selectedCity.country})`;
+        }
+      }
+
+      // BHK (mantener como número)
+      if (basicInfo.BHK !== undefined) {
+        this.propertyView.bhk = basicInfo.BHK;
+      }
+
+      // Tipo de amueblamiento
+      if (basicInfo.FType !== undefined) {
+        const selectedFType = this.furnishingTypes.find(
+          (ft) => ft.id === basicInfo.FType
+        );
+        if (selectedFType) {
+          this.propertyView.furnishingType = selectedFType.name;
+        }
+      }
+    }
+
+    // Precio y área
+    if (priceInfo) {
+      if (priceInfo.Price !== undefined)
+        this.propertyView.price = priceInfo.Price;
+      if (priceInfo.BuiltArea !== undefined)
+        this.propertyView.builtArea = priceInfo.BuiltArea;
+      if (priceInfo.CarpetArea !== undefined)
+        this.propertyView.carpetArea = priceInfo.CarpetArea;
+      if (priceInfo.Security !== undefined)
+        this.propertyView.security = priceInfo.Security;
+      if (priceInfo.Maintenance !== undefined)
+        this.propertyView.maintenance = priceInfo.Maintenance;
+    }
+
+    // Otros detalles
+    if (otherInfo) {
+      // Listo para mudarse
+      if (otherInfo.RTM !== undefined) {
+        this.propertyView.readyToMove = otherInfo.RTM;
+      }
+    }
   }
 
   CreatedAddPropertyForm() {
@@ -277,48 +361,60 @@ export class AddPropertyComponent implements OnInit {
   onSubmit() {
     this.nextClicked = true;
     if (this.allTabsValid()) {
+
       this.mapProperty();
-      this._housingService.addProperty(this.property);
-      this.toastr.success(
-        'Felicitaciones, tu propiedad fue registrada con éxito en nuestro sitio web'
-      );
-    } else {
+      console.log('por aca estoy pasando')
+      console.log(this.property);
+      this._housingService.addProperty(this.property).subscribe((data) => {
+        this.toastr.success(
+          'Felicitaciones, tu propiedad fue registrada con éxito en nuestro sitio web'
+        );
+        console.log(data);
+        console.log(this.addPropertyForm);
+        if (this.VentaAlquiler.value == 2) {
+          this.router.navigate(['/rent-property']);
+        } else {
+          this.router.navigate([]);
+        }
+      },
+    (error)=>{
+      console.log('no se esta agregando')
+    });
+    }else{
       this.toastr.error(
-        'Por favor revisa el formulario y proveer de todas las entradas válidas'
+        'No se pudo registrar con exito'
       );
-    }
-    console.log(this.addPropertyForm);
-    if (this.VentaAlquiler.value == 2) {
-      this.router.navigate(['/rent-property']);
-    } else {
-      this.router.navigate([]);
     }
   }
 
   mapProperty(): void {
     this.property.id = this._housingService.newPropId();
-  this.property.sellRent = +this.VentaAlquiler.value;
-  this.property.bhk = this.BHK.value;
-  this.property.propertyType = this.PType.value; // Usa el ID, no el objeto completo
-  this.property.name = this.Name.value;
-  this.property.city = this.City.value;
-  this.property.furnishingType = this.FType.value; // Usa el ID, no el objeto completo
-  this.property.image = 'house_default';
-  this.property.price = this.Price.value;
-  this.property.security = this.Security.value;
-  this.property.maintenance = this.Maintenance.value;
-  this.property.builtArea = this.BuiltArea.value;
-  this.property.carpetArea = this.CarpetArea.value;
-  this.property.floorNo = this.FloorNo.value;
-  this.property.totalFloors = this.TotalFloor.value;
-  this.property.address = this.Address.value;
-  this.property.address2 = this.LandMark.value;
-  this.property.readyToMove = this.RTM.value;
-  this.property.gated = this.Gated.value;
-  this.property.mainEntrance = this.MainEntrance.value;
-  this.property.description = this.Description.value;
-  this.property.estPossessionOn = this.PossesionOn.value;
-  this.property.postedOn = new Date().toString();
+    this.property.sellRent = +this.VentaAlquiler.value;
+    this.property.bhk = this.BHK.value;
+    console.log(this.PType.value)
+    this.property.propertyTypeId = this.PType.value; // Usa el ID, no el objeto completo
+    this.property.name = this.Name.value;
+    console.log(this.City.value);
+    this.property.cityId = this.City.value;
+    console.log(this.FType.value);
+    this.property.furnishingTypeId = this.FType.value; // Usa el ID, no el objeto completo
+    this.property.image = 'house_default';
+    this.property.price = this.Price.value;
+    this.property.security = this.Security.value;
+    this.property.maintenance = this.Maintenance.value;
+    this.property.builtArea = this.BuiltArea.value;
+    this.property.carpetArea = this.CarpetArea.value;
+    this.property.floorNo = this.FloorNo.value;
+    this.property.totalFloors = this.TotalFloor.value;
+    this.property.address = this.Address.value;
+    this.property.address2 = this.LandMark.value;
+    this.property.readyToMove = this.RTM.value;
+    this.property.gated = this.Gated.value;
+    this.property.mainEntrance = this.MainEntrance.value;
+    this.property.description = this.Description.value;
+    this.property.estPossessionOn = this.PossesionOn.value;
+    this.property.postedOn = new Date().toString();
+
   }
 
   allTabsValid(): boolean {

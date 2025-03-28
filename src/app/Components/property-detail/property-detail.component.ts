@@ -41,9 +41,12 @@ export class PropertyDetailComponent implements OnInit {
       }
     });
 
-    this.property.age = this.housingService.getPropertyAge(
-      this.property.estPossessionOn
-    );
+    const age = this.housingService.getPropertyAge(this.property.estPossessionOn);
+if (typeof age === 'number') {
+  this.property.age = age;
+} else {
+  this.property.age = undefined; // o un valor predeterminado
+}
 
     this.galleryOptions = [
       {

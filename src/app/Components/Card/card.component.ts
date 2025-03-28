@@ -7,6 +7,7 @@ import { IPropertyBase } from '../../Interfaces/IPropertyBase';
 import { CommonModule } from '@angular/common';
 
 
+
 @Component({
   selector: 'app-card',
   standalone: true,
@@ -19,6 +20,14 @@ export class CardComponent {
 @Input() property!:IPropertyBase;
 @Input() hideIcons!:boolean;
 
+getPropertyImage(): string {
+  // Si hay una imagen específica, usarla
+  if (this.property.image && this.property.image !== 'house_default') {
+    return `/assets/Images/${this.property.image}.jpg`;
+  }
 
+  // Si no, usar la imagen por defecto
+  return '/assets/Images/house_default.jpg';
+}
 
 }

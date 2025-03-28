@@ -1,10 +1,12 @@
+import { NgTemplateOutlet } from "@angular/common";
+
 export interface IPropertyBase {
   id?: number | null;
-  sellRent?: number | null;
+  sellRent?: number | null | string;  // Cambiar a union de tipos
   name: string;
-  propertyType: string;
-  furnishingType: string;
-  price?: number | null;
+  propertyType: string;  // Asegúrate de que sea un string
+  furnishingType: string;  // Asegúrate de que sea un string
+  price: number | null;
   bhk: number | null;
   builtArea: number | null;
   carpetArea?: number | null;
@@ -14,4 +16,5 @@ export interface IPropertyBase {
   readyToMove: boolean | null;
   estPossessionOn: string;
   image?: string;
+  age?:number | null;
 }

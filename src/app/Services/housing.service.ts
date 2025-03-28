@@ -12,8 +12,6 @@ import { IKeyValueTypes } from '../Interfaces/IKeyValueTypes';
   providedIn: 'root',
 })
 export class HousingService {
-
-
   baseUrl = environment.baseUrl;
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
   private http = inject(HttpClient);
@@ -23,34 +21,21 @@ export class HousingService {
   }
 
   getProperty(id: number): Observable<Property | undefined> {
-   return this.http.get<Property>(this.baseUrl+'/property/detail/'+ id.toString())
+    return this.http.get<Property>(
+      this.baseUrl + '/property/detail/' + id.toString()
+    );
   }
 
   getAllProperties(sellRent?: number): Observable<IProperty[]> {
     return this.http.get<IProperty[]>(
       this.baseUrl + '/property/list/' + sellRent?.toString()
     );
-
-
   }
 
   addProperty(property: Property) {
-    if (isPlatformBrowser(this.platformId)) {
-      let properties: Property[] = [];
+    // Envuelve la propiedad en un objeto con la clave propertyDto
 
-      // Obtener propiedades existentes
-      const existingPropertiesString = localStorage.getItem('properties');
-      if (existingPropertiesString) {
-        properties = JSON.parse(existingPropertiesString);
-      }
-      //Agregar la nueva propiedad al array
-      properties.push(property);
-
-      //El método JSON.stringify(property) convierte el objeto properties a una
-      //  cadena de texto en formato JSON. Esto es necesario porque
-      // localStorage solo puede almacenar cadenas de texto.
-      localStorage.setItem('properties', JSON.stringify(properties));
-    }
+    return this.http.post<Property>(this.baseUrl + '/property/add', property);
   }
 
   getAllLocalProperties(): IProperty[] {
@@ -81,7 +66,6 @@ export class HousingService {
   }
 
   getPropertyAge(dateofEstablishment: string): string {
-
     const today = new Date();
     //Convierte el string de fecha de establecimiento a un objeto Date
     const estDate = new Date(dateofEstablishment);
@@ -112,7 +96,9 @@ export class HousingService {
     return this.http.get<IKeyValueTypes[]>(`${this.baseUrl}/PropertyType/list`);
   }
 
-  getAllFurnishingTypes(): Observable<IKeyValueTypes[]>{
-    return this.http.get<IKeyValueTypes[]>(`${this.baseUrl}/FurnishingType/list`)
+  getAllFurnishingTypes(): Observable<IKeyValueTypes[]> {
+    return this.http.get<IKeyValueTypes[]>(
+      `${this.baseUrl}/FurnishingType/list`
+    );
   }
 }

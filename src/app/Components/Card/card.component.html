@@ -2,7 +2,7 @@
   <div class="image-container">
     <img
       class="propImg"
-      src="assets/Images/{{ property.image }}.jpg"
+      [src]="getPropertyImage()"
       alt="Imagen de la tarjeta"
     />
     @if(!hideIcons){
@@ -30,7 +30,7 @@
     }
 
     <h6 class="mt-2">
-    @if(property.furnishingType!=='desamueblado'){
+    @if(property.furnishingType!=='sin amoblamiento'){
       <span>Amoblamiento: {{ property.furnishingType }}</span>
     @if(property.readyToMove){
       <span> | Listo para mudarse</span>
