@@ -17,4 +17,5 @@ export interface IPropertyBase {
   estPossessionOn: string;
   image?: string;
   age?:number | null;
+  imageUrls?: string[]; // Agregar este campo para múltiples imágenes
 }

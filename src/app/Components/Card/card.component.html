@@ -23,31 +23,29 @@
   </div>
 
   <div class="card-body p-1">
-    <h3 class="mb-0">{{ property.bhk }} BHK {{property.propertyType}}</h3>
-    en {{property.name}},
-    @if(property.name){
-      <span>{{property.city}}</span>
+    <h3 class="mb-0">{{ property.bhk }} BHK {{ property.propertyType }}</h3>
+    en {{ property.name }}, @if(property.name){
+    <span>{{ property.city }}</span>
     }
 
     <h6 class="mt-2">
-    @if(property.furnishingType!=='sin amoblamiento'){
-      <span>Amoblamiento: {{ property.furnishingType }}</span>
-    @if(property.readyToMove){
-      <span> | Listo para mudarse</span>
-
-    }@else(){
-      <span> | Posesión: {{property.estPossessionOn | date:'dd/MM/yyyy' }} </span>
-    }
-
-    }@else {
-      <span>Sin {{ property.furnishingType }}</span> | Listo para mudarse
-    }
-
-
-
-
-  </h6>
-  <hr class="mt-0 mb-2">
-    <h6 class="mb-0">Precio: <span class="font-highlight">{{ property.price }} USD.</span> | Area: <span class="font-highlight">{{property.builtArea}}</span> m<sup>2</sup></h6>
+      @if(property.furnishingType !== 'sin amoblamiento') {
+        <span>Amoblamiento: {{ property.furnishingType }}</span>
+        @if(property.readyToMove) {
+          <span> | Listo para mudarse</span>
+        } @else {
+          <span> | Posesión: {{ property.estPossessionOn | date : "dd/MM/yyyy" }}</span>
+        }
+      } @else {
+        <span>Sin {{ property.furnishingType }}</span> | Listo para mudarse
+      }
+    </h6>
+    <hr class="mt-0 mb-2" />
+    <h6 class="mb-0">
+      Precio: <span class="font-highlight">{{ property.price }} USD.</span> |
+      Area: <span class="font-highlight">{{ property.builtArea }}</span> m<sup
+        >2</sup
+      >
+    </h6>
   </div>
 </div>

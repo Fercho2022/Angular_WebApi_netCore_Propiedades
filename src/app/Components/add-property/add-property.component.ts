@@ -22,6 +22,8 @@ import { Property } from '../../Interfaces/property';
 import { ToastrService } from 'ngx-toastr';
 import { IKeyValueTypes } from '../../Interfaces/IKeyValueTypes';
 import { CLIENT_RENEG_LIMIT } from 'node:tls';
+import { ImageUploadService } from '../../Services/ImageUpload.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-add-property',
@@ -35,6 +37,7 @@ import { CLIENT_RENEG_LIMIT } from 'node:tls';
     BsDatepickerModule,
     CardComponent,
     ButtonsModule,
+
   ],
 })
 export class AddPropertyComponent implements OnInit {
@@ -48,6 +51,12 @@ export class AddPropertyComponent implements OnInit {
   furnishingTypes: IKeyValueTypes[] = [];
   cardinalTypes: Array<string> = ['Este', 'oeste', 'Norte', 'Sur'];
   cityList!: any[];
+
+  // Agregar estas propiedades
+  selectedFiles: File[] = [];
+  imagePreviewUrls: string[] = [];
+  uploadedImageUrls: string[] = [];
+  areImagesUploaded = false;
 
   propertyView: IPropertyBase = {
     id: null,
@@ -71,7 +80,8 @@ export class AddPropertyComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private _housingService: HousingService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private imageUploadService: ImageUploadService
   ) {}
 
   ngOnInit() {
@@ -248,8 +258,8 @@ export class AddPropertyComponent implements OnInit {
         Price: [null, Validators.required],
         BuiltArea: [null, Validators.required],
         CarpetArea: [null],
-        Security: [null],
-        Maintenance: [null],
+        Security: [0],
+        Maintenance: [0],
       }),
       AddressInfo: this.fb.group({
         FloorNo: [null],
@@ -259,7 +269,7 @@ export class AddPropertyComponent implements OnInit {
       }),
       OtherInfo: this.fb.group({
         RTM: [null, Validators.required],
-        PossesionOn: [null],
+        PossesionOn: [null, Validators.required],
         AOP: [null],
         Gated: [null],
         MainEntrance: [null],
@@ -361,29 +371,35 @@ export class AddPropertyComponent implements OnInit {
   onSubmit() {
     this.nextClicked = true;
     if (this.allTabsValid()) {
-
       this.mapProperty();
-      console.log('por aca estoy pasando')
-      console.log(this.property);
-      this._housingService.addProperty(this.property).subscribe((data) => {
-        this.toastr.success(
-          'Felicitaciones, tu propiedad fue registrada con éxito en nuestro sitio web'
-        );
-        console.log(data);
-        console.log(this.addPropertyForm);
-        if (this.VentaAlquiler.value == 2) {
-          this.router.navigate(['/rent-property']);
-        } else {
-          this.router.navigate([]);
+
+      // Usar el ID generado durante la subida de imágenes
+      this.property.id = this._housingService.newPropId();
+
+      // Agregar URLs de imágenes al objeto de propiedad
+      this.property.imageUrls = this.uploadedImageUrls;
+
+      console.log('Property to submit:', this.property);
+
+      this._housingService.addProperty(this.property).subscribe(
+        (data) => {
+          this.toastr.success(
+            'Felicitaciones, tu propiedad fue registrada con éxito en nuestro sitio web'
+          );
+
+          if (this.VentaAlquiler.value == 2) {
+            this.router.navigate(['/rent-property']);
+          } else {
+            this.router.navigate([]);
+          }
+        },
+        (error) => {
+          console.error('Error al agregar propiedad:', error);
+          this.toastr.error('No se pudo agregar la propiedad');
         }
-      },
-    (error)=>{
-      console.log('no se esta agregando')
-    });
-    }else{
-      this.toastr.error(
-        'No se pudo registrar con exito'
       );
+    } else {
+      this.toastr.error('No se pudo registrar con éxito');
     }
   }
 
@@ -443,5 +459,93 @@ export class AddPropertyComponent implements OnInit {
     if (IsCurrentTabValid) {
       this.staticTabs!.tabs[tabId].active = true;
     }
+  }
+
+  // Método para seleccionar archivos
+  onFileSelected(event: any) {
+    const files: FileList = event.target.files;
+
+    // Convertir FileList a array
+    const filesArray = Array.from(files);
+
+    // Validar número máximo de imágenes (por ejemplo, 5)
+    if (this.selectedFiles.length + filesArray.length > 5) {
+      alert('No puedes subir más de 5 imágenes');
+      return;
+    }
+
+    // Agregar archivos seleccionados
+    filesArray.forEach(file => {
+      // Validar tipo de archivo
+      if (file.type.match(/image\/*/) == null) {
+        alert('Solo se permiten imágenes');
+        return;
+      }
+
+      this.selectedFiles.push(file);
+
+      // Crear preview
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreviewUrls.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Método para subir imágenes
+  uploadImages() {
+    console.log('estoy pasando')
+    if (!this.selectedFiles.length) {
+      alert('Selecciona al menos una imagen');
+      return;
+    }
+
+    // Limpiar URLs subidas previamente
+    this.uploadedImageUrls = [];
+
+    // Generar un ID temporal para la propiedad
+    const tempPropertyId = this._housingService.newPropId();
+
+    // Array para almacenar las URLs de las imágenes
+    const imageUrls: string[] = [];
+
+    // Crear un arreglo de observables
+    const uploadObservables = this.selectedFiles.map(file =>
+      this.imageUploadService.uploadPropertyImage(tempPropertyId, file)
+    );
+    console.log(uploadObservables);
+
+    // Usar forkJoin para manejar múltiples observables
+    forkJoin(uploadObservables).subscribe({
+      next: (results) => {
+        console.log(results);
+        // Extraer las URLs de las imágenes
+        this.uploadedImageUrls = results.map(result => result.imageUrl);
+
+        console.log('Uploaded Image URLs:', this.uploadedImageUrls);
+        console.log('Are Images Uploaded:', this.uploadedImageUrls.length > 0);
+
+        // Establecer areImagesUploaded basado en la longitud de uploadedImageUrls
+        this.areImagesUploaded = this.uploadedImageUrls.length > 0;
+
+        if (this.areImagesUploaded) {
+          this.toastr.success('Imágenes subidas exitosamente');
+        } else {
+          this.toastr.error('No se pudieron subir las imágenes');
+        }
+      },
+      error: (error) => {
+        console.error('Error al subir imágenes', error);
+        this.toastr.error('Error al subir imágenes');
+        this.areImagesUploaded = false;
+      }
+    });
+  }
+  // Método para eliminar imagen
+  removeImage(index: number) {
+    this.selectedFiles.splice(index, 1);
+    this.imagePreviewUrls.splice(index, 1);
+    this.uploadedImageUrls.splice(index, 1);
   }
 }

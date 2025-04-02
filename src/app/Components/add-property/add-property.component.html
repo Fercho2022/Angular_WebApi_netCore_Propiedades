@@ -67,32 +67,51 @@
                   <div class="form-group col-12 mt-3">
                     <p>Tipo de propiedad</p>
                     <!-- Movemos btnRadioGroup y formControlName al contenedor principal -->
-                    <div class="btn-group-vertical w-100" btnRadioGroup formControlName="PType">
+                    <div
+                      class="btn-group-vertical w-100"
+                      btnRadioGroup
+                      formControlName="PType"
+                    >
                       @for (row of [0, 3, 6]; track row) {
-                        <!-- Mantenemos la clase btn-group para mantener la apariencia visual -->
-                        <div class="btn-group mb-2">
-                          @for (i of [0, 1, 2]; track i) {
-                            @if (propertyTypes[row + i]) {
-                              <label
-                                class="btn btn-outline-primary"
-                                [style.border-top-left-radius]="i === 0 ? '1rem' : '0'"
-                                [style.border-bottom-left-radius]="i === 0 ? '1rem' : '0'"
-                                [style.border-top-right-radius]="(i === 2 || row + i === propertyTypes.length - 1) ? '1rem' : '0'"
-                                [style.border-bottom-right-radius]="(i === 2 || row + i === propertyTypes.length - 1) ? '1rem' : '0'"
-                                role="button"
-                                [btnRadio]="propertyTypes[row + i].id"
-                                (click)="propertyView.propertyType = propertyTypes[row + i].name">
-                                {{ propertyTypes[row + i].name }}
-                              </label>
-                            }
-                          }
-                        </div>
+                      <!-- Mantenemos la clase btn-group para mantener la apariencia visual -->
+                      <div class="btn-group mb-2">
+                        @for (i of [0, 1, 2]; track i) { @if (propertyTypes[row
+                        + i]) {
+                        <label
+                          class="btn btn-outline-primary"
+                          [style.border-top-left-radius]="
+                            i === 0 ? '1rem' : '0'
+                          "
+                          [style.border-bottom-left-radius]="
+                            i === 0 ? '1rem' : '0'
+                          "
+                          [style.border-top-right-radius]="
+                            i === 2 || row + i === propertyTypes.length - 1
+                              ? '1rem'
+                              : '0'
+                          "
+                          [style.border-bottom-right-radius]="
+                            i === 2 || row + i === propertyTypes.length - 1
+                              ? '1rem'
+                              : '0'
+                          "
+                          role="button"
+                          [btnRadio]="propertyTypes[row + i].id"
+                          (click)="
+                            propertyView.propertyType =
+                              propertyTypes[row + i].name
+                          "
+                        >
+                          {{ propertyTypes[row + i].name }}
+                        </label>
+                        } }
+                      </div>
                       }
                     </div>
                     @if(PType.invalid && nextClicked){
-                      <div class="error-block">
-                        Por favor seleccionar tipo de propiedad
-                      </div>
+                    <div class="error-block">
+                      Por favor seleccionar tipo de propiedad
+                    </div>
                     }
                   </div>
 
@@ -154,11 +173,13 @@
                     >
                       <option value="">--Seleccionar Ciudad--</option>
                       @for(city of cityList; track city) {
-                        <option [ngValue]="city.id">{{ city.name }} ({{ city.country }})</option>
+                      <option [ngValue]="city.id">
+                        {{ city.name }} ({{ city.country }})
+                      </option>
                       }
                     </select>
                     @if(City.invalid && (nextClicked || City.touched)){
-                      <div class="error-block">Por favor seleccionar ciudad</div>
+                    <div class="error-block">Por favor seleccionar ciudad</div>
                     }
                   </div>
                   <div class="form-group col-12">
@@ -188,7 +209,9 @@
                       class="form-control"
                       formControlName="Price"
                       #price
-                      (input)="propertyView.price = price.value ? +price.value : null"
+                      (input)="
+                        propertyView.price = price.value ? +price.value : null
+                      "
                       name="Price"
                     />
                   </div>
@@ -199,7 +222,7 @@
                     }@else{ rent }
                   </div>
                   }
-                  <div class="form-group col-12">
+                  <!-- <div class="form-group col-12">
                     <label class="mt-2">Seguridad (en USD)</label>
                     <input
                       type="number"
@@ -221,7 +244,7 @@
                       #maintenance
                       (input)="propertyView.maintenance = maintenance.value ? +maintenance.value : null"
                     />
-                  </div>
+                  </div> -->
 
                   <div class="form-group col-12">
                     <label class="mt-2">Metros cuadrados construidos</label>
@@ -230,13 +253,17 @@
                       class="form-control"
                       formControlName="BuiltArea"
                       #builtArea
-                      (input)="propertyView.builtArea=builtArea.value ? +builtArea.value : null"
+                      (input)="
+                        propertyView.builtArea = builtArea.value
+                          ? +builtArea.value
+                          : null
+                      "
                     />
                   </div>
                   @if(BuiltArea.invalid && (nextClicked || BuiltArea.touched)){
-                    <div class="error-block">
-                      Por favor seleccionar metros cuadrados
-                    </div>
+                  <div class="error-block">
+                    Por favor seleccionar metros cuadrados
+                  </div>
                   }
                   <div class="form-group col-12">
                     <label class="mt-2">Metros cuadrados cubiertos</label>
@@ -290,7 +317,7 @@
                     />
                   </div>
                   @if(Address.invalid && (nextClicked || Address.touched)){
-                    <div class="error-block">Por favor ingresar dirección</div>
+                  <div class="error-block">Por favor ingresar dirección</div>
                   }
 
                   <div class="form-group col-12">
@@ -345,42 +372,41 @@
                       </label>
                     </div>
                     @if(RTM.invalid && nextClicked){
-                      <div class="error-block">
-                        Por favor seleccionar listo para mudarse
-                      </div>
+                    <div class="error-block">
+                      Por favor seleccionar listo para mudarse
+                    </div>
                     }
                   </div>
 
-
-
                   <!-- Campo de Fecha de posesión (visible cuando RTM es false/No) -->
 
-                    <div class="form-group col-6">
-                      @if(propertyView.readyToMove){
-                      <label>Fecha establecida</label>
-                      }
-                      @if(!propertyView.readyToMove){
-                      <label>Fecha de posesión</label>
-                      }
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="PossesionOn"
-                        #possessionOn
-                        (bsValueChange)="propertyView.estPossessionOn = PossesionOn.value"
-                        bsDatepicker
-                        [bsConfig]="{
-                          containerClass: 'theme-dark-blue',
-                          dateInputFormat: 'MMM DD, YYYY'
-                        }"
-                      />
-                      @if(PossesionOn.invalid && (nextClicked || PossesionOn.touched)){
-                        <div class="error-block">
-                          Por favor seleccionar fecha de posesión
-                        </div>
-                      }
+                  <div class="form-group col-6">
+                    @if(propertyView.readyToMove){
+                    <label>Fecha establecida</label>
+                    } @if(!propertyView.readyToMove){
+                    <label>Fecha de posesión</label>
+                    }
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="PossesionOn"
+                      #possessionOn
+                      (bsValueChange)="
+                        propertyView.estPossessionOn = PossesionOn.value
+                      "
+                      bsDatepicker
+                      [bsConfig]="{
+                        containerClass: 'theme-dark-blue',
+                        dateInputFormat: 'MMM DD, YYYY'
+                      }"
+                    />
+                    @if(PossesionOn.invalid && (nextClicked ||
+                    PossesionOn.touched)){
+                    <div class="error-block">
+                      Por favor seleccionar fecha de posesión
                     </div>
-
+                    }
+                  </div>
 
                   <div class="form-group col-12">
                     <p>Barrio privado</p>
@@ -457,7 +483,6 @@
                       class="form-control"
                       formControlName="Description"
                       rows="6"
-
                     ></textarea>
                   </div>
 
@@ -481,13 +506,47 @@
                 </tab>
 
                 <tab heading="Fotos">
-                  <div class="form-group col-12" class="mt-3">
+                  <div class="form-group col-12 mt-3">
                     <div class="photo-control">
-                      <button class="mt-5" type="button">Subir foto</button>
-                      <br />
-                      Está bajo construcción
+                      <input
+                        type="file"
+                        #fileInput
+                        (change)="onFileSelected($event)"
+                        multiple
+                        accept="image/*"
+                        class="form-control"
+                      />
+                      <button
+                        type="button"
+                        class="btn btn-primary mt-2"
+                        (click)="uploadImages()"
+                        [disabled]="!selectedFiles.length"
+                      >
+                        Subir Imágenes
+                      </button>
+                    </div>
+
+                    <!-- Vista previa de imágenes -->
+                    <div class="row mt-3">
+                      @for (preview of imagePreviewUrls; track $index) {
+                      <div class="col-4 mb-3 position-relative">
+                        <img
+                          [src]="preview"
+                          class="img-fluid rounded"
+                          style="max-height: 150px; object-fit: cover"
+                        />
+                        <button
+                          type="button"
+                          class="btn btn-danger btn-sm position-absolute top-0 end-0"
+                          (click)="removeImage($index)"
+                        >
+                          <i class="fa fa-trash"></i>
+                        </button>
+                      </div>
+                      }
                     </div>
                   </div>
+
                   <div class="d-grid gap-2">
                     <button
                       type="button"
@@ -499,9 +558,21 @@
                     <button type="reset" class="btn btn-primary btn-block">
                       Cancelar
                     </button>
-                    <button type="submit" class="btn btn-primary btn-block">
-                      Guardar
+                    <button
+                      type="submit"
+                      class="btn btn-primary btn-block"
+                      [disabled]="!areImagesUploaded"
+                    >
+                      @if(areImagesUploaded) { Guardar Propiedad } @else { Sube
+                      las Imágenes Primero }
                     </button>
+                    <!-- Agregar esto para depuración -->
+                    <div *ngIf="true" class="mt-2 text-center">
+                      Debug Info:
+                      <p>Selected Files: {{ selectedFiles.length }}</p>
+                      <p>Uploaded Image URLs: {{ uploadedImageUrls.length }}</p>
+                      <p>Are Images Uploaded: {{ areImagesUploaded }}</p>
+                    </div>
                   </div>
                 </tab>
               </tabset>
