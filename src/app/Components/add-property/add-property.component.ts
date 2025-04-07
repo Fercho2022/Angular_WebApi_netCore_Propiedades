@@ -37,7 +37,6 @@ import { forkJoin } from 'rxjs';
     BsDatepickerModule,
     CardComponent,
     ButtonsModule,
-
   ],
 })
 export class AddPropertyComponent implements OnInit {
@@ -62,16 +61,16 @@ export class AddPropertyComponent implements OnInit {
     id: null,
     sellRent: null,
     name: '',
-    propertyType: '',  // Inicializado como string vacío
+    propertyType: '', // Inicializado como string vacío
     price: null,
     image: 'house_default',
-    furnishingType: '',  // Inicializado como string vacío
+    furnishingType: '', // Inicializado como string vacío
     bhk: null,
     builtArea: null,
     carpetArea: null,
     security: null,
     maintenance: null,
-    city: '',  // Inicializado como string vacío
+    city: '', // Inicializado como string vacío
     readyToMove: null,
     estPossessionOn: '',
   };
@@ -116,22 +115,22 @@ export class AddPropertyComponent implements OnInit {
       this.propertyView.maintenance = value;
     });
 
-    this.PType.valueChanges.subscribe(value => {
-      const selectedPType = this.propertyTypes.find(pt => pt.id === value);
+    this.PType.valueChanges.subscribe((value) => {
+      const selectedPType = this.propertyTypes.find((pt) => pt.id === value);
       if (selectedPType) {
         this.propertyView.propertyType = selectedPType.name;
       }
     });
 
-    this.City.valueChanges.subscribe(value => {
-      const selectedCity = this.cityList.find(city => city.name === value);
+    this.City.valueChanges.subscribe((value) => {
+      const selectedCity = this.cityList.find((city) => city.name === value);
       if (selectedCity) {
         this.propertyView.city = selectedCity.name;
       }
     });
 
-    this.FType.valueChanges.subscribe(value => {
-      const selectedFType = this.furnishingTypes.find(ft => ft.id === value);
+    this.FType.valueChanges.subscribe((value) => {
+      const selectedFType = this.furnishingTypes.find((ft) => ft.id === value);
       if (selectedFType) {
         this.propertyView.furnishingType = selectedFType.name;
       }
@@ -142,31 +141,19 @@ export class AddPropertyComponent implements OnInit {
     });
 
     // Obtener tipos de propiedades
-  this._housingService.getAllPropertyTypes().subscribe(
-    data => {
+    this._housingService.getAllPropertyTypes().subscribe((data) => {
       this.propertyTypes = data;
+    });
 
-    }
-
-  );
-
-  // Obtener tipos de amueblamiento
-  this._housingService.getAllFurnishingTypes().subscribe(
-    data => {
+    // Obtener tipos de amueblamiento
+    this._housingService.getAllFurnishingTypes().subscribe((data) => {
       this.furnishingTypes = data;
+    });
 
-    }
-
-  );
-
-  // Obtener la lista de ciudades
-  this._housingService.getAllCities().subscribe(
-    data => {
+    // Obtener la lista de ciudades
+    this._housingService.getAllCities().subscribe((data) => {
       this.cityList = data;
-
-    }
-
-  );
+    });
   }
 
   updatePropertyView(values: any) {
@@ -177,7 +164,8 @@ export class AddPropertyComponent implements OnInit {
     if (basicInfo) {
       // Venta o Alquiler
       if (basicInfo.VentaAlquiler !== undefined) {
-        this.propertyView.sellRent = basicInfo.VentaAlquiler === '1' ? 'Venta' : 'Alquiler';
+        this.propertyView.sellRent =
+          basicInfo.VentaAlquiler === '1' ? 'Venta' : 'Alquiler';
       }
 
       // Nombre de la propiedad
@@ -370,6 +358,7 @@ export class AddPropertyComponent implements OnInit {
 
   onSubmit() {
     this.nextClicked = true;
+
     if (this.allTabsValid()) {
       this.mapProperty();
 
@@ -377,7 +366,7 @@ export class AddPropertyComponent implements OnInit {
       this.property.id = this._housingService.newPropId();
 
       // Agregar URLs de imágenes al objeto de propiedad
-      this.property.imageUrls = this.uploadedImageUrls;
+      //this.property.imageUrls = this.uploadedImageUrls;
 
       console.log('Property to submit:', this.property);
 
@@ -407,7 +396,7 @@ export class AddPropertyComponent implements OnInit {
     this.property.id = this._housingService.newPropId();
     this.property.sellRent = +this.VentaAlquiler.value;
     this.property.bhk = this.BHK.value;
-    console.log(this.PType.value)
+    console.log(this.PType.value);
     this.property.propertyTypeId = this.PType.value; // Usa el ID, no el objeto completo
     this.property.name = this.Name.value;
     console.log(this.City.value);
@@ -430,7 +419,6 @@ export class AddPropertyComponent implements OnInit {
     this.property.description = this.Description.value;
     this.property.estPossessionOn = this.PossesionOn.value;
     this.property.postedOn = new Date().toString();
-
   }
 
   allTabsValid(): boolean {
@@ -475,7 +463,7 @@ export class AddPropertyComponent implements OnInit {
     }
 
     // Agregar archivos seleccionados
-    filesArray.forEach(file => {
+    filesArray.forEach((file) => {
       // Validar tipo de archivo
       if (file.type.match(/image\/*/) == null) {
         alert('Solo se permiten imágenes');
@@ -495,7 +483,7 @@ export class AddPropertyComponent implements OnInit {
 
   // Método para subir imágenes
   uploadImages() {
-    console.log('estoy pasando')
+    console.log('estoy pasando');
     if (!this.selectedFiles.length) {
       alert('Selecciona al menos una imagen');
       return;
@@ -511,7 +499,7 @@ export class AddPropertyComponent implements OnInit {
     const imageUrls: string[] = [];
 
     // Crear un arreglo de observables
-    const uploadObservables = this.selectedFiles.map(file =>
+    const uploadObservables = this.selectedFiles.map((file) =>
       this.imageUploadService.uploadPropertyImage(tempPropertyId, file)
     );
     console.log(uploadObservables);
@@ -521,7 +509,7 @@ export class AddPropertyComponent implements OnInit {
       next: (results) => {
         console.log(results);
         // Extraer las URLs de las imágenes
-        this.uploadedImageUrls = results.map(result => result.imageUrl);
+        this.uploadedImageUrls = results.map((result) => result.imageUrl);
 
         console.log('Uploaded Image URLs:', this.uploadedImageUrls);
         console.log('Are Images Uploaded:', this.uploadedImageUrls.length > 0);
@@ -539,7 +527,7 @@ export class AddPropertyComponent implements OnInit {
         console.error('Error al subir imágenes', error);
         this.toastr.error('Error al subir imágenes');
         this.areImagesUploaded = false;
-      }
+      },
     });
   }
   // Método para eliminar imagen

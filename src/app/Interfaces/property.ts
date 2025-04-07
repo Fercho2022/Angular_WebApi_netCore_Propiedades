@@ -1,4 +1,5 @@
 import { IPropertyBase } from './IPropertyBase';
+import { photo } from './photo';
 
 export class Property implements IPropertyBase {
   id!: number;
@@ -29,5 +30,5 @@ export class Property implements IPropertyBase {
   description?: string;
   postedOn!: string;
   postedBy!: number;
-  imageUrls?: string[]; // Agregar este campo
+  photos?:photo[];
 }

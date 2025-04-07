@@ -33,20 +33,26 @@ export class PropertyDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log(this.route)
+
     this.route.data.subscribe((data) => {
-      console.log(data);
+
       if (data['property']) {
+
         this.property = data['property'];
+
         this.propertyId.set(this.property.id);
       }
     });
 
-    const age = this.housingService.getPropertyAge(this.property.estPossessionOn);
-if (typeof age === 'number') {
-  this.property.age = age;
-} else {
-  this.property.age = undefined; // o un valor predeterminado
-}
+    const age = this.housingService.getPropertyAge(
+      this.property.estPossessionOn
+    );
+    if (typeof age === 'number') {
+      this.property.age = age;
+    } else {
+      this.property.age = undefined; // o un valor predeterminado
+    }
 
     this.galleryOptions = [
       {
