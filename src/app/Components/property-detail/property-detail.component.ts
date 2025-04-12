@@ -12,19 +12,21 @@ import {
   NgxGalleryOptions,
 } from '@kolkov/ngx-gallery';
 import { CommonModule } from '@angular/common';
+import { UploadEditPhotosComponent } from '../upload-edit-photos/upload-edit-photos.component';
 
 @Component({
   selector: 'app-property-detail',
   templateUrl: './property-detail.component.html',
   styleUrls: ['./property-detail.component.css'],
   standalone: true,
-  imports: [RouterModule, TabsModule, NgxGalleryModule, CommonModule],
+  imports: [RouterModule, TabsModule, NgxGalleryModule, CommonModule, UploadEditPhotosComponent],
 })
 export class PropertyDetailComponent implements OnInit {
   propertyId = signal<number>(0); // Inicializamos signal con un valor por defecto
   property = new Property();
   galleryOptions!: NgxGalleryOptions[];
   galleryImages!: NgxGalleryImage[];
+  mainPhotoUrl:string='';
 
   constructor(
     private route: ActivatedRoute,
@@ -33,13 +35,12 @@ export class PropertyDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.route)
-
     this.route.data.subscribe((data) => {
-
+      //cuando haces data['property'], estás accediendo al valor devuelto por el
+      // resolver que fue asociado con la clave 'property'.
       if (data['property']) {
-
         this.property = data['property'];
+        console.log(this.property.photos)
 
         this.propertyId.set(this.property.id);
       }
@@ -57,38 +58,37 @@ export class PropertyDetailComponent implements OnInit {
     this.galleryOptions = [
       {
         width: '100%',
-        height: '465px',
+        height: '545px',
         thumbnailsColumns: 4,
         imageAnimation: NgxGalleryAnimation.Slide,
       },
     ];
 
-    this.galleryImages = [
-      {
-        small: 'assets/Images/internal-1.jpg',
-        medium: 'assets/Images/internal-1.jpg',
-        big: 'assets/Images/internal-1.jpg',
-      },
-      {
-        small: 'assets/Images/internal-2.jpg',
-        medium: 'assets/Images/internal-2.jpg',
-        big: 'assets/Images/internal-2.jpg',
-      },
-      {
-        small: 'assets/Images/internal-3.jpg',
-        medium: 'assets/Images/internal-3.jpg',
-        big: 'assets/Images/internal-3.jpg',
-      },
-      {
-        small: 'assets/Images/internal-4.jpg',
-        medium: 'assets/Images/internal-4.jpg',
-        big: 'assets/Images/internal-4.jpg',
-      },
-      {
-        small: 'assets/Images/internal-5.jpg',
-        medium: 'assets/Images/internal-5.jpg',
-        big: 'assets/Images/internal-5.jpg',
-      },
-    ];
+    this.galleryImages = this.getGalleryImages();
+  }
+
+  getGalleryImages(): NgxGalleryImage[] {
+
+    const photosUrl: NgxGalleryImage[] = [];
+
+
+    if (this.property.photos) {
+      for (const photo of this.property.photos) {
+        if( photo.isPrimary){
+          this.mainPhotoUrl=photo.imageUrl;
+          console.log(this.mainPhotoUrl);
+        }
+          photosUrl.push({
+            small: photo.imageUrl,
+            medium: photo.imageUrl,
+            big: photo.imageUrl,
+          });
+
+
+      }
+    }
+
+    return photosUrl;
+
   }
 }

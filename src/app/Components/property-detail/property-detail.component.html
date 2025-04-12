@@ -2,10 +2,10 @@
   <div class="row">
     <div class="col-sm-12 col-md-4 p-0">
       <div class="card">
-        @if(property.image){
+        @if(property.photos && property.photos.length > 0){
         <img
           class="card-img-top"
-          src="assets/Images/{{ property.image }}.jpg"
+          src="{{ mainPhotoUrl }}"
         />
         }@else {
         <img class="card-img-top" src="assets/Images/prop-7.jpg" />
