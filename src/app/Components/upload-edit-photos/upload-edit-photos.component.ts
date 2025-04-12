@@ -22,29 +22,39 @@ export class UploadEditPhotosComponent {
   ) {}
 
   onFileSelected(event: any) {
-    const files: FileList = event.target.files;
+    // 1. Obtener la lista de archivos seleccionados
+  const files: FileList = event.target.files;
 
-    Array.from(files).forEach(file => {
-      this.imageUploadService.uploadPropertyImage(this.propertyId, file)
-        .subscribe({
-          next: (response) => {
-            // Actualizar la lista de fotos
-            const newPhoto: Photo = {
-              id: response.id,
-              imageUrl: response.imageUrl,
-              publicId: response.publicId,
-              isPrimary: false
-            };
+  // 2. Convertir FileList a un array para poder iterar
+  Array.from(files).forEach(file => {
+    // 3. Subir cada archivo individualmente usando el servicio
+    this.imageUploadService.uploadPropertyImage(this.propertyId, file)
+      .subscribe({
+        // 4. Manejo de respuesta exitosa
+        next: (response) => {
+          // 5. Crear un objeto Photo con los datos de respuesta
+          const newPhoto: Photo = {
+            id: response.id,            // ID de la foto devuelto por el backend
+            imageUrl: response.imageUrl, // URL de la imagen subida
+            publicId: response.publicId, // ID público en Cloudinary
+            isPrimary: false             // Por defecto, no es foto principal
+          };
 
-            this.photos.push(newPhoto);
-            this.photosUpdated.emit(this.photos);
-            this.toastr.success('Imagen subida exitosamente');
-          },
-          error: (error) => {
-            this.toastr.error('Error al subir la imagen');
-          }
-        });
-    });
+          // 6. Añadir la nueva foto al arreglo de fotos del componente
+          this.photos.push(newPhoto);
+
+          // 7. Emitir evento para notificar que las fotos han cambiado
+          this.photosUpdated.emit(this.photos);
+
+          // 8. Mostrar mensaje de éxito
+          this.toastr.success('Imagen subida exitosamente');
+        },
+        // 9. Manejo de errores
+        error: (error) => {
+          this.toastr.error('Error al subir la imagen');
+        }
+      });
+  });
   }
 
   setMainPhoto(photoId: string) {

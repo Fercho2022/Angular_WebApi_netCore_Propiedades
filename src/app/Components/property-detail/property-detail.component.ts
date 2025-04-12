@@ -13,6 +13,7 @@ import {
 } from '@kolkov/ngx-gallery';
 import { CommonModule } from '@angular/common';
 import { UploadEditPhotosComponent } from '../upload-edit-photos/upload-edit-photos.component';
+import { Photo } from '../../Interfaces/photo';
 
 @Component({
   selector: 'app-property-detail',
@@ -90,5 +91,13 @@ export class PropertyDetailComponent implements OnInit {
 
     return photosUrl;
 
+  }
+
+  updatePhotos(updatedPhotos: Photo[]) {
+    // Actualizar las fotos de la propiedad
+    this.property.photos = updatedPhotos;
+    
+    // Reconfigurar imágenes de la galería
+    this.configureGalleryImages();
   }
 }
