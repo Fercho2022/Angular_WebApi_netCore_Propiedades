@@ -5,33 +5,39 @@
     multiple
     accept="image/*"
     class="form-control mb-3"
-  >
+  />
 
   <div class="row">
-    <div
-      *ngFor="let photo of photos"
-      class="col-md-4 mb-3 position-relative"
-    >
+    @for(photo of photos; track photo.publicId){
+
+    <div class="col-3 mb-3">
       <img
         [src]="photo.imageUrl"
+        alt="{{ photo.imageUrl }}"
+        class="img-thumbnail p-3"
         class="img-fluid rounded"
-        style="max-height: 200px; object-fit: cover;"
-      >
-      <div class="photo-actions">
+        style="max-height: 200px; object-fit: cover"
+      />
+      <div class="text-center mt-1">
         <button
           class="btn btn-sm"
-          [ngClass]="photo.isPrimary ? 'btn-success' : 'btn-secondary'"
-          (click)="setMainPhoto(photo.id)"
+          [disabled]="photo.isPrimary"
+          [ngClass]="
+            photo.isPrimary ? 'btn-success active' : 'btn-outline-success'
+          "
+          (click)="setMainPhoto(photo.publicId)"
         >
           Main
         </button>
         <button
-          class="btn btn-sm btn-danger ml-2"
+          class="btn btn-sm btn-danger ml-3"
           (click)="deletePhoto(photo.id)"
         >
+          <i class="fa fa-trash"></i>
           Delete
         </button>
       </div>
     </div>
+    }
   </div>
 </div>

@@ -2,11 +2,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Photo } from '../../Interfaces/photo';
 import { ImageUploadService } from '../../Services/ImageUpload.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-upload-edit-photos',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './upload-edit-photos.component.html',
   styleUrl: './upload-edit-photos.component.css'
 })
@@ -59,21 +60,21 @@ export class UploadEditPhotosComponent {
 
   setMainPhoto(photoId: string) {
     this.imageUploadService.setMainPhoto(this.propertyId, photoId)
-      .subscribe({
-        next: () => {
-          // Actualizar estado de fotos principales
-          this.photos = this.photos.map(photo => ({
-            ...photo,
-            isPrimary: photo.id === photoId
-          }));
+    .subscribe({
+      next: () => {
+        // Actualizar estado de fotos principales
+        this.photos = this.photos.map(photo => ({
+          ...photo,
+          isPrimary: photo.publicId === photoId
+        }));
 
-          this.photosUpdated.emit(this.photos);
-          this.toastr.success('Foto principal actualizada');
-        },
-        error: () => {
-          this.toastr.error('Error al establecer foto principal');
-        }
-      });
+        this.photosUpdated.emit(this.photos);
+        this.toastr.success('Foto principal actualizada');
+      },
+      error: () => {
+        this.toastr.error('Error al establecer foto principal');
+      }
+    });
   }
 
   deletePhoto(photoId: number) {

@@ -96,8 +96,6 @@ export class PropertyDetailComponent implements OnInit {
   updatePhotos(updatedPhotos: Photo[]) {
     // Actualizar las fotos de la propiedad
     this.property.photos = updatedPhotos;
-    
-    // Reconfigurar imágenes de la galería
-    this.configureGalleryImages();
+
   }
 }

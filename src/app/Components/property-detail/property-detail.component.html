@@ -125,8 +125,8 @@
             ></ngx-gallery>
           </tab>
           <tab heading="Upload/Edit Photos">
-            <app-upload-edit-photos 
-              [propertyId]="propertyId()" 
+            <app-upload-edit-photos
+              [propertyId]="propertyId()"
               [photos]="property.photos || []"
               (photosUpdated)="updatePhotos($event)"
             ></app-upload-edit-photos>

@@ -31,10 +31,10 @@ export class ImageUploadService {
   }
 
   setMainPhoto(propertyId: number, photoId: string): Observable<any> {
-    return this.http.put(`${this.baseUrl}/property/${propertyId}/photos/${photoId}/main`, {});
+    return this.http.put(`${this.baseUrl}/set-primary-photo/${propertyId}/photos/${photoId}`, {});
   }
 
   deletePhoto(propertyId: number, photoId: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/property/${propertyId}/photos/${photoId}`);
+    return this.http.delete(`${this.baseUrl}/Delete-photo/${propertyId}/photos/${photoId}`);
   }
 }
